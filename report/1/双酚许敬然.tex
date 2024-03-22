@@ -1,0 +1,177 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{ctex}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{pdfpages}
+\usepackage{hyperref}
+\hypersetup{hypertex=true,
+            colorlinks=true,
+            linkcolor=blue,
+            anchorcolor=blue,
+            citecolor=blue}
+%以下是为了展示python代码引入的包
+\usepackage{listings}
+\usepackage{color}
+\usepackage{float} %指定图片位置
+\usepackage{subfigure}%并排子图 共享标题 有子标题
+\usepackage{caption}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+%以上是为了展示python代码引入的包
+
+\geometry{a4paper,scale=0.79}
+\date{}
+\title{双酚BPTK报告文档}
+\author{许敬然}
+\begin{document}
+\maketitle
+\section*{当前可用于展开的原始资料与基本情况说明}
+
+当前我共从章学长处拿到一份微分方程组形式的PBTK模型，两份模型求解的R语言代码，包含各类参数。其中有两版不同的模型。
+
+较早期的一版模型出于章学长的论文，形式是一份粘贴在word文档的R代码，里面用R语言中ode()求解器求解了63个变量关于时间的曲线。其中只有26个变量是实际所需求解的对象，它们存在有实际意义的关于时间的导数，剩余的变量只作为计算中间量。这些中间量可能并不存在关于时间的导数，
+甚至有些变量并无实际意义，只是为了表示更方便，作为实际变量的导数表达式中的一部分出现。但是为了保证在求解器中的计算顺序准确，这些中间变量以某个虚构函数关于时间的导数信息的身份出现在求解器里，同其他导数信息共同被计算、求解。
+例如涂抹时期内的用药剂量dose，实际上它在涂抹时期为一个正的常数，涂抹期过去后始终为0，但在代码中，它作为中间变量以“Rdose”的名字出现在了求解器的导数信息部分中。
+
+此论文除了共享了部分模型求解代码，还共享了受试志愿者的部分生理参数
+与尿液中非结合型双酚S的浓度与双酚S和双酚S-g的总浓度。代码里提供的参数与方程都来源于BPS(双酚S)(大部分方程与BPA(双酚A)在人体内的情况相同)。
+其对应的实验情况是在四天内每一天同一时间令受试志愿者的手指与TP(Thermal-Paper热敏纸)持续接触，1分钟(涂抹时长)后停止触摸，此时手指上
+有残留的BPs(双酚类物质)。130分钟(暴露时长)后用特殊试剂彻底清洗受试手指，此时表皮储仓内的BPs认为已清零，对应代码中的变量AWELL在13/6(h)处及后续的值与导数值置为零。与此同时，在受试期内，每260分钟取得一次受试者的尿液
+并得到其中非结合型双酚S的浓度与双酚S和双酚S-g的总浓度。
+
+后面一版模型都是关于BPA(双酚A)的，形式为一个有28个微分方程的方程组，其中除了第23、24个方程是非线性外，其他都是线性的。模型中的部分生理生化参数并未延续上述论文中的数值，而是有所更改。与之联系的代码是陈老师和章学长共同讨论过的带指数exp格式的模型求解代码，由于
+讨论搁置，该求解代码并不是最终完善版本。
+该版本的模型对应的实验情况有两种，其中第一种与上述论文中的实验方法相同，都是令手指与TP接触，涂抹时间都是1分钟，暴露时长(从开始涂抹到清洗)改为60分钟。
+第二种是PCP(Personal-Care-Product个人护理产品)手臂暴露，四天内每12小时令受试者手臂涂抹PCP一分钟，留置6小时后彻底清洗，表皮储仓内的BPs清零。由于受试部位不同，两种暴露实验所使用的
+皮肤参数有多出不同。该研究没有包含真实受试者数据。
+
+\section*{早期模型求解代码(BPS)的Python复现与结果验证}
+
+早期代码使用的部分人体生理参数来源于真实的受试者数据(受试者编号A)，皮肤参数的设定基于手指皮肤。将链接文件的读取和参数平移至Python中，将变量与导数信息输入至scipy.integrate包中的的odeint求解器内求解。
+求解的时间序列为arange(0, 75, 0.005)，从零到第75小时，每18秒为一个节点，共15000个节点。所有变量的初值都为0。
+之后将R代码中计算模型得到的结果(15001*64格的csv文件，其中第一列为时间序列)读取至Python中与Python的计算结果对比。
+
+在求解时，最初我把源代码中63个变量精简为了26个变量，并未把原模型的中间变量放入求解器的导数信息中，而是把中间变量的计算公式放在了导数信息之外。这样的操作会导致在时间序列走完一步，26个变量都更新完数值后，中间变量才被计算，
+设有变量的计算公式为$u_t=f(u_{t-1},\theta_t)$，其中$\theta$是中间变量,计算公式设为$\theta_t=g(v_t)$，如果按照我刚刚的这种操作方式，中间变量在求解迭代一轮结束后单独计算，$u_t$的计算
+需要使用到$\theta_t$的信息，但是能拿到最新的$\theta$只能是$\theta_{t-1}$，故误差出现了。
+该代码与源代码血浆内BPS浓度随时间变化曲线的对比结果如图\ref{fig:main}。
+
+\begin{figure}
+  \centering
+  \subfigure[两种结果的绝对误差曲线]{
+      \includegraphics[width=0.45\textwidth]{pic2_1.png}
+      \label{fig:subfig11}
+  }
+  \subfigure[两种结果的相对误差曲线]{
+      \includegraphics[width=0.45\textwidth]{pic2_2.png}
+      \label{fig:subfig21}
+  }
+  \caption{源代码与复现代码A计算的血药浓度对比}
+  \label{fig:main}
+\end{figure}
+
+可以发现绝对误差曲线的趋势与原曲线类似且较为光滑，相对误差的最大值超过了8\%。察觉到错误后，我又将中间变量作为导数信息放在了求解器中，得到的对比结果如图\ref{fig:main2}。
+\begin{figure}
+  \centering
+  \subfigure[两种结果的绝对误差曲线]{
+      \includegraphics[width=0.45\textwidth]{pic1_1.png}
+      \label{fig:subfig12}
+  }
+  \subfigure[两种结果的相对误差曲线]{
+      \includegraphics[width=0.45\textwidth]{pic1_2.png}
+      \label{fig:subfig22}
+  }
+  \caption{源代码与复现代码B计算的血药浓度对比}
+  \label{fig:main2}
+\end{figure}
+可以看到这份代码与源代码得到的结果几乎是相同的。
+
+\section*{28方程求解模型(BPA)的Python复现与问题}
+
+我拿到的基于28方程模型的R代码并没有使用求解器(带指数的迭代格式)，在复现时，我使用了求解器求解28方程，得到的结果与R代码大相径庭。我又试着用BPS的模型代码求解(上一段有63个变量的求解器)，部分参数改成BPA的参数(BPA
+和BPS在人体内的代谢高度相似，只有部分参数不同)，得到的结果也与28方程模型相差极大，三种方法得到的结果对比如图\ref{fig3}。
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.5]{pic3.png}
+  \caption{三种代码的结果对比}
+  \label{fig3}
+\end{figure}
+
+用求解器直接求解28方程组的结果与R代码中的指数格式不同是可以理解的。因为第23与24个方程并非线性方程，而在R代码中对这一点做了求解上的近似：在用积分因子法导出这两个方程的计算格式时，
+将非线性部分视为了常数部分，只使用了线性部分，像其他线性方程一样导出了相同的带指数的格式。这样的近似带来了偏差是合理的。
+
+但28方程模型实际上是对63变量求解法的整理，去除了绝大部分中间变量，将所求变量精简到了28个。但用求解器直接求解这28个方程是会出现错误的，例如第24个变量Aliver，代表了肝脏中化学品含量，
+按理说应该始终是非负值，但是求解得到的结果一直是非正的。我试着用R中的求解器deSolve包内的ode()求解28方程组，得到的结果(血浆药浓度、肝脏药浓度)都与Python内求解器得到的结果高度相似，结果如图\ref{fig:main4}。
+
+\begin{figure}
+  \centering
+  \subfigure[两种血药浓度的相对误差]{
+      \includegraphics[width=0.45\textwidth]{pic4_1.png}
+      \label{fig:subfig41}
+  }
+  \subfigure[两种肝脏药浓度的相对误差]{
+      \includegraphics[width=0.45\textwidth]{pic4_2.png}
+      \label{fig:subfig42}
+  }
+  \caption{R与Python求解28方程计算结果对比}
+  \label{fig:main4}
+\end{figure}
+
+可以看到在求解28方程组时，R中求解器也出现了得到异常负值的情况。且根据两种求解器得到的血药浓度的高度一致可以断定，负值错误的发生与求解器本身没有关系，而是28方程组本身出现了问题。
+用63变量模型求解得到的肝脏药浓度是正值，且看起来和28方程模型求得的肝脏药浓度的绝对值很接近，事实上，这二者间的相对误差很高。部分结果如图\ref{fig:main5}。
+
+
+\begin{figure}
+  \centering
+  \subfigure[几种方法得到的肝脏药浓度曲线]{
+      \includegraphics[width=0.45\textwidth]{pic5_1.png}
+      \label{fig:subfig51}
+  }
+  \subfigure[28法与63法得到的肝脏药浓度的绝对值的绝对误差]{
+      \includegraphics[width=0.45\textwidth]{pic5_2.png}
+      \label{fig:subfig52}
+  }
+  \subfigure[28法与63法得到的肝脏药浓度的绝对值的相对误差]{
+      \includegraphics[width=0.45\textwidth]{pic5_3.png}
+      \label{fig:subfig53}
+  }
+  \caption{不同结果得到的肝脏药浓度结果对比}
+  \label{fig:main5}
+\end{figure}
+
+28方程组需要进一步讨论与解析，目前的版本得到的血药浓度的变化趋势是正确的，但由于缺少一个正确的对照，并不清楚实际数值是否在可接受范围之内。同时，该版本得到的
+肝脏药浓度曲线是错误的，而基于28方程组得到的带指数的格式计算出的肝脏药浓度是正的。是否由于第23,24个方程的非线性部分造成两个结果的不同需要进一步探究。
+
+\section*{参数优化的Python复现(基于BPS模型)}
+
+在后续与章学长的交流中，我拿到了一份基于BPS模型的参数优化代码。本文档的第一部分提到过，在BPS的人体BPTK模型研究中对受试者每隔4.3333小时采一次尿，以测量尿液中的未结合BPS含量和BPS\&BPS-g的总含量。
+他们的优化参数的做法即是，使用R中的optim()函数在三参数的情况下最小化损失函数(三个参数：DSC<角质层中的有效扩散系数>、PFO<毛囊的渗透系数>、u1<由脱屑而向皮肤表面转移的速度>)。
+其中损失函数是真实测量数据的时间序列和模型计算出的与之对应时间节点的尿药浓度之间的SSE(误差平方和)。有效受试者共有四位，损失函数中的SSE是四名受试者对应SSE的总和。模型计算结果在对应采尿时间附近没有做平滑。
+
+我首先准备复现这个优化算法。最开始，我选择了使用scipy.optimize包中的minimize()函数来最小化损失函数，尝试了函数中的许多methods，但并不奏效。
+接下来换了另一个适用于调整超参数的优化函数hyperopt.fmin()，效果很显著
+
+
+\end{document}
+
