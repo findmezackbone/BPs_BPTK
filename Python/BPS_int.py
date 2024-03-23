@@ -5,7 +5,7 @@ from scipy.integrate import odeint
 i = 0
 
 
-para_BP_individual = np.loadtxt(open("D://1st/Project_pharmacy//R_language//para_BP_individual.csv"),delimiter=",",skiprows=1,usecols=[2,3,4,5])
+para_BP_individual = np.loadtxt(open("R\para_BP_individual.csv"),delimiter=",",skiprows=1,usecols=[2,3,4,5])
 #读取受试者生理参数(第五位受试者数据有缺失，暂取四位的数据)
 
 i = i-1 #用于控制受试者的编号，可取值-1，0,1,2
@@ -365,13 +365,13 @@ t = np.arange(0, 75, 0.005) #七十五个小时的时间戳
 
 result = odeint(FUN, (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), t)
 
-plt.plot(t,result[:,33],label = 'Python_result')
+plt.plot(t,result[:,26],label = 'Python_result')
 
 
-original_result = np.loadtxt (open("D://1st/Project_pharmacy//R_language//OriginalResult.csv"),delimiter=",",skiprows=1,usecols=range(2,65))
+original_result = np.loadtxt (open("R\OriginalResult.csv"),delimiter=",",skiprows=1,usecols=range(2,65))
 original_result = original_result[0:15000,:]
 
-BPS_result_1 = np.load("D://1st//Project_pharmacy//Python//BPS_result_1.npy")
+BPS_result_1 = np.load("Python\BPS_result_1.npy")
 #读取R语言源代码中得到的模型结果
 print(original_result.shape)
 plt.plot(t,original_result[:,26],label = 'R_oringal_result')

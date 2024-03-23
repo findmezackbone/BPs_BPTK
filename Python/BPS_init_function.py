@@ -12,7 +12,7 @@ u1_0 =5.7
 theta_data = np.array([17.28, 6.39, 5.7])
 def BPS_BPTK(t = time,volunteer_ID =j, DSC_0=theta_data[0], PFO_0=theta_data[1], u1_0=theta_data[2] ,mode = '63'):
 	
-	para_BP_individual = np.loadtxt(open("R_language\para_BP_individual.csv"),delimiter=",",skiprows=1,usecols=[2,3,4,5])
+	para_BP_individual = np.loadtxt(open("R\para_BP_individual.csv"),delimiter=",",skiprows=1,usecols=[2,3,4,5])
 	#读取受试者生理参数(第五位受试者数据有缺失，暂取四位的数据)
 
 	i = j-1 #用于控制受试者的编号，可取值-1，0,1,2
@@ -135,7 +135,7 @@ def BPS_BPTK(t = time,volunteer_ID =j, DSC_0=theta_data[0], PFO_0=theta_data[1],
 	met1s = 1  #肝脏中BPSS进入血中的比例（为1时则不存在肝肠循环）
 	met2g = 1.0-met1g   #肝脏中BPSG进入肝肠循环的比例
 	met2s = 1.0-met1s   #肝脏中BPSS进入肝肠循环的比例
-	EHRtime = 0  #肝肠循环发生起始时间
+	
 	EHRrateC = 2  #BPSG肝肠循环的速率基本参数（1/h/bw**-0.25）
 	k4C_IV = 0  #BPSG在肝肠循环中的粪便消除系数（1/h/bw**-0.25）
 	kenterobpagC = 0.35  #BPSG肝肠循环使得BPS发生循环的速率基本参数（1/h/bw**-0.25）
@@ -162,7 +162,6 @@ def BPS_BPTK(t = time,volunteer_ID =j, DSC_0=theta_data[0], PFO_0=theta_data[1],
 	vreabsorptiong = vreabsorptiongC*(bw**0.75)  #尿液排泄中BPSG的肾脏重吸收的最大反应速度Vmax（nmol/h）
 	vreabsorptions = vreabsorptionsC*(bw**0.75)  #尿液排泄中BPSS的肾脏重吸收的最大反应速度Vmax（nmol/h） 
 
-	oral_intakerate = 0
 
 
 	##皮肤参数
@@ -185,7 +184,6 @@ def BPS_BPTK(t = time,volunteer_ID =j, DSC_0=theta_data[0], PFO_0=theta_data[1],
 	VTFO=AEXP*FEXP*TFO  #暴露皮肤毛囊体积（面积*厚度，L）
 
 	ABS=para_BP_individual[17,i+1]  #TP暴露吸收系数（TP转移到手指、再被吸收）
-	ABS1=0.6  #PCP暴露吸收系数
 
 	HSCVE=19.45   #角质层-表皮分配系数
 	HFOWell=5.4  #皮肤表面沉积-毛囊分配系数
@@ -198,21 +196,8 @@ def BPS_BPTK(t = time,volunteer_ID =j, DSC_0=theta_data[0], PFO_0=theta_data[1],
 
 	DOSE=para_BP_individual[16,i+1]/MWBPS  
 	DOSE_d=DOSE*ABS  #TP暴露BPS量
-	DOSE_d1=DOSE*ABS1  #PCP暴露BPS量
+	
 
-	##经口暴露量(初始情况)
-	D_O = 0 # (ug/d)
-	dose_O = D_O/MWBPS # (nmol/kg/d)
-	period_O = 3/60  # 暴露持续时间（h） 
-	koa = dose_O/period_O  #暴露速度（nmol/h） 
-
-
-	AGIBPAg = 0
-	AGIBPAs = 0 
-	ABPA_delay = 0
-	ABPA_delays = 0
-	Abpac = 0
-	Abpas = 0
 	kentero=EHRrate
 
 	def FUN(XX,t): #定义微分方程组
@@ -220,7 +205,7 @@ def BPS_BPTK(t = time,volunteer_ID =j, DSC_0=theta_data[0], PFO_0=theta_data[1],
 
 
 				
-		dose,AFO,AWELL,CSC01,CSC02,CSC03,CSC04,CSC05,CSC06,CSC07,CSC08,CSC09,AVE,Input_oral,AST,AGImet,AGImets,AAO,ASI,Afeces,Aoral, AGIin,AGIBPAg,AGIins,AGIBPAs,Askin,Aplasma,AFat,Agonad,AM,AMs,ABPA_delayinbpag,ABPA_delayinbpas,ALiver,Abrain, AR,AS,Aurinebpa,ABPAg_prod,ABPAg_prod_delay,ABPAg_prod_gut,ABPAg_prod_delay_gut,ABPAs_prod,ABPAs_prod_delay,ABPAs_prod_gut,ABPAs_prod_delay_gut,ABPA_delayin,Afecesiv,ABPA_delay,ABPA_delayins,Afecesivs,ABPA_delays,Areabsorption,Aurineg,Aurinebpag,Areabsorptions,Aurines,Aurinebpas,Abpac,Abpas,Vurine = XX
+		dose,AFO,AWELL,CSC01,CSC02,CSC03,CSC04,CSC05,CSC06,CSC07,CSC08,CSC09,AVE,AST,AGImet,AGImets,AAO,ASI,Afeces,Aoral, AGIin,AGIBPAg,AGIins,AGIBPAs,Askin,Aplasma,AFat,Agonad,AM,AMs,ABPA_delayinbpag,ABPA_delayinbpas,ALiver,Abrain, AR,AS,Aurinebpa,ABPAg_prod,ABPAg_prod_delay,ABPAg_prod_gut,ABPAg_prod_delay_gut,ABPAs_prod,ABPAs_prod_delay,ABPAs_prod_gut,ABPAs_prod_delay_gut,ABPA_delayin,Afecesiv,ABPA_delay,ABPA_delayins,Afecesivs,ABPA_delays,Areabsorption,Aurineg,Aurinebpag,Areabsorptions,Aurines,Aurinebpas,Abpac,Abpas = XX
 				
 				# Dermal Exposure Well
 
@@ -263,9 +248,9 @@ def BPS_BPTK(t = time,volunteer_ID =j, DSC_0=theta_data[0], PFO_0=theta_data[1],
 		dAVE = JSC10 * AEXP*(1-FEXP) + Qskin*(AEXP/BSA)*0.75*(CA - CvVE)
 
 
-		dInput_oral=0
+		
 		Cgut = ASI/enterocytes 
-		dAST = dInput_oral-k0*AST-ge*AST 
+		dAST = -k0*AST-ge*AST 
 		RAGImet = vmaxgutg*Cgut/(kmgutg+Cgut*(1+Cgut/ksigutg)) 
 		RAGImets = vmaxguts*Cgut/(kmguts+Cgut) 
 		RAAO = k1*ASI 
@@ -350,13 +335,13 @@ def BPS_BPTK(t = time,volunteer_ID =j, DSC_0=theta_data[0], PFO_0=theta_data[1],
 		RAbpac = RABPAg_prod+RABPAg_prod_gut+RABPA_delayin-RAurinebpag
 		RAbpas = RABPAs_prod+RABPA_delayins+RABPAs_prod_gut-RAurinebpas
 
-		dVurine=1.5/24
+		
 
 
 
 		return np.array([Rdose,dAFO,
 			dAWELL,dCSC01,dCSC02,dCSC03,dCSC04,dCSC05,dCSC06,
-			dCSC07,dCSC08,dCSC09,dAVE,dInput_oral,
+			dCSC07,dCSC08,dCSC09,dAVE,
 			dAST,RAGImet,RAGImets,RAAO,dASI,
 			RAfeces,RAoral, RAGIin,RAGIBPAg,RAGIins,RAGIBPAs,
 			dAskin,dAplasma,dAfat,dAgonad,RAM,RAMs,RABPA_delayinbpag,RABPA_delayinbpas,
@@ -366,39 +351,10 @@ def BPS_BPTK(t = time,volunteer_ID =j, DSC_0=theta_data[0], PFO_0=theta_data[1],
 			RABPA_delayin,RAfecesiv,RABPA_delay,RABPA_delayins,RAfecesivs,RABPA_delays,
 			RAreabsorption,dAurineg,RAurinebpag,
 			RAreabsorptions,dAurines,RAurinebpas,
-			RAbpac,RAbpas,dVurine])
+			RAbpac,RAbpas])
 
 	t = time
 
-	result = odeint(FUN, (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), t)
+	result = odeint(FUN, (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), t)
     
 	return result
-if __name__ == "__main__":
-	result = BPS_BPTK(time,volunteer_ID =j, mode = '63')
-
-	plt.plot(time,result[:,53],label = 'Python_result')
-
-
-	original_result = np.loadtxt (open("R_language\OriginalResult.csv"),delimiter=",",skiprows=1,usecols=range(2,65))
-	original_result = original_result[0:15000,:]
-
-	BPS_result_1 = np.load("Python\BPS_result_1.npy")
-	#读取R语言源代码中得到的模型结果
-	print(original_result.shape)
-	plt.plot(time,original_result[:,54],label = 'R_oringal_result')
-
-	plt.plot(time,BPS_result_1,label = 'python22_result')
-	plt.xlabel('time(h)')
-	plt.ylabel('concentration of BPS in plasma')
-	plt.legend()
-	plt.show()
-
-	plt.plot(time,abs(result[:,53]-original_result[:,54]),label = 'Python_result')
-	plt.xlabel('time(h)')
-	plt.ylabel('Absolute Error of R and Python Results')
-	plt.show()
-
-	plt.plot(time,abs(result[:,53]/original_result[:,54]-1),label = 'Python_result')
-	plt.xlabel('time(h)')
-	plt.ylabel('Relative Error of R and Python Results')
-	plt.show()
