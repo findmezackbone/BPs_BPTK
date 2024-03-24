@@ -67,10 +67,9 @@ hidden_size1 = 128
 hidden_size2 = 64
 num_layers = 2
 output_size = 3
-dropout_prob = 0.2
 learning_rate = 0.001
-num_epochs = 100
-dropout_prob = 0.2
+num_epochs = 200
+dropout_prob = 0
 
 # 初始化模型、损失函数和优化器
 model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob).to(device)
@@ -110,8 +109,8 @@ for epoch in range(num_epochs):
             val_outputs = model(val_inputs)
             val_loss += criterion(val_outputs, val_labels)
 
-    if val_loss / len(val_loader) < 1.35:
-        patience_on = 0
+    if val_loss / len(val_loader) < 1.06:
+        patience_on = 1
     # Early Stopping
     if val_loss < best_val_loss:
         best_val_loss = val_loss
@@ -181,7 +180,7 @@ plt.xlabel('time(h)')
 plt.ylabel('Absolute Error of TRUE and FROM-NN Results')
 plt.show()
 
-plt.plot(time,abs(result_FromNN[:,25]/result_True[:,25]-1),label = 'Python_result')
+plt.plot(time,abs(result_FromNN[:,25]/(result_True[:,25]+1E-30)-1))
 plt.xlabel('time(h)')
 plt.ylabel('Relative Error of TRUE and FROM-NN Results')
 plt.show()

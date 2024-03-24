@@ -20,11 +20,12 @@ sys.path.append("Python")
 from BPS_init_function import BPS_BPTK 
 import matplotlib.pyplot as plt
 
+# 定义神经网络模型
 class CustomLSTM(nn.Module):
-    def __init__(self, input_size, hidden_size, num_layers, output_size):
+    def __init__(self, input_size, hidden_size1, num_layers, output_size, dropout_prob):
         super(CustomLSTM, self).__init__()
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
-        self.fc1 = nn.Linear(hidden_size, 64)
+        self.lstm = nn.LSTM(input_size, hidden_size1, num_layers, batch_first=True, dropout=dropout_prob)
+        self.fc1 = nn.Linear(hidden_size1, hidden_size2)
         self.fc2 = nn.Linear(64, output_size )
 
     def forward(self, x):
@@ -35,12 +36,13 @@ class CustomLSTM(nn.Module):
 
 # 神经网络参数设置
 input_size = 1
-hidden_size = 128
+hidden_size1 = 128
+hidden_size2 = 64
 num_layers = 2
 output_size = 3
-dropout_prob = 0.2
 learning_rate = 0.001
 num_epochs = 100
+dropout_prob = 0
 
 X = np.load("Python\optim\BPSplasma_init_Data.npy")  #输入数据
 scaler = StandardScaler()
@@ -57,8 +59,7 @@ time = np.arange(0,75,0.005)
 #############################
 
 example_True_3para = np.array([14.91,2.78,4.707])
-#example_True_3para = np.array([17.28, 6.39, 5.7])
-
+example_True_3para = np.array([17.28, 6.39, 5.7])
 
 result_True = BPS_BPTK(t = time,volunteer_ID =id, DSC_0=example_True_3para[0], PFO_0=example_True_3para[1], u1_0=example_True_3para[2] ,mode = '63')
 sampling_time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点 
@@ -81,9 +82,8 @@ y_test = torch.tensor(y_test).float()
 test_dataset = TensorDataset(X_test, y_test)
 test_loader = DataLoader(test_dataset, batch_size=1,shuffle = None)
 
-best_model = CustomLSTM(input_size, hidden_size, num_layers, output_size)
-
-best_model.load_state_dict(torch.load('Python\\optim\\NNmodel_1_0\\model_1_0.pth'))
+best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob)
+best_model.load_state_dict(torch.load('Python\\optim\\model_best.pth'))
 for test_inputs, test_labels in test_loader:  
     test_outputs = best_model(test_inputs)
     example_FromNN_3para = test_outputs

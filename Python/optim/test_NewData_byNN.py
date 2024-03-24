@@ -40,10 +40,9 @@ hidden_size1 = 128
 hidden_size2 = 64
 num_layers = 2
 output_size = 3
-dropout_prob = 0.2
 learning_rate = 0.001
 num_epochs = 100
-dropout_prob = 0.2
+dropout_prob = 0
 
 X = np.load("Python\optim\BPSplasma_init_Data.npy")  #输入数据
 scaler = StandardScaler()
