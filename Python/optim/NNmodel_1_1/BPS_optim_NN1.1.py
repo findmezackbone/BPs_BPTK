@@ -135,7 +135,7 @@ for epoch in range(num_epochs):
 
 # 加载效果最好的模型
 best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob).to(device)
-best_model.load_state_dict(torch.load('Python\optim\model_best.pth'))
+best_model.load_state_dict(torch.load('Python\\optim\\NNmodel_1_1\\model_1_1pth'))
 
 # 在测试集上评估模型
 test_dataset = TensorDataset(X_test, y_test)

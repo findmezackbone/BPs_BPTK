@@ -83,7 +83,7 @@ test_dataset = TensorDataset(X_test, y_test)
 test_loader = DataLoader(test_dataset, batch_size=1,shuffle = None)
 
 best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob)
-best_model.load_state_dict(torch.load('Python\\optim\\model_best.pth'))
+best_model.load_state_dict(torch.load('Python\\optim\\NNmodel_1_0\\model_1_0pth'))
 for test_inputs, test_labels in test_loader:  
     test_outputs = best_model(test_inputs)
     example_FromNN_3para = test_outputs
