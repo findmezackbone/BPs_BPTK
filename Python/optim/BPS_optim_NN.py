@@ -18,8 +18,6 @@ from BPS_init_function import BPS_BPTK
 import matplotlib.pyplot as plt
 
 
-# 检查GPU是否可用
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # 准备数据
 X = np.load("Python\optim\BPSplasma_init_Data.npy")  #输入数据
@@ -42,16 +40,19 @@ y = torch.tensor(y).float()
 X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.2, random_state=20)
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=20)
 
-# 将数据转移到 GPU（如果可用）
+# 将数据转移到 GPU（如果可用
+
+# 检查GPU是否可用
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 X_train, X_val, X_test = X_train.to(device), X_val.to(device), X_test.to(device)
 y_train, y_val, y_test = y_train.to(device), y_val.to(device), y_test.to(device)
 
 # 定义神经网络模型
 class CustomLSTM(nn.Module):
-    def __init__(self, input_size, hidden_size, num_layers, output_size):
+    def __init__(self, input_size, hidden_size1, num_layers, output_size, dropout_prob):
         super(CustomLSTM, self).__init__()
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
-        self.fc1 = nn.Linear(hidden_size, 64)
+        self.lstm = nn.LSTM(input_size, hidden_size1, num_layers, batch_first=True, dropout=dropout_prob)
+        self.fc1 = nn.Linear(hidden_size1, hidden_size2)
         self.fc2 = nn.Linear(64, output_size )
 
     def forward(self, x):
@@ -62,15 +63,17 @@ class CustomLSTM(nn.Module):
 
 # 神经网络参数设置
 input_size = 1
-hidden_size = 128
+hidden_size1 = 128
+hidden_size2 = 64
 num_layers = 2
 output_size = 3
 dropout_prob = 0.2
 learning_rate = 0.001
 num_epochs = 100
+dropout_prob = 0.2
 
 # 初始化模型、损失函数和优化器
-model = CustomLSTM(input_size, hidden_size, num_layers, output_size).to(device)
+model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob).to(device)
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
@@ -82,6 +85,10 @@ train_loader = DataLoader(train_data, batch_size=32, shuffle=True)
 val_data = TensorDataset(X_val, y_val)
 val_loader = DataLoader(val_data, batch_size=32)
 
+
+patience_counter = 0
+patience_on  = 0
+patience = 4
 # 训练模型
 best_val_loss = float('inf')
 for epoch in range(num_epochs):
@@ -103,16 +110,26 @@ for epoch in range(num_epochs):
             val_outputs = model(val_inputs)
             val_loss += criterion(val_outputs, val_labels)
 
+    if val_loss / len(val_loader) < 1.35:
+        patience_on = 0
     # Early Stopping
     if val_loss < best_val_loss:
         best_val_loss = val_loss
         # 保存效果最好的模型
         torch.save(model.state_dict(), 'Python\optim\model_best.pth')
+    else:
+        if patience_on == 1:
+            patience_counter += 1
     
+    if patience_counter >= patience:
+        print(f'在第{epoch+1}个epoch处，Validation loss did not improve for {patience} epochs. Early stopping...')
+        break
+
     print(f'Epoch {epoch+1}, Training Loss: {train_loss / len(train_loader)}, Validation Loss: {val_loss / len(val_loader)}')
+    
 
 # 加载效果最好的模型
-best_model = CustomLSTM(input_size, hidden_size, num_layers, output_size).to(device)
+best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob).to(device)
 best_model.load_state_dict(torch.load('Python\optim\model_best.pth'))
 
 # 在测试集上评估模型
@@ -128,13 +145,14 @@ with torch.no_grad():
         if count == 0:
             example_True_3para = test_labels
             example_FromNN_3para = test_outputs
-        count += 1
+        count = 1
+
         test_loss += criterion(test_outputs, test_labels)
 
 print(f'Test Loss: {test_loss / len(test_loader)}')
 
 
-#一些对比
+#模型在测试集跑出来的三参数计算出来的浓度曲线和真实三参数计算出来的浓度曲线对比
 example_True_3para = (example_True_3para.cpu()).numpy()
 example_True_3para = example_True_3para.flatten()
 print(example_True_3para)
