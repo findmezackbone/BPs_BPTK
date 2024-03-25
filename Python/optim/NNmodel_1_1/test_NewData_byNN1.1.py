@@ -64,7 +64,7 @@ time = np.arange(0,75,0.005)
 
 example_True_3para = np.array([14.91,2.78,4.707])
 example_True_3para = np.array([17.28, 6.39, 5.7])
-example_True_3para = np.array([21.666, 4.88, 5.42])
+
 result_True = BPS_BPTK(t = time,volunteer_ID =id, DSC_0=example_True_3para[0], PFO_0=example_True_3para[1], u1_0=example_True_3para[2] ,mode = '63')
 sampling_time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点 
 sampling_time_index = (200*sampling_time_range).astype(int) #采样时间节点在求解器结果中的索引值

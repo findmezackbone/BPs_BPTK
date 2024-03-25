@@ -16,7 +16,7 @@ import sys
 sys.path.append("Python") 
 from BPS_init_function import BPS_BPTK 
 import matplotlib.pyplot as plt
-import keyboard
+
 
 
 # 准备数据
@@ -53,24 +53,25 @@ class CustomLSTM(nn.Module):
         super(CustomLSTM, self).__init__()
         self.lstm = nn.LSTM(input_size, hidden_size1, num_layers, batch_first=True, dropout=dropout_prob)
         self.fc1 = nn.Linear(hidden_size1, hidden_size2)
-        self.fc2 = nn.Linear(hidden_size2, output_size )
-        #self.fc3 = nn.Linear(hidden_size3, output_size ) 
+        self.fc2 = nn.Linear(hidden_size2, hidden_size3 )
+        self.fc3 = nn.Linear(hidden_size3, output_size )
         self.dropout = nn.Dropout(dropout_prob)
     def forward(self, x):
         out, _ = self.lstm(x) 
         out = self.fc1(out[:, -1, :])  
         out = self.fc2(out)
+        out = self.fc3(out)
         return out
 
 # 神经网络参数设置
 input_size = 1
 hidden_size1 = 128
 hidden_size2 = 64
-#hidden_size3 = 32
+hidden_size3 = 32
 num_layers = 3
 output_size = 3
 learning_rate = 0.001
-num_epochs = 350
+num_epochs = 300
 dropout_prob = 0
 
 # 初始化模型、损失函数和优化器
@@ -86,50 +87,13 @@ train_loader = DataLoader(train_data, batch_size=32, shuffle=True)
 val_data = TensorDataset(X_val, y_val)
 val_loader = DataLoader(val_data, batch_size=32)
 
+
 patience_counter = 0
 patience_on  = 0
 patience = 10
-stop_training = 0
-# 热键函数
-def on_press(key):
-    global patience_on
-    global stop_training
-    if key.name == 's':#终止训练，储存最好模型
-        print("Training stopped. Saving current best model...")
-        print(f'best validation loss : {best_val_loss/ len(val_loader)}')
-        best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob).to(device)
-        best_model.load_state_dict(torch.load('Python\optim\model_best.pth'))
-        # 保存效果最好的模型
-        torch.save(best_model.state_dict(), 'Python\optim\model_best.pth')
-        stop_training = 1
-
-    if key.name == 'q': #中途储存当前最好模型，但并不终止训练
-        print("Saving current best model to pause1...")
-        print(f'best validation loss : {best_val_loss/ len(val_loader)}')
-        best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob).to(device)
-        best_model.load_state_dict(torch.load('Python\optim\model_best.pth'))
-        # 保存效果最好的模型
-        torch.save(best_model.state_dict(), 'Python\optim\model_pause1.pth')
-        
-    if key.name == 'w': #中途储存当前最好模型，但并不终止训练
-        print("Saving current best model to pause2...")
-        print(f'best validation loss : {best_val_loss/ len(val_loader)}')
-        best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob).to(device)
-        best_model.load_state_dict(torch.load('Python\optim\model_best.pth'))
-        # 保存效果最好的模型
-        torch.save(best_model.state_dict(), 'Python\optim\model_pause2.pth')
-
-    if key.name == 'o': #开启early stopping
-        patience_on  = 1
-        print("early stopping is turned on")
-        
-    
-keyboard.on_press(on_press)
 # 训练模型
 best_val_loss = float('inf')
 for epoch in range(num_epochs):
-    if stop_training:
-        break
     model.train()
     train_loss = 0.0
     for inputs, labels in train_loader:
@@ -148,7 +112,7 @@ for epoch in range(num_epochs):
             val_outputs = model(val_inputs)
             val_loss += criterion(val_outputs, val_labels)
 
-    if val_loss / len(val_loader) < 0.75:
+    if val_loss / len(val_loader) < 0.8:
         patience_on = 1
     # Early Stopping
     if val_loss < best_val_loss:
@@ -165,12 +129,10 @@ for epoch in range(num_epochs):
         print(f'best validation loss : {best_val_loss/ len(val_loader)}')
         break
     if patience_on == 0:
-        print(f'Epoch {epoch+1}, Training Loss: {train_loss / len(train_loader)}, Validation Loss: {val_loss / len(val_loader)}, best val-loss now : {best_val_loss / len(val_loader)}')
+        print(f'Epoch {epoch+1}, Training Loss: {train_loss / len(train_loader)}, Validation Loss: {val_loss / len(val_loader)}')
     else: 
-        print(f'Epoch {epoch+1}, Training Loss: {train_loss / len(train_loader)}, Validation Loss: {val_loss / len(val_loader)}, earlystopping is on, {patience_counter}steps after last bestloss, best val-loss now : {best_val_loss / len(val_loader)}') 
+        print(f'Epoch {epoch+1}, Training Loss: {train_loss / len(train_loader)}, Validation Loss: {val_loss / len(val_loader)}, earlystopping is on, {patience_counter}steps after last bestloss') 
 
-
-keyboard.unhook_all()
 # 加载效果最好的模型
 best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob).to(device)
 best_model.load_state_dict(torch.load('Python\optim\model_best.pth'))
@@ -205,7 +167,6 @@ example_FromNN_3para=example_FromNN_3para.cpu().numpy()
 example_FromNN_3para = example_FromNN_3para.flatten()
 print(example_FromNN_3para)
 
-print(f'Test Loss: {test_loss / len(test_loader)}')
 
 id = 0
 time = np.arange(0,75,0.005)

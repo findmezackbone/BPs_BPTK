@@ -1,0 +1,1 @@
+三层LSTM，三层全连接，无早停无dropout，epoch136，best validation loss : 0.8570396304130554
