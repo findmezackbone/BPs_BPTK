@@ -91,9 +91,8 @@ best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropo
 ##         模型选择         ##
 
 #############################
-best_model.load_state_dict(torch.load('Python\\optim\\model_best.pth'))
-best_model.load_state_dict(torch.load('Python\\optim\\model_pause1.pth'))
-best_model.load_state_dict(torch.load('Python\\optim\\model_pause2.pth'))#这个不错
+
+best_model.load_state_dict(torch.load('Python\\optim\\NNmodel_1_3\\model_1_3.pth'))#这个不错
 for test_inputs, test_labels in test_loader:  
     test_outputs = best_model(test_inputs)
     example_FromNN_3para = test_outputs

@@ -1,0 +1,1 @@
+3层LSTM，2层全连接，有手动早停无dropout，best validation loss : 1.018，epoch数大概180
