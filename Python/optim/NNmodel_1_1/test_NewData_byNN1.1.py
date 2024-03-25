@@ -3,8 +3,6 @@ from tqdm import tqdm
 import itertools
 import torch
 import numpy as np
-import os
-import cv2
 import random
 import itertools
 import torch
@@ -63,7 +61,8 @@ time = np.arange(0,75,0.005)
 #############################
 
 example_True_3para = np.array([14.91,2.78,4.707])
-example_True_3para = np.array([17.28, 6.39, 5.7])
+#example_True_3para = np.array([17.28, 6.39, 5.7])
+#example_True_3para = np.array([21.333, 9.666, 7.42])
 
 result_True = BPS_BPTK(t = time,volunteer_ID =id, DSC_0=example_True_3para[0], PFO_0=example_True_3para[1], u1_0=example_True_3para[2] ,mode = '63')
 sampling_time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点 
@@ -87,7 +86,7 @@ test_dataset = TensorDataset(X_test, y_test)
 test_loader = DataLoader(test_dataset, batch_size=1,shuffle = None)
 
 best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob)
-best_model.load_state_dict(torch.load('Python\\optim\\model_best.pth'))
+best_model.load_state_dict(torch.load('Python\\optim\\NNmodel_1_1\\model_1_1.pth'))
 for test_inputs, test_labels in test_loader:  
     test_outputs = best_model(test_inputs)
     example_FromNN_3para = test_outputs
@@ -108,10 +107,19 @@ plt.show()
 
 plt.plot(time,abs(result_FromNN[:,25]-result_True[:,25]))
 plt.xlabel('time(h)')
+norm_absolute = np.linalg.norm(result_FromNN[:,25]-result_True[:,25], ord=1)/15000
+norm_absolute = '%.4g' % norm_absolute
+print(norm_absolute)
 plt.ylabel('Absolute Error of TRUE and FROM-NN Results')
+plt.annotate(f'norm1 of abs_err:{norm_absolute}',xy = [0.3,0.8], xycoords='figure fraction',weight='bold',color = 'blue')
 plt.show()
 
-plt.plot(time,abs(result_FromNN[:,25]/result_True[:,25]-1),label = 'Python_result')
+plt.plot(time[1:],abs(result_FromNN[1:,25]/result_True[1:,25]-1),label = 'Python_result')
 plt.xlabel('time(h)')
+
+norm_relative = np.linalg.norm(result_FromNN[1:,25]/result_True[1:,25]-1, ord=1)/15000
+norm_relative = '%.4g' % norm_relative
+print(norm_relative)
+plt.annotate(f'norm1 of rel_err:{norm_relative}',xy = [0.3,0.8], xycoords='figure fraction',weight='bold',color = 'blue')
 plt.ylabel('Relative Error of TRUE and FROM-NN Results')
 plt.show()

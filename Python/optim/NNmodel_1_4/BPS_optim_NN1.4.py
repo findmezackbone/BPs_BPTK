@@ -69,7 +69,7 @@ num_layers = 3
 output_size = 3
 learning_rate = 0.001
 num_epochs = 450
-dropout_prob = 0.2
+dropout_prob = 0
 
 # 初始化模型、损失函数和优化器
 model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob).to(device)
@@ -117,14 +117,6 @@ def on_press(key):
         # 保存效果最好的模型
         torch.save(best_model.state_dict(), 'Python\optim\model_pause2.pth')
 
-    if key.name == 'e': #中途储存当前最好模型，但并不终止训练
-        print("Saving current best model to pause3...")
-        print(f'best validation loss : {best_val_loss/ len(val_loader)}')
-        best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob).to(device)
-        best_model.load_state_dict(torch.load('Python\optim\model_best.pth'))
-        # 保存效果最好的模型
-        torch.save(best_model.state_dict(), 'Python\optim\model_pause3.pth')
-
     if key.name == 'o': #开启early stopping
         patience_on  = 1
         print("early stopping is turned on")
@@ -154,7 +146,7 @@ for epoch in range(num_epochs):
             val_outputs = model(val_inputs)
             val_loss += criterion(val_outputs, val_labels)
 
-    if val_loss / len(val_loader) < 0.77:
+    if val_loss / len(val_loader) < 0.75:
         patience_on = 1
     # Early Stopping
     if val_loss < best_val_loss:
@@ -178,7 +170,7 @@ for epoch in range(num_epochs):
 
 keyboard.unhook_all()
 # 加载效果最好的模型
-best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob = 0).to(device)
+best_model = CustomLSTM(input_size, hidden_size1, num_layers, output_size, dropout_prob).to(device)
 best_model.load_state_dict(torch.load('Python\optim\model_best.pth'))
 
 # 在测试集上评估模型
