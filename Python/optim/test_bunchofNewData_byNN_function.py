@@ -18,7 +18,7 @@ from BPS_init_function import BPS_BPTK
 import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif']=['SimHei'] # 用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False # 用来正常显示负号
-
+from sklearn.metrics import r2_score
 
 # 定义神经网络模型
 class CustomLSTM(nn.Module):
@@ -53,6 +53,7 @@ Data_origin = np.load("Python\optim\BPSplasma_init_Data.npy")  #输入数据
 time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点 
 paras = np.array([[17.28, 6.39, 5.7]])
 
+
 def test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_model_path, Data = Data_origin, sampling_time_range = time_range):
 
     scaler = StandardScaler()
@@ -67,13 +68,16 @@ def test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_m
 
     result_True_Total = np.zeros((1,15000)).flatten()
     result_FromNN_Total = np.zeros((1,15000)).flatten()
+    result_True_Total_Adjusted = np.zeros((1,15000)).flatten()
+    result_FromNN_Total_Adjusted = np.zeros((1,15000)).flatten()
 
     norm1_error = np.zeros((np.shape(origin_para)[0],2))
+    r2 = np.zeros((np.shape(origin_para)[0],1)).flatten()
 
     for i in range(np.shape(origin_para)[0]):
         result_True = BPS_BPTK(t = time,volunteer_ID =id, DSC_0=origin_para[i,0], PFO_0=origin_para[i,1], u1_0=origin_para[i,2] ,mode = '63')
-        
-        result_True_Total = result_True[:,25] + result_True_Total
+        result_True_Total = result_True[:,25]+ result_True_Total
+        result_True_Total_Adjusted = result_True[:,25]/np.mean(result_True[:,25])*15000 + result_True_Total_Adjusted
         
 
         X_test = result_True[sampling_time_index,25]
@@ -103,20 +107,24 @@ def test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_m
         example_FromNN_3para = example_FromNN_3para.flatten()
 
         result_FromNN = BPS_BPTK(t = time,volunteer_ID =id, DSC_0=example_FromNN_3para[0], PFO_0=example_FromNN_3para[1], u1_0=example_FromNN_3para[2] ,mode = '63')
+        result_FromNN_Total_Adjusted = result_FromNN[:,25]/np.mean(result_FromNN[:,25])*15000 + result_FromNN_Total_Adjusted
         result_FromNN_Total = result_FromNN[:,25] + result_FromNN_Total
+
+        r2[i] = r2_score(result_True[:,25], result_FromNN[:,25]) #决定系数
+
         norm_absolute = np.linalg.norm(result_FromNN[:,25]-result_True[:,25], ord=1)/15000
         norm_relative = np.linalg.norm(result_FromNN[1:,25]/result_True[1:,25]-1, ord=1)/14999
 
         norm1_error[i,0] = norm_absolute
         norm1_error[i,1] = norm_relative
         
-    
+    mean_r2 = np.mean(r2)#平均决定系数
 
     mean_abs_err =  np.mean(norm1_error[:,0])
     mean_rel_err =  np.mean(norm1_error[:,1])
 
     mean_err= np.hstack((mean_abs_err,mean_rel_err))
 
-    return mean_err,result_FromNN_Total/np.shape(origin_para)[0],result_True_Total/np.shape(origin_para)[0]
+    return mean_err,mean_r2,result_FromNN_Total/np.shape(origin_para)[0],result_True_Total/np.shape(origin_para)[0],result_FromNN_Total_Adjusted/np.shape(origin_para)[0],result_True_Total_Adjusted/np.shape(origin_para)[0]
 
 

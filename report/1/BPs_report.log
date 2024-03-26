@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  25 MAR 2024 23:07
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  26 MAR 2024 22:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -713,17 +713,28 @@ Missing character: There is no 其 (U+5176) in font [lmroman10-regular]:mapping=
 Missing character: There is no 中 (U+4E2D) in font [lmroman10-regular]:mapping=tex-text;!
 File: pic6.png Graphic file (type bmp)
 <pic6.png>
- [5] [6] [7] (./BPs_report.aux)
+ [5] [6]
+File: pic7_1.png Graphic file (type bmp)
+<pic7_1.png>
+File: pic7_2.png Graphic file (type bmp)
+<pic7_2.png>
+File: pic7_3.png Graphic file (type bmp)
+<pic7_3.png>
+File: pic8_1.png Graphic file (type bmp)
+<pic8_1.png>
+File: pic8_2.png Graphic file (type bmp)
+<pic8_2.png>
+ [7] [8] [9] (./BPs_report.aux)
 Package rerunfilecheck Info: File `BPs_report.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 18383 strings out of 476919
- 362809 string characters out of 5825424
- 927483 words of memory out of 5000000
- 38067 multiletter control sequences out of 15000+600000
+ 18425 strings out of 476919
+ 363351 string characters out of 5825424
+ 934483 words of memory out of 5000000
+ 38104 multiletter control sequences out of 15000+600000
  411466 words of font info for 82 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  101i,6n,104p,367b,374s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on BPs_report.pdf (7 pages).
+Output written on BPs_report.pdf (9 pages).
