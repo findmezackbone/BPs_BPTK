@@ -96,6 +96,7 @@ best_model.load_state_dict(torch.load('Python\\optim\\model_pause1.pth'))
 best_model.load_state_dict(torch.load('Python\\optim\\model_pause2.pth'))
 best_model.load_state_dict(torch.load('Python\\optim\\model_pause3.pth'))
 #best_model.load_state_dict(torch.load('Python\\optim\\model_best.pth'))
+
 for test_inputs, test_labels in test_loader:  
     test_outputs = best_model(test_inputs)
     example_FromNN_3para = test_outputs

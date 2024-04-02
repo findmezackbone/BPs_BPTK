@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif']=['SimHei'] # 用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False # 用来正常显示负号
 from sklearn.metrics import r2_score
-
+import scipy.stats as stats
 
 # 定义神经网络模型
 class ResNetBlock(nn.Module):
@@ -83,20 +83,34 @@ learning_rate = 0.001
 num_epochs = 100
 
 bestmodel = CustomResNN(hyperparas)
-best_model_path ='Python\\optim\\Settled_Model\\NNmodel_1_5\\model_1_5.pth'
-best_model_path ='Python\optim\Temporary_Model\model_pause1.pth'
-best_model_path ='Python\optim\Temporary_Model\model_best.pth'
 
-Data_origin = np.load("Python\\optim\\BPSplasma_init_Data.npy")  #输入数据
-time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点 
-paras = np.array([[17.28, 6.39, 5.7],[14.91,2.78,4.707],[21.333, 9.666, 7.42],[19.921, 11, 2.4212],[23.032,7.2223,4.99],
-                [13.53,10.11,5.444],[18.888,9.999,8.888],[15.5,10.5,7.5],[12.45,6.84,6.75],[20.8,4.61,9.888]])
+best_model_path ='Python\optim\Temporary_Model\model_pause1.pth'
+best_model_path ='Python\optim\Temporary_Model\model_pause2.pth'
+best_model_path ='Python\optim\Temporary_Model\model_pause3.pth'
+#best_model_path ='Python\optim\Temporary_Model\model_best.pth'
+
+Data_origin = np.load("Python\\optim\\DataFromBPTK\\BPSplasma_init_Data_2.0.npy")  #输入数据
+time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点
+
+mean1 = 17.28
+mean2 = 6.39
+mean3 = 5.7
+
+X1 = stats.truncnorm(-1.8, 2.3, loc=mean1, scale=5)
+x1 = X1.rvs(size = 6,random_state = 43)
+X2 = stats.truncnorm(-1, 1.3, loc=mean2, scale=5)
+x2 = X2.rvs(size = 5,random_state = 43)
+X3 = stats.truncnorm(-1, 1.2, loc=mean3, scale=5)
+x3 = X3.rvs(size = 5,random_state = 43)
+
+paras = np.array(list(itertools.product(x1, x2, x3)))
+#paras = np.array([[17.28, 6.39, 5.7],[14.91,2.78,4.707],[21.333, 9.666, 7.42],[19.921, 11, 2.4212],[23.032,7.2223,4.99],[13.53,10.11,5.444],[18.888,9.999,8.888],[15.5,10.5,7.5],[12.45,6.84,6.75],[20.8,4.61,9.888]])
 time = np.arange(0,75,0.005)
 
 mean_err,mean_r2,result_FromNN_Total,result_True_Total,result_FromNN_Total_Ajusted,result_True_Total_Ajusted = test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_model_path, Data = Data_origin, sampling_time_range = time_range)
 print(mean_err)
 print(mean_r2)
-print(np.mean(result_True_Total))
+#print(np.mean(result_True_Total))
 print(mean_err[0]/np.mean(result_True_Total))
 
 plt.plot(time,result_FromNN_Total,label = 'FromNN_result')

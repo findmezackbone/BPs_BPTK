@@ -18,7 +18,7 @@
 \usepackage{subfigure}%并排子图 共享标题 有子标题
 \usepackage{caption}
 \usepackage{amssymb}
-
+\usepackage{booktabs}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
@@ -204,15 +204,6 @@
 
 
 
-\subsection*{神经网络模型的搭建}
-
-一条输入数据是68个有顺序的时间采样点对应的血药浓度值，是一个时间序列。在这样一个数组中，某个时间点对应的数值$C^{plasma}_{t_{n}} = f(\;\cdot\; ,C^{plasma}_{t_{n-1}},\cdots,C^{plasma}_{t_{0}})$。
-循环神经网络(Recurrent Neural Network)能够捕捉到时间序列的自相关信息，而作为RNN架构的升级版， 长短期记忆循环神经网络LSTM(Long Short Term Memory)能够在理解简单的时间滞后信息的同时捕捉到更大更广的随时间
-变化的趋势。因此我选择了两层的LSTM网络作为隐藏层的前两层。其中第二层设置了一个dropout率为0.2的dropout。LSTM层的输入信息为一个$batchsize*68*1$三维张量，其中第三维度的“1”代表这个时间序列只有一个特征维度，即是血药浓度。输出结果之一
-是一个$batchsize*68*128$的三维张量(剩余的输出结果后续不需要)。取三维张量第二维中的最后一个元素所对应的二维张量，作为下一层的输入信息。
-接下来是两层连续的全连接层，第一层的输入信息为一个$batchsize*128$的二维张量，输出信息(第二层全连接的输入信息)为一个$batchsize*64$的二维张量。
-最终整个网络的输出信息为一个$batchsize*3$的二维张量，代表了$batchsize$组由网络计算得到的三参数组合。
-
 \subsection*{训练验证与测试}
 
 首先，对输入数据10000*68的二维数组进行标准化，对于每一列$X^{norm}_i=\frac{X_i-\mu(X_i)}{\sigma(X_i) } $。
@@ -293,12 +284,53 @@ $R^2\_mean=0.9983789520436156$，这是个不错的结果。
   \label{fig:main8}
 \end{figure}
 
+\subsection*{2024/04/03}
 \subsection*{勘误与新模型情况说明}
 
-参数反演这一环节，若想得到更好的结果，可以增加数据集至两万或更多条(增加三参数组合的采样频率或增加时间采样点的数量)。
-可以尝试更先进的更适合于参数反演的网络架构，LSTM虽然效果较好但已是过去的模型；
-可以改变训练过程中的loss函数，现在的loss函数是很简单的两组三参数之间的MSE，虽然模型结果关于三个参数连续，但并不清楚每个参数对应的
-lipschitz常数，现在的loss函数对模型学习添加了较大的噪声。可以把loss函数换成label中参数正向计算出的曲线与outputs中参数正向计算出的曲线之间的
-MSE或是MAE。
+原网络架构的选取是错误的，不合适的。新模型使用了于泰来同学提供的由全连接层和LayerNormalization层构成的残差网络。
+模型的训练速度得到了很大提升，也得到了更好的结果。
+
+损失函数仍是label三参数和outpus三参数的MSE。本想按原设想将loss函数更换为label三参
+数和outpus三参数分别正向计算出的血药浓度曲线取样数组之间的MSE，但在写代码时遇到
+了困难。我使用了pytorch来构建神经网络，它基于tensor类型变量，tensor类型变量可以
+根据运算记录梯度信息，使反向传播更加方便。
+
+我用于正向计算BPTK模型的代码基于numpy体系下的ode求解器，若想得到模型参数在求解器
+运算中的梯度信息，需更换代码为支持tensor类型变量输入输出的求解器。我使用了符合条
+件的torchdiffeq包体中的odeint\_adjoint求解器来正向求解
+PBTK模型，但由于要记录梯度信息，该求解器运行速度十分慢，求解一次BPTK模型需要90秒左右。作为测试，用
+odeint\_adjoint求解只有三个变量的洛伦兹方程时，在一台配置很好的电脑上也需要三秒
+钟。于是我放弃了更换loss函数，不过用原有的loss函数也能得到不错的训练结果。
+
+我使用章志淳学长论文中的方式扩充了数据集，在截断正态分布下对三个参数随机取样，共
+得到32*28*28组新数据，加上原来的10000组，共35088组数据。扩充数据集的效果是立杆见
+影的。
+
+\subsection*{新模型效果展示}
+
+为了测试训练得到的模型效果，仍用截断正态分布随机取样150组三参数，测试模型在其上的效果。
+评价指标仍沿用之前板块提到的指标，用150组原始参数和模型所得参数分别正向计算血药
+浓度曲线，并分别合成为两条平均曲线
+。如表格\ref{tab1}所示，训练得到的较好模型比之前的模型要好很多。图\ref{fig9}展示的是两条修正平均线，从可视化上可以看出拟合效果很好。
+
+\begin{table}[htbp] 
+\caption{\label{tab1}模型效果} 
+\begin{tabular}[t]{l|cccccc}
+  \toprule
+  \small{模型$\backslash$评价指标 }& $R^2$ & \small{绝对误差MAE/{scaling}} & \small{平均线的相对误差$MAE$} & \small{修正平均线的相对误差$MAE$}  \\
+  \midrule
+  较优模型1 & $99.415\%$ &$0.0322$ & $0.751\%$ & $0.312\%$ \\
+
+  \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.5]{pic9_1.png}
+  \caption{新模型的两条修正平均线}
+  \label{fig9}
+\end{figure}
+
 
 \end{document}

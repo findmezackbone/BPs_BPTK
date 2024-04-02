@@ -83,9 +83,9 @@ learning_rate = 0.001
 num_epochs = 100
 
 bestmodel = CustomResNN(hyperparas)
-best_model_path = 'Python\\optim\\model_pause1.pth'
+best_model_path = 'Python\\optim\\Temporary_Model\\model_pause1.pth'
 
-Data_origin = np.load("Python\optim\BPSplasma_init_Data.npy")  #输入数据
+Data_origin = np.load("Python\optim\DataFromBPTK\BPSplasma_init_Data_2.0.npy")  #输入数据
 time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点 
 paras = np.array([[17.28, 6.39, 5.7]])
 
@@ -134,7 +134,7 @@ def test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_m
         example_FromNN_3para = test_outputs
 
     example_FromNN_3para=example_FromNN_3para.detach().numpy()
-    print(example_FromNN_3para)
+    
     result_FromNN = BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = example_FromNN_3para ,mode = '63')
 
     
@@ -146,7 +146,7 @@ def test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_m
         norm_relative = np.linalg.norm(result_FromNN[i,1:]/result_True[i,1:]-1, ord=1)/14999
         norm1_error[i,0] = norm_absolute
         norm1_error[i,1] = norm_relative
-        
+
     mean_r2 = np.mean(r2)#平均决定系数
     mean_abs_err =  np.mean(norm1_error[:,0])
     mean_rel_err =  np.mean(norm1_error[:,1])
