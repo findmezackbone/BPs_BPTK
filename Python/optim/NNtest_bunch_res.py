@@ -85,18 +85,18 @@ num_epochs = 100
 bestmodel = CustomResNN(hyperparas)
 
 best_model_path ='Python\optim\Temporary_Model\model_pause1.pth'
-best_model_path ='Python\optim\Temporary_Model\model_pause2.pth'
-best_model_path ='Python\optim\Temporary_Model\model_pause3.pth'
+#best_model_path ='Python\optim\Temporary_Model\model_pause2.pth'
+#best_model_path ='Python\optim\Temporary_Model\model_pause3.pth'
 #best_model_path ='Python\optim\Temporary_Model\model_best.pth'
 
-Data_origin = np.load("Python\\optim\\DataFromBPTK\\BPSplasma_init_Data_2.0.npy")  #输入数据
+Data_origin = np.load("Python\\optim\\DataFromBPTK\\BPSplasma_init_Data_3.0SG.npy")  #输入数据
 time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点
 
 mean1 = 17.28
 mean2 = 6.39
 mean3 = 5.7
 
-X1 = stats.truncnorm(-1.8, 2.3, loc=mean1, scale=5)
+X1 = stats.truncnorm(-2, 2.3, loc=mean1, scale=5)
 x1 = X1.rvs(size = 6,random_state = 43)
 X2 = stats.truncnorm(-1, 1.3, loc=mean2, scale=5)
 x2 = X2.rvs(size = 5,random_state = 43)
