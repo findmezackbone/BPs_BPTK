@@ -107,11 +107,13 @@ paras = np.array(list(itertools.product(x1, x2, x3)))
 #paras = np.array([[17.28, 6.39, 5.7],[14.91,2.78,4.707],[21.333, 9.666, 7.42],[19.921, 11, 2.4212],[23.032,7.2223,4.99],[13.53,10.11,5.444],[18.888,9.999,8.888],[15.5,10.5,7.5],[12.45,6.84,6.75],[20.8,4.61,9.888]])
 time = np.arange(0,75,0.005)
 
-mean_err,mean_r2,result_FromNN_Total,result_True_Total,result_FromNN_Total_Ajusted,result_True_Total_Ajusted = test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_model_path, Data = Data_origin, sampling_time_range = time_range)
-print(mean_err)
-print(mean_r2)
+mean_loss,label_rel_err_mean,mean_err,mean_r2,result_FromNN_Total,result_True_Total,result_FromNN_Total_Ajusted,result_True_Total_Ajusted = test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_model_path, Data = Data_origin, sampling_time_range = time_range)
+print(f'{mean_loss}    loss')
+print(f'{label_rel_err_mean.detach().numpy()}    标签MRE')
+print(f'{mean_err}    MAE&MRE')
+print(f'{mean_r2}    R^2')
 #print(np.mean(result_True_Total))
-print(mean_err[0]/np.mean(result_True_Total))
+print(f'{mean_err[0]/np.mean(result_True_Total)}    修正MAE')
 
 plt.plot(time,result_FromNN_Total,label = 'FromNN_result')
 plt.plot(time,result_True_Total,label = 'True_result')
@@ -123,7 +125,7 @@ plt.show()
 plt.plot(time,abs(result_FromNN_Total-result_True_Total))
 norm_absolute = np.linalg.norm(result_FromNN_Total-result_True_Total, ord=1)/15000
 norm_absolute = '%.4g' % norm_absolute
-print(norm_absolute )
+print(f'{norm_absolute}    均线MAE')
 plt.annotate(f'norm1 of abs_err:{norm_absolute}',xy = [0.3,0.8], xycoords='figure fraction',weight='bold',color = 'blue')
 plt.xlabel('time(h)')
 plt.ylabel('Absolute Error of TRUE and FROM-NN Results')
@@ -134,7 +136,7 @@ plt.show()
 plt.plot(time[1:],abs(result_FromNN_Total[1:]/result_True_Total[1:]-1))
 norm_relative = np.linalg.norm(result_FromNN_Total[1:]/result_True_Total[1:]-1, ord=1)/15000
 norm_relative = '%.4g' % norm_relative
-print(norm_relative)
+print(f'{norm_relative}    均线MRE')
 plt.annotate(f'norm1 of rel_err:{norm_relative}',xy = [0.3,0.8], xycoords='figure fraction',weight='bold',color = 'blue')
 plt.xlabel('time(h)')
 plt.ylabel('Relative Error of TRUE and FROM-NN Results')
@@ -152,7 +154,7 @@ plt.show()
 plt.plot(time,abs(result_FromNN_Total_Ajusted-result_True_Total_Ajusted))
 norm_absolute = np.linalg.norm(result_FromNN_Total_Ajusted-result_True_Total_Ajusted, ord=1)/15000
 norm_absolute = '%.4g' % norm_absolute
-print(norm_absolute )
+print(f'{norm_absolute}    修正均线MAE')
 plt.annotate(f'norm1 of abs_err:{norm_absolute}',xy = [0.3,0.8], xycoords='figure fraction',weight='bold',color = 'blue')
 plt.xlabel('time(h)')
 plt.ylabel('Absolute Error of TRUE and FROM-NN Results')
@@ -163,7 +165,7 @@ plt.show()
 plt.plot(time[1:],abs(result_FromNN_Total_Ajusted[1:]/result_True_Total_Ajusted[1:]-1))
 norm_relative = np.linalg.norm(result_FromNN_Total_Ajusted[1:]/result_True_Total_Ajusted[1:]-1, ord=1)/15000
 norm_relative = '%.4g' % norm_relative
-print(norm_relative)
+print(f'{norm_relative}    修正均线MRE')
 plt.annotate(f'norm1 of rel_err:{norm_relative}',xy = [0.3,0.8], xycoords='figure fraction',weight='bold',color = 'blue')
 plt.xlabel('time(h)')
 plt.ylabel('Relative Error of TRUE and FROM-NN Results')

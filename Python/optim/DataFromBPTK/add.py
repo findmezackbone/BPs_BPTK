@@ -18,7 +18,7 @@ import keyboard
 
 
 X1 = np.load("Python\optim\DataFromBPTK\BPSplasma_init_Data.npy")  #输入数据
-X2 = np.load("Python\optim\DataFromBPTK\BPSplasma_init_Data_addition.npy")
+X2 = np.load("Python\optim\DataFromBPTK\BPSplasma_init_Data_addition_SG.npy")
 X =  np.vstack((X1,X2))
 print(np.shape(X))
-np.save("Python\optim\DataFromBPTK\BPSplasma_init_Data_2.0.npy",X)
+np.save("Python\optim\DataFromBPTK\BPSplasma_init_Data_3.0SG.npy",X)

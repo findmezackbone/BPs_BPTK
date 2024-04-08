@@ -89,6 +89,7 @@ Data_origin = np.load("Python\optim\DataFromBPTK\BPSplasma_init_Data_2.0.npy")  
 time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点 
 paras = np.array([[17.28, 6.39, 5.7]])
 
+criterion = nn.MSELoss()
 
 def test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_model_path, Data = Data_origin, sampling_time_range = time_range):
 
@@ -129,9 +130,16 @@ def test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_m
 
     test_dataset = TensorDataset(X_test, y_test)
     test_loader = DataLoader(test_dataset, batch_size=np.shape(origin_para)[0],shuffle = None)    
+
+
     for test_inputs, test_labels in test_loader:  
         test_outputs = best_model(test_inputs)
         example_FromNN_3para = test_outputs
+        loss = criterion(test_outputs, test_labels)/len(test_inputs)
+
+        
+        label_rel_err = test_outputs/test_labels-1
+        label_rel_err_mean = torch.sum(label_rel_err,dim=0)/np.shape(origin_para)[0]
 
     example_FromNN_3para=example_FromNN_3para.detach().numpy()
     
@@ -140,10 +148,11 @@ def test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_m
     
     result_FromNN_Total = np.sum(result_FromNN, axis=0)
     for i in range(np.shape(origin_para)[0]):
-        result_FromNN_Total_Adjusted = result_FromNN[i,:]/np.mean(result_FromNN[i,:])*15000 + result_FromNN_Total_Adjusted
+        result_FromNN_Total_Adjusted = result_FromNN[i,:]/np.mean(result_True[i,:])*15000 + result_FromNN_Total_Adjusted
         r2[i] = r2_score(result_True[i,:], result_FromNN[i,:]) #决定系数
         norm_absolute = np.linalg.norm(result_FromNN[i,:]-result_True[i,:], ord=1)/15000
-        norm_relative = np.linalg.norm(result_FromNN[i,1:]/result_True[i,1:]-1, ord=1)/14999
+        norm_relative = np.linalg.norm(result_FromNN[i,1:]/(result_True[i,1:]+1E-16)-1, ord=1)/14999
+        #print(norm_relative)
         norm1_error[i,0] = norm_absolute
         norm1_error[i,1] = norm_relative
 
@@ -153,6 +162,6 @@ def test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_m
 
     mean_err= np.hstack((mean_abs_err,mean_rel_err))
 
-    return mean_err,mean_r2,result_FromNN_Total/np.shape(origin_para)[0],result_True_Total/np.shape(origin_para)[0],result_FromNN_Total_Adjusted/np.shape(origin_para)[0],result_True_Total_Adjusted/np.shape(origin_para)[0]
+    return loss,label_rel_err_mean,mean_err,mean_r2,result_FromNN_Total/np.shape(origin_para)[0],result_True_Total/np.shape(origin_para)[0],result_FromNN_Total_Adjusted/np.shape(origin_para)[0],result_True_Total_Adjusted/np.shape(origin_para)[0]
 
 

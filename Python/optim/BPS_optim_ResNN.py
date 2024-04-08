@@ -182,7 +182,7 @@ for epoch in range(num_epochs):
         loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
-        train_loss += loss.item()
+        train_loss += (loss/len(inputs)).item()
 
     # 验证模型
     model.eval()
@@ -190,9 +190,9 @@ for epoch in range(num_epochs):
     with torch.no_grad():
         for val_inputs, val_labels in val_loader:
             val_outputs = model(val_inputs)
-            val_loss += criterion(val_outputs, val_labels)
+            val_loss += criterion(val_outputs, val_labels)/len(val_inputs)
 
-    if val_loss / len(val_loader) <0.5:
+    if val_loss / len(val_loader) <0.016:
         patience_on = 1
     # Early Stopping
     if val_loss < best_val_loss:
@@ -234,7 +234,7 @@ with torch.no_grad():
             example_FromNN_3para = test_outputs
         count = 1
 
-        test_loss += criterion(test_outputs, test_labels)
+        test_loss += criterion(test_outputs, test_labels)/len(test_inputs)
 
     print(f'Test Loss: {test_loss / len(test_loader)}')
 
