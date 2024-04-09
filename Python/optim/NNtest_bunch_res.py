@@ -88,8 +88,11 @@ best_model_path ='Python\optim\Temporary_Model\model_pause1.pth'
 #best_model_path ='Python\optim\Temporary_Model\model_pause2.pth'
 #best_model_path ='Python\optim\Temporary_Model\model_pause3.pth'
 #best_model_path ='Python\optim\Temporary_Model\model_best.pth'
+#best_model_path ='Python\\optim\\Settled_Model\\NNmodel_2_0\\model2.0.pth'
 
-Data_origin = np.load("Python\\optim\\DataFromBPTK\\BPSplasma_init_Data_3.0SG.npy")  #输入数据
+
+
+Data_origin = np.load("Python\\optim\\DataFromBPTK\\BPSplasma_init_Data.npy")  #输入数据
 time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点
 
 mean1 = 17.28
@@ -109,7 +112,8 @@ time = np.arange(0,75,0.005)
 
 mean_loss,label_rel_err_mean,mean_err,mean_r2,result_FromNN_Total,result_True_Total,result_FromNN_Total_Ajusted,result_True_Total_Ajusted = test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_model_path, Data = Data_origin, sampling_time_range = time_range)
 print(f'{mean_loss}    loss')
-print(f'{label_rel_err_mean.detach().numpy()}    标签MRE')
+label_rel_err_mean = label_rel_err_mean.detach().numpy()
+print(f'{label_rel_err_mean}  {np.mean(abs(label_rel_err_mean))}   标签MRE')
 print(f'{mean_err}    MAE&MRE')
 print(f'{mean_r2}    R^2')
 #print(np.mean(result_True_Total))

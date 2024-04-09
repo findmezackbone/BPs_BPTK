@@ -17,8 +17,10 @@ import matplotlib.pyplot as plt
 import keyboard
 
 
-X1 = np.load("Python\optim\DataFromBPTK\BPSplasma_init_Data.npy")  #输入数据
+X0 = np.load("Python\optim\DataFromBPTK\BPSplasma_init_Data.npy")  #输入数据
+X1 = np.load("Python\optim\DataFromBPTK\BPSplasma_init_Data_addition_.npy")
+
 X2 = np.load("Python\optim\DataFromBPTK\BPSplasma_init_Data_addition_SG.npy")
-X =  np.vstack((X1,X2))
+X =  np.vstack((X0,X1,X2))
 print(np.shape(X))
-np.save("Python\optim\DataFromBPTK\BPSplasma_init_Data_3.0SG.npy",X)
+np.save("Python\optim\DataFromBPTK\BPSplasma_init_Data_final.npy",X)
