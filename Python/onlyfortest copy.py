@@ -1,8 +1,7 @@
+import numpy as np
 
-import time
-import torch
-import os
-
+import matplotlib.pyplot as plt
+from scipy import stats
 
 a = torch.tensor([[1,2,3],[2,3,5]])
 b = torch.tensor([[1,2,3],[2,3,5]])

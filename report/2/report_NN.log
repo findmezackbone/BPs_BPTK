@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.9.9)  8 APR 2024 21:43
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.9.9)  9 APR 2024 17:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -632,7 +632,11 @@ File: p2e-xetex.def 2016/02/05 v0.1u Driver-dependant file (RN,HjG,JT)
 \diagbox@outsepr=\dimen305
 ) (d:/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
-) (./report_NN.aux)
+) (./report_NN.aux
+
+LaTeX Warning: Label `tab4' multiply defined.
+
+)
 \openout1 = `report_NN.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 50.
@@ -779,17 +783,30 @@ File: p1-1.png Graphic file (type bmp)
 ] [2]
 Missing character: There is no 其 (U+5176) in font [lmroman10-regular]:mapping=tex-text;!
 Missing character: There is no 中 (U+4E2D) in font [lmroman10-regular]:mapping=tex-text;!
-[3] [4] (./report_NN.aux)
+[3]
+Overfull \hbox (62.15091pt too wide) in paragraph at lines 193--207
+[][] 
+ []
+
+
+Overfull \hbox (56.88123pt too wide) in paragraph at lines 231--245
+[][] 
+ []
+
+[4] [5] (./report_NN.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package rerunfilecheck Info: File `report_NN.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 20305 strings out of 476683
- 417704 string characters out of 5807576
+ 20318 strings out of 476683
+ 418034 string characters out of 5807576
  1878012 words of memory out of 5000000
- 40220 multiletter control sequences out of 15000+600000
- 522005 words of font info for 94 fonts, out of 8000000 for 9000
+ 40228 multiletter control sequences out of 15000+600000
+ 522037 words of font info for 98 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  89i,17n,97p,381b,394s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report_NN.pdf (4 pages).
+Output written on report_NN.pdf (5 pages).

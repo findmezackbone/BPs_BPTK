@@ -78,7 +78,7 @@ class CustomResNN(nn.Module):
         return self.linear_Res_final(inputs)
 
 #超参数合集
-hyperparas = {'input_dim':68,'hidden_dim':30,'hidden_nums':3,'output_dim':3,'block_layer_nums':3}
+hyperparas = {'input_dim':68,'hidden_dim':30,'hidden_nums':3,'output_dim':3,'block_layer_nums':3}#
 learning_rate = 0.001
 num_epochs = 100
 
@@ -86,24 +86,24 @@ bestmodel = CustomResNN(hyperparas)
 
 best_model_path ='Python\optim\Temporary_Model\model_pause1.pth'
 best_model_path ='Python\optim\Temporary_Model\model_pause2.pth'
-#best_model_path ='Python\optim\Temporary_Model\model_pause3.pth'
-#best_model_path ='Python\optim\Temporary_Model\model_best.pth'
-#best_model_path ='Python\\optim\\Settled_Model\\NNmodel_2_0\\model2.0.pth'
+best_model_path ='Python\optim\Temporary_Model\model_pause3.pth'
+best_model_path ='Python\optim\Temporary_Model\model_best.pth'
+best_model_path ='Python\\optim\\Settled_Model\\NNmodel_2_0\\model2.0.pth'
 
 
 
-Data_origin = np.load("Python\\optim\\DataFromBPTK\\BPSplasma_init_Data_final.npy")  #输入数据
+Data_origin = np.load("Python\\optim\\DataFromBPTK\\BPSplasma_init_Data.npy")  #输入数据
 time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点
 
 mean1 = 17.28
 mean2 = 6.39
 mean3 = 5.7
 
-X1 = stats.truncnorm(-2, 2.3, loc=mean1, scale=5)
+X1 = stats.truncnorm(-2, 2, loc=mean1, scale=3)
 x1 = X1.rvs(size = 6,random_state = 43)
-X2 = stats.truncnorm(-1, 1.3, loc=mean2, scale=5)
+X2 = stats.truncnorm(-1, 1.2, loc=mean2, scale=2)
 x2 = X2.rvs(size = 5,random_state = 43)
-X3 = stats.truncnorm(-1, 1.2, loc=mean3, scale=5)
+X3 = stats.truncnorm(-1, 1.2, loc=mean3, scale=2)
 x3 = X3.rvs(size = 5,random_state = 43)
 
 paras = np.array(list(itertools.product(x1, x2, x3)))
