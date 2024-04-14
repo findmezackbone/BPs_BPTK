@@ -21,7 +21,7 @@ f_data=Volunteer_data[:,1]/Volunteer_data[:,3]*1000*1000 #未结合的BPS
 urine_init_per=np.zeros((55,8)) #提前分配内存,用于储存模型计算出来的对应采尿时间节点的尿液数据
 urine_out_per=np.zeros((15001,8)) 
 
-theta_data=np.array([22.08687366941355,5.136482667862653, 7.963548211277151]) #给待优化参数一个初值
+theta_data=np.array([22.08687366941355,5.136482667862653, 7.963548211277151]) #给待优化参数一个 初值
 
 
 def cost_function(theta):

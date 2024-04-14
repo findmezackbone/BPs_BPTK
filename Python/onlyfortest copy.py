@@ -1,12 +1,19 @@
 import numpy as np
-
 import matplotlib.pyplot as plt
+import sys
+sys.path.append("Python") 
+from BPS_init_function_MultiParas import BPS_BPTK_MultiParas
+
 from scipy import stats
 
-a = torch.tensor([[1,2,3],[2,3,5]])
-b = torch.tensor([[1,2,3],[2,3,5]])
-c = a/b
+j = 0
+time = np.arange(0,75,0.005) #七十五个小时的时间戳
+a = np.array([[16,5,5]])
+_,bps,bpsg = BPS_BPTK_MultiParas(t = time,volunteer_ID =1, paras = a ,mode = '63')
 
-d= torch.sum(c)
-print(d)
-print(type(d))
+plt.plot(time,bps[0],label = 'bps')
+
+plt.plot(time,bpsg[0],label = 'bpsg')
+plt.legend()
+
+plt.show()

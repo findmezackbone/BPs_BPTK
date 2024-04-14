@@ -21,21 +21,24 @@ mean3 = 5.7
 X1 = stats.truncnorm(-1.96, 1.96, loc=mean1, scale=mean1*0.3)
 x1 = X1.rvs(size = 32,random_state=42)
 X2 = stats.truncnorm(-1.96, 1.96, loc=mean2, scale=mean2*0.3)
-x2 = X2.rvs(size = 28,random_state=42)
+x2 = X2.rvs(size = 30,random_state=42)
 X3 = stats.truncnorm(-1.96, 1.96, loc=mean3, scale=mean3*0.3)
-x3 = X3.rvs(size = 28,random_state=42)
+x3 = X3.rvs(size = 30,random_state=42)
 
 DSC_range = x1
 PFO_range = x2
 u1_range = x3
 parameter_range = np.array(list(itertools.product(DSC_range, PFO_range, u1_range)))
-sampling_time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点 
-sampling_time_index = (200*sampling_time_range).astype(int) #采样时间节点在求解器结果中的索引值
 
-BPS_plasma_data = np.zeros((32*28*28,68)) #提前分配内存
+BPS_plasma_data = np.zeros((32*30*30,68)) #提前分配内存
 print(np.shape(parameter_range))
-np.save("Python\optim\DataFromBPTK\labels1.1.npy",parameter_range)
-result = BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras=parameter_range ,mode = '63')
-BPS_plasma_data = result[:,sampling_time_index]
+np.save("Python\optim\DataFromBPTK\labels_zzc.npy",parameter_range)
+plasma,urinebps,urinebpsg = BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras=parameter_range ,mode = '63')
 
-np.save("Python\optim\DataFromBPTK\BPSplasma_init_Data_addition1.1.npy",BPS_plasma_data)
+print(np.shape(urinebpsg))
+print(np.shape(urinebps))
+print(np.shape(plasma))
+
+np.save("Python\\optim\\DataFromBPTK\\plasma_zzc.npy",plasma)
+np.save("Python\\optim\\DataFromBPTK\\urinebps_zzc.npy",urinebps)
+np.save("Python\\optim\\DataFromBPTK\\urinebpsg_zzc.npy",urinebpsg)

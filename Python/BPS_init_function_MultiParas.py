@@ -9,10 +9,12 @@ time = np.arange(0,75,0.005) #七十五个小时的时间戳
 paradata= np.array([[17.28, 6.39, 5.7],[14.91,2.78,4.707],[21.333, 9.666, 7.42],[19.921, 11, 2.4212],[23.032,7.2223,4.99],
                 [13.53,10.11,5.444],[18.888,9.999,8.888],[15.5,10.5,7.5],[12.45,6.84,6.75],[20.8,4.61,9.888]])
 
-
+#plasma:26 , urineBPS:38 , urineBPSg:54
 def BPS_BPTK_MultiParas(t = time,volunteer_ID =j, paras = paradata ,mode = '63'):
     
 	plasma_data = np.zeros((np.shape(paras)[0],15000))
+	urinebps_data = np.zeros((np.shape(paras)[0],15000))
+	urinebpsg_data = np.zeros((np.shape(paras)[0],15000))
 	para_BP_individual = np.loadtxt(open("R\para_BP_individual.csv"),delimiter=",",skiprows=1,usecols=[2,3,4,5])
 	#读取受试者生理参数(第五位受试者数据有缺失，暂取四位的数据)
 
@@ -362,6 +364,8 @@ def BPS_BPTK_MultiParas(t = time,volunteer_ID =j, paras = paradata ,mode = '63')
 	t = time
 	for i in tqdm(range(np.shape(paras)[0])):
 		result = odeint(FUN, (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), t , args=(paras[i,0],paras[i,1],paras[i,2]))
-		plasma_data[i,:] = result[:,25]
+		plasma_data[i,:] = result[:,25] #plasma:26 , urineBPS:38 , urineBPSg:54
+		urinebps_data[i,:] = result[:,37] 
+		urinebpsg_data[i,:] = result[:,53] 
 
-	return plasma_data
+	return plasma_data,urinebps_data,urinebpsg_data
