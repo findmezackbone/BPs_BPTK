@@ -83,7 +83,7 @@ num_epochs = 100
 bestmodel = CustomResNN(hyperparas)
 best_model_path = 'Python\\optim\\Temporary_Model\\model_pause1.pth'
 
-Data_origin = np.load("Python\optim\DataFromBPTK\BPSplasma_init_Data_2.0.npy")  #输入数据
+Data_origin = np.load("Python\optim\DataFromBPTK\plasma68\BPSplasma_init_Data_2.0.npy")  #输入数据
 time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点 
 paras = np.array([[17.28, 6.39, 5.7]])
 
@@ -109,7 +109,7 @@ def test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_m
     norm1_error = np.zeros((np.shape(origin_para)[0],2))
     r2 = np.zeros((np.shape(origin_para)[0],1)).flatten()
 
-    result_True =BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = origin_para ,mode = '63')
+    result_True,_,_ =BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = origin_para ,mode = '63')
     result_True_Total = np.sum(result_True, axis=0)
     for i in range(np.shape(origin_para)[0]):
         result_True_Total_Adjusted = result_True[i,:]/np.mean(result_True[i,:])*15000 + result_True_Total_Adjusted
@@ -141,7 +141,7 @@ def test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_m
 
     example_FromNN_3para=example_FromNN_3para.detach().numpy()
     
-    result_FromNN = BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = example_FromNN_3para ,mode = '63')
+    result_FromNN,_,_ = BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = example_FromNN_3para ,mode = '63')
 
     
     result_FromNN_Total = np.sum(result_FromNN, axis=0)

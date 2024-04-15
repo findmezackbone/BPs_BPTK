@@ -18,10 +18,9 @@ def BPS_BPTK_MultiParas(t = time,volunteer_ID =j, paras = paradata ,mode = '63')
 	para_BP_individual = np.loadtxt(open("R\para_BP_individual.csv"),delimiter=",",skiprows=1,usecols=[2,3,4,5])
 	#读取受试者生理参数(第五位受试者数据有缺失，暂取四位的数据)
 
-	i = j-1 #用于控制受试者的编号，可取值-1，0,1,2
+	i = volunteer_ID-1 #用于控制受试者的编号，可取值-1，0,1,2
 	gender=para_BP_individual[1,i+1]  #1 for male, 2 for female
 	bw= para_BP_individual[0,i+1]   #体重，kg 
-
 
 	#各组织器官的血液流速（计算化学物在不同组织器官间转移量所用）
 	QCC = para_BP_individual[2,i+1]	#心脏血液流速基本参数（L/min）
