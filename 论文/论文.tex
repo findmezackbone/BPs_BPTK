@@ -1,0 +1,263 @@
+
+\documentclass[a4paper,punct=banjiao,twoside]{ctexrep}
+% oneside/twoside 单面/双面打印适配版本.
+% openright/openany 控制新的章节是否应该在奇数页的右侧开始, 但并不好用,建议手动插入空白页.
+% fontset 设置字体集,可以选择的值包括 windows、mac、ubuntu 等,可以解决字体报错.
+% punct=: 设置中文文档中的标点样式,可选的值包括 quanjiao 全角式:所有标点占一个汉字宽度,相邻两个标点占 1.5 汉字宽度;banjiao 半角式:所有标点占半个汉字宽度;kaiming 开明式:句末点号16用占一个汉字宽度,标号和句内点号占半个汉字宽度;等.
+
+
+\usepackage[a4paper,hmargin={2.54cm,2.54cm},vmargin={3.175cm,3.175cm}]{geometry}
+\headheight = 15 pt
+%参见https://tex.stackexchange.com/questions/132170/what-do-headheight-headsep-etc-do-in-the-vmargin-package最高赞答案
+
+\usepackage{amsmath,amssymb}
+% 扩展支持的数学符号
+
+\usepackage{mathrsfs}
+% 引用
+
+
+\usepackage[dvipsnames, svgnames, x11names]{xcolor}
+% 扩展颜色
+
+\usepackage[colorlinks=true,linkcolor=Maroon]{hyperref}
+% 使用hyperref宏包, 对目录, 公式引用, 文献引用做超链接, 超链接方便电子版的阅读, 但不影响打印.
+% pdfborder对超链接的边框大小进行设置, 模板中默认边框大小为0.
+% colorlinks=true, 表示超链接对应的文字采用超链接边框的颜色, =false时保持原字体颜色.
+% linkcolor=maroon, 设置超链接边框的颜色, 可以改为red,green等等.
+
+\usepackage{amsthm}
+% 配置定理环境
+\theoremstyle{plain}
+%plain(默认样式): 定理名称是正体,定理内容是斜体.
+%definition: 定理名称和定理内容都是正体,其上下留有额外的空间．
+%remark: 正体,其上下没有额外的空间．
+\newtheorem{thm}{定理}[chapter]
+% 如果需要在每一节中单独编号,请将[chapter]改为[section]
+\newtheorem{lemma}[thm]{引理}
+\newtheorem{axiom}[thm]{公理}
+\newtheorem{coro}[thm]{推论}
+\newtheorem{prop}[thm]{命题}
+\newtheorem{con}[thm]{猜想}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{定义}
+\newtheorem{asm}[thm]{假设}
+\newtheorem{que}[thm]{问题}
+
+\theoremstyle{remark}
+\newtheorem{rem}{注}[chapter]
+\newtheorem{example}{例}[chapter]
+% 除了注和例之外,均是连续编号.
+\renewcommand{\proofname}{\textbf{证明}}
+% 如需将证毕符号改成黑色的正方形,请将下一行取消注释.
+% \renewcommand{\qedsymbol}{$\blacksquare$}    
+\newcommand{\dd}{\text{d}}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+%\newcommand{\Z}{{\mathbb Z}}
+%\newcommand{\C}{{\mathbb C}}
+% 此处可以定义一些常用的记号,留给大家自由发挥咯,例如输入\dd 可以直接得到正体的d,用作积分号里dx中的d.
+
+%其余的一些必要的宏包
+\usepackage{xcolor,caption,array,enumerate}
+\usepackage{graphicx} %插入图片的宏包
+\usepackage{float} %设置图片浮动位置的宏包
+\usepackage{subcaption} %插入多图时用子图显示的宏包
+
+\usepackage{tikz}%画图
+\usepackage{longtable, booktabs, threeparttable, caption, bicaption, multirow}
+% 扩展表格功能
+\usepackage[ruled,linesnumbered]{algorithm2e}
+% 算法
+\usepackage{listings}
+\lstset{
+  language=Python, % 设置语言
+  basicstyle=\ttfamily, % 设置字体族
+  breaklines=true, % 自动换行
+  keywordstyle=\bfseries\color{NavyBlue}, % 设置关键字为粗体,颜色为 NavyBlue
+  morekeywords={}, % 设置更多的关键字,用逗号分隔
+  emph={self}, % 指定强调词,如果有多个,用逗号隔开
+  emphstyle=\bfseries\color{Rhodamine}, % 强调词样式设置
+  commentstyle=\itshape\color{black!50!white}, % 设置注释样式,斜体,浅灰色
+  stringstyle=\bfseries\color{PineGreen!90!black}, % 设置字符串样式
+  columns=flexible,
+  numbers=left, % 显示行号在左边
+  numbersep=2em, % 设置行号的具体位置
+  numberstyle=\footnotesize, % 缩小行号
+  frame=single, % 边框
+  framesep=1em % 设置代码与边框的距离
+}
+% 自定义多级标题格式
+\CTEXsetup[nameformat={\huge \heiti},titleformat={\huge \heiti},beforeskip={0.0cm},afterskip={1.2cm}]{chapter}
+% 上一行为旧版的语法,可以选择注释上一行,取消注释下一行.
+%\ctexset { chapter = { nameformat={\huge \heiti  },titleformat={\huge \heiti  },beforeskip={0.0cm},afterskip={1.2cm} } } 
+\usepackage{titlesec}
+\titleformat{\section}[block]{\Large\centering\heiti\bfseries}{\arabic{chapter}.\arabic{section}}{1em}{}[]
+\titleformat{\subsection}[block]{\large \heiti\bfseries}{\arabic{chapter}.\arabic{section}.\arabic{subsection}}{1em}{}[]
+\titleformat{\subsubsection}[block]{\normalsize\bfseries}{\arabic{subsection}-\alph{subsubsection}}{1em}{}[]
+\titleformat{\paragraph}[block]{\small\bfseries}{[\arabic{paragraph}]}{1em}{}[]
+% 使用Ctex自带的\section的标题会出现问题,使用titlesec\chapter的标题要么无法显示汉字数字,要么无法显示字母A,只能做缝合怪了!
+
+\usepackage{gbt7714}
+% 将参考文献的格式更改为与国标《文后参考文献著录规则》GB/T 7714-2005一致.
+% 需要使用其它格式时请将该行注释, 并在参考文献部分将指定语句取消注释.
+
+
+%导言区设置完毕
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+% 制作封面, 适用于研究生毕业论文.
+%\begin{titlepage}
+%    {
+%        \hfill 
+%        \footnotesize
+%    \begin{tabular}{cc}
+%        \makebox[4em][s]{学校代码}:&\makebox[5em][l]{10246}\\
+%        \makebox[4em][s]{学号}:&\makebox[5em][l]{??300180???}\\
+%
+%    \end{tabular}
+%    }
+%    \vspace*{1.5cm}
+%
+%    \begin{center}
+%        \begin{figure}[H] %H为当前位置,!htb为忽略美学标准,htbp为浮动图形
+%            \centering %图片居中
+%            \includegraphics[width=0.46\textwidth]{figs/fudan-name.pdf} %插入图片,[]中设置图片大小,{}中是图片文件名
+%            %\caption{Main name 0} %最终文档中希望显示的图片标题
+%            \label{fudan-name} %用于文内引用的标签
+%        \end{figure}
+%        \vspace*{1.5cm}
+%
+%        \makebox[16em][s]{\LARGE{本科毕业论文}}
+%        %(学术学位)
+%        %若需要取消注释上一行,请相应改变下一行的行间距的取值
+%        \vspace*{3cm}
+%
+%        {\bfseries \Large 论文题目}
+%        \vspace*{1cm}
+%
+%        {\bfseries  English Title}
+%        \vspace*{3cm}
+%
+%        \fontsize{14pt}{\baselineskip}\selectfont
+%        \begin{tabular}{cc}
+%            \makebox[6em][s]{院系}:&\makebox[8em][c]{数学科学学院}\\[1ex]
+%            \makebox[6em][s]{专业}:&\makebox[8em][c]{数学与应用数学}\\[1ex]
+%            \makebox[6em][s]{姓名}:&\makebox[8em][c]{XXX}\\[1ex]
+%            %两个字姓名的同学可以将上一行改为
+%            %\makebox[6em][s]{姓名}:&\makebox[3em][c]{XX}\\[1ex]
+%            \makebox[6em][s]{指导老师}:&\makebox[8em][c]{XXX \ 教授}\\[1ex]
+%            \makebox[6em][s]{完成日期}:&\makebox[8em][c]{\today}\\[1ex]
+%        \end{tabular}     
+%    \end{center}
+%\end{titlepage}
+
+\renewcommand{\thepage}{\roman{page}}
+
+% 改写目录标题的格式
+\renewcommand{\contentsname}{目\quad 录}
+\tableofcontents
+\setcounter{page}{1}
+
+\chapter*{摘\quad 要}
+\addcontentsline{toc}{chapter}{摘要}
+\normalsize
+
+这是我的中文摘要.
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\normalsize
+
+This is my English abstract.
+
+\noindent{\textbf{Keywords:}} 1; 2; 3\\
+\noindent{\textbf{CLC code:}} O24
+
+\clearpage
+\mbox{}
+\thispagestyle{empty}
+% 为了保证第一章在奇书页.
+
+
+
+
+\renewcommand{\thepage}{\arabic{page}}
+\setcounter{page}{0}
+% 论文的页码从正文重新开始计数
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{引言}
+
+
+双酚类物质(Bisphenols,BPs)是一种工业用化学物质, 被大量用于生产聚碳酸酯及环氧树脂\cite{3}. 这两种可能会含有BPs的高分子物质又常被投入生产食品接触材料或其他日常使用材料, 例如塑料杯,奶瓶,纸币,金属涂层等\cite{4}.在日常生活中, BPs通过皮肤渗透与口服摄入两种主要途径进入人体内环境,参与后续的分布与代谢.双酚A(BPA),作为最早投入工业生产的BPs,已被证实对人体具有毒性\cite{2}.事实上,BPA会对人体的多个系统(如呼吸系统,神经系统,生殖系统)造成损害\cite{5}.
+BPA与双酚S(BPS)两种BPs经口服进入人体后, 经消化系统来到小肠,并在此分别葡萄糖醛酸化为BPA-g与BPS-g, 葡萄糖醛酸化后的双酚物质会进入血液循环并最终随尿液排出体外;未葡萄糖醛酸化的BPA或BPS将会进入肝脏并在此被部分磷酸化为BPA-s或BPS-s,部分BPs在肝脏仍会被葡萄糖醛酸化,这些衍生物与未发生反应的BPs都会直接进入血液循环并最终随尿液排出体外\cite{2,1}.同时,在小肠或肝脏处进入血液循环的BPs会随血液进入人体的各个器官,如脑,生殖腺等.若BPs经由皮肤渗透进入人体,将会直接进入血液循环并跟随血液到达各个器官,其中进入小肠或肝脏的部分BPs将会根据所处位置被葡萄糖醛酸化或是被磷酸化.
+为了找寻比BPA更安全的替代品, 研究BPS等双酚物质在人体中的代谢过程是有必要的\cite{6}.
+
+生理药代动力学模型(Physiology-Based Pharmacokinetic Model, PBPK)是药学中定量描述化学品在人体中吸收,分布,代谢,排泄过程的经典模型,常被用于化学品生态风险评价,人类健康风险评估以及药物开发\cite{7}.PBTK模型将包含血浆在内的对目标化学品特异性较强的靶点组织器官抽象为一个个”房室”,以质量守恒定律和相关生化反应为基础定量计算目标化学品在各房室之间的交换与各房室之内的代谢过程\cite{8}.当某些靶点组织器官的目标化学品含量难以实际测出时, PBTK模型的结果能够提供一个良好的预测 \cite{7}.只需要确定PBPK模型中重要参数的数值, 就能在脱离实际人体实验的情况下给出人体吸收目标化学品后靶点组织器官的化学品含量.
+
+Yang等人在2015年首次建立了使用人类参数的BPA在生物体内的PBPK模型,该模型基于口服摄入的吸收方式, 共设置了10个仓室,分别为血浆,肝脏,脂肪,性腺,血流丰富组织,血流缓慢组织,大脑和皮肤,剩下两个仓室分别是BPA-g和BPA-s的反应仓室\cite{10}. Karrer等人在2018年重新调整了此PBPK模型, 提供了BPA的其他双酚类替代品的模型参数, 并增加了通过皮肤渗透吸收BPs的情形\cite{9}.Hu等人在2023年对皮肤渗透模型进行了改进,在原本皮肤作为单独仓室的基础上将其分割成了五个小仓室,分别为表皮储仓,角质层,活性表皮,毛囊以及未参与渗透吸收的未暴露皮肤\cite{11}.
+该文章设置了志愿者实验, 利用BPS暴露后受试者尿液中BPS与BPS-g的含量来优化PBPK模型与皮肤仓室相关的三个参数, 并使用敏感性与不确定性分析评估了修改后的PBPK模型.
+
+Hu等人文章的参数优化部分中使用了传统的优化算法, 在计算机上运行的时间较久. 本文将在其基础上利用神经网络模型对皮肤渗透吸收型PBPK模型内的三个目标参数做参数反演, 提升获取最优参数的速度的同时提高参数的准确性; 并利用数值实验来评估神经网络模型的效果.
+
+
+\chapter{PBPK模型的建立}
+Hu等人\cite{11}在github中共享了论文中的数据以及部分代码\cite{12}. 共享中包含了PBPK模型和参数优化所使用的受试者真实数据等, 本章内容参照了这些工作.
+\section{BPs的带平行分层皮肤仓室的PBPK模型}
+本文中的PBPK模型共有个14仓室,包括:皮肤表皮储仓, 角质层, 毛囊, 活性表皮层, 胃, 小肠, 未暴露于化学品的皮肤, 血浆, 脂肪, 性腺, 肝脏, 脑, 血流丰富组织, 血流缓慢组织. 
+
+
+
+
+\clearpage
+\mbox{}
+\thispagestyle{empty}
+
+\appendix
+% 附录部分
+\chapter{代码}
+\section{代码环境}
+\begin{lstlisting}[language=PYTHON]
+
+\end{lstlisting}
+
+\clearpage
+\mbox{}
+\thispagestyle{empty}
+
+% 引用部分
+\bibliography{REF}
+% \bibliographystyle{authoryear}
+
+
+% 引用过的文献会自动进入这一部分,如果有文献未引用但也想放入参考文献,请使用以下命令
+% \nocite{请填入文献代码}
+% 需要使用其它格式时请将该句取消注释.
+\addcontentsline{toc}{chapter}{参考文献}
+% 将参考文献加入目录
+
+\clearpage
+\mbox{}
+\thispagestyle{empty}
+
+\chapter*{致\quad 谢}
+\addcontentsline{toc}{chapter}{致谢}
+% 将致谢加入目录
+\normalsize
+致谢
+
+
+\end{document}
+

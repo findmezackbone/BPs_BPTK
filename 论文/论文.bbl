@@ -1,0 +1,119 @@
+\begin{thebibliography}{12}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax\else
+  \urlstyle{same}\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \DeclareUrlCommand\doi{\urlstyle{rm}}
+  \def\eprint#1#2{#2}
+\else
+  \def\doi#1{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+  \let\eprint\href
+\fi
+
+\bibitem[Vandenberg et~al.(2007)Vandenberg, Hauser, Marcus, Olea, and
+  Welshons]{3}
+VANDENBERG~L~N, HAUSER~R, MARCUS~M, et~al.
+\newblock Human exposure to bisphenol a (bpa)[J/OL].
+\newblock Reproductive Toxicology, 2007, 24\allowbreak (2): 139-177.
+\newblock
+  \url{https://www.sciencedirect.com/science/article/pii/S0890623807002377}.
+\newblock DOI: \doi{https://doi.org/10.1016/j.reprotox.2007.07.010}.
+
+\bibitem[Rubin(2011)]{4}
+RUBIN~B~S.
+\newblock Bisphenol a: An endocrine disruptor with widespread exposure and
+  multiple effects[J/OL].
+\newblock The Journal of Steroid Biochemistry and Molecular Biology, 2011,
+  127\allowbreak (1): 27-34.
+\newblock
+  \url{https://www.sciencedirect.com/science/article/pii/S0960076011001063}.
+\newblock DOI: \doi{https://doi.org/10.1016/j.jsbmb.2011.05.002}.
+
+\bibitem[张益宁周颖(2021)]{2}
+张益宁周颖.
+\newblock 双酚A的生理毒代动力学(PBTK)模型构建研究[J].
+\newblock 食品与营养科学, 2021.
+
+\bibitem[Corbel et~al.(2014)Corbel, Gayrard, Puel, Lacroix, Berrebi, Gil,
+  Viguié, Toutain, and Picard-Hagen]{5}
+CORBEL~T, GAYRARD~V, PUEL~S, et~al.
+\newblock Bidirectional placental transfer of bisphenol a and its main
+  metabolite, bisphenol a-glucuronide, in the isolated perfused human
+  placenta[J/OL].
+\newblock Reproductive Toxicology, 2014, 47: 51-58.
+\newblock
+  \url{https://www.sciencedirect.com/science/article/pii/S0890623814001026}.
+\newblock DOI: \doi{https://doi.org/10.1016/j.reprotox.2014.06.001}.
+
+\bibitem[赫淑铭刘娴 傅建捷
+  张爱茜~江桂斌(2024)赫淑铭刘娴~傅建捷 张爱茜~江桂斌]{1}
+赫淑铭刘娴~傅建捷 张爱茜~江桂斌.
+\newblock 双酚类化合物的生物代谢机理研究进展[J/OL].
+\newblock 环境化学, 2024, 43: 711.
+\newblock \url{http://hjhx.rcees.ac.cn/article/id/648a6a10c59bc3243d453c96}.
+\newblock DOI: \doi{10.7524/j.issn.0254-6108.2023041401}.
+
+\bibitem[Pelch et~al.(2019)Pelch, Wignall, Goldstone, Ross, Blain, Shapiro,
+  Holmgren, Hsieh, Svoboda, Auerbach, Parham, Masten, Walker, Rooney, and
+  Thayer]{6}
+PELCH~K, WIGNALL~J~A, GOLDSTONE~A~E, et~al.
+\newblock A scoping review of the health and toxicological activity of
+  bisphenol a (bpa) structural analogues and functional alternatives[J/OL].
+\newblock Toxicology, 2019, 424: 152235.
+\newblock
+  \url{https://www.sciencedirect.com/science/article/pii/S0300483X18306668}.
+\newblock DOI: \doi{https://doi.org/10.1016/j.tox.2019.06.006}.
+
+\bibitem[ShuYing~ZHANG(2017)]{7}
+SHUYING~ZHANG~J~C, ZhongYu~WANG.
+\newblock Application of physiologically based toxicokinetics models in risk
+  assessment of chemicals[J/OL].
+\newblock Chinese Science Bulletin, 2017, 62\allowbreak (35): 4139-4150.
+\newblock \url{http://www.sciengine.com/publisher/Science China
+  Press/journal/Chinese Science Bulletin/62/35/10.1360/N972017-00886}.
+\newblock DOI: \doi{https://doi.org/10.1360/N972017-00886}.
+
+\bibitem[孙晋都(2017)]{8}
+孙晋都.
+\newblock
+  纳米银体内外动力学研究及生理毒物动力学模型(PBTK)构建[D].
+\newblock 南京,江苏: 东南大学, 2017.
+
+\bibitem[Yang et~al.(2015)Yang, Doerge, Teeguarden, and Fisher]{10}
+YANG~X, DOERGE~D~R, TEEGUARDEN~J~G, et~al.
+\newblock Development of a physiologically based pharmacokinetic model for
+  assessment of human exposure to bisphenol a[J/OL].
+\newblock Toxicology and Applied Pharmacology, 2015, 289\allowbreak (3):
+  442-456.
+\newblock
+  \url{https://www.sciencedirect.com/science/article/pii/S0041008X15301198}.
+\newblock DOI: \doi{https://doi.org/10.1016/j.taap.2015.10.016}.
+
+\bibitem[Karrer et~al.(2018)Karrer, Roiss, von Goetz, Skledar, Mašič, and
+  Hungerbühler]{9}
+KARRER~C, ROISS~T, VON GOETZ~N, et~al.
+\newblock Physiologically based pharmacokinetic (pbpk) modeling of the
+  bisphenols bpa, bps, bpf, and bpaf with new experimental metabolic
+  parameters: Comparing the pharmacokinetic behavior of bpa with its
+  substitutes[J/OL].
+\newblock Environmental Health Perspectives, 2018, 126\allowbreak (7): 077002.
+\newblock \url{https://ehp.niehs.nih.gov/doi/abs/10.1289/EHP2739}.
+
+\bibitem[Hu et~al.(2023)Hu, Zhang, Zhang, Zhan, Qu, He, and Zhou]{11}
+HU~M, ZHANG~Z, ZHANG~Y, et~al.
+\newblock Development of human dermal pbpk models for the bisphenols bpa, bps,
+  bpf, and bpaf with parallel-layered skin compartment: Basing on dermal
+  administration studies in humans[J/OL].
+\newblock Science of The Total Environment, 2023, 868: 161639.
+\newblock
+  \url{https://www.sciencedirect.com/science/article/pii/S0048969723002541}.
+\newblock DOI: \doi{https://doi.org/10.1016/j.scitotenv.2023.161639}.
+
+\bibitem[YingZhou8(2022)]{12}
+YINGZHOU8.
+\newblock Pbk[EB/OL].
+\newblock 2022.
+\newblock \url{https://github.com/YingZhou8/PBK}.
+
+\end{thebibliography}
