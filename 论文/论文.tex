@@ -214,13 +214,47 @@ Hu等人文章的参数优化部分中使用了传统的优化算法, 在计算�
 
 
 \chapter{PBPK模型的建立}
-Hu等人\cite{11}在github中共享了论文中的数据以及部分代码\cite{12}. 共享中包含了PBPK模型和参数优化所使用的受试者真实数据等, 本章内容参照了这些工作.
-\section{BPs的带平行分层皮肤仓室的PBPK模型}
+Hu等人\cite{11}在github中共享了论文中的数据以及部分代码\cite{12}. 共享中包含了PBPK模型和参数优化所使用的受试者真实数据等, 本章内容参照了这些工作.该模型对多种双酚类物质都适用, 本文后续只讨论
+双酚S(BPS)的情形.
+\section{模型的生理与实验背景}
+Hu\cite{11}等人通过使用含有氘代BPS(BPS-d8)的热敏纸摩擦手指的方式令受试者暴露于BPS.受试者接触热敏纸共$\frac{1}{60}h$, 脱离热敏纸后再等待$2h$, $\frac{13}{6}h$时彻底清洗皮肤,清空表皮储仓内的BPS.
+在接触实验开始的$72h$, 受试者被要求每$4.3h$左右提供一次尿液样本, 以检测尿液中的BPS与BPS-g的含量.
+在另一个BPS人体接触实验中, Khmiri等人\cite{13}同时监测了受试者的血液与尿液. 接触BPS起的前$2h$内每$0.25h$取样一次血液, 第2小时至第8小时内每$1h$取样一次血液, 之后分别在$10h$, $24h$, $48h$时取样一次血液.
+尿液的取样节点不是固定的, 而是在从接触起至
+
+从受试者与热敏纸接触时起, 热敏纸内的BPS通过手指表皮储存进入毛囊和角质层, 接着扩散进入活性表皮层, 再通过毛囊和活性表皮层与内环境的交换进入体循环. 血浆携带BPS通过血液交换将
+其送入肝脏, 脑, 脂肪, 性腺等组织器官. 部分BPS在肝脏反应为BPS-g, 未反应的BPS会有部分通过血液交换从肝脏进入小肠, 部分BPS在小肠反应为BPS-g或BPS-s. 体内的BPS-g与BPS-s不会再反应为其他物质, 这两种物质
+会像始终未发生反应的BPS一样, 随血液进入肾脏, 最终通过尿液排出. 
+
+ 
+\section{模型的数学形式}
 本文中的PBPK模型共有个14仓室,包括:皮肤表皮储仓, 角质层, 毛囊, 活性表皮层, 胃, 小肠, 未暴露于化学品的皮肤, 血浆, 脂肪, 性腺, 肝脏, 脑, 血流丰富组织, 血流缓慢组织. 
-根据各仓室的关系以及BPs在各仓室内的生化反应, 得到微分方程共   
+根据各仓室之间的关系以及BPS在各仓室内的生化反应, 得到16个解关于时间$t$变化的常微分方程与1个偏微分方程. 这些微分方程共同构成了BPS的带平行分层皮肤仓室的PBPK模型.  
+
+\begin{multline}
+  \frac{dx10}{dt} = -\left(\frac{Pfo \times  AEXP \times  FEXP}{V_{TFo}  \times  HFo_{well} }
+  +\frac{Qskin \times  AEXP \times  0.25}{BSA \times  V_{TFo}  \times  pskin}\right)x10\\
+  +\frac{Pfo \times  AEXP \times  FEXP}{V_{well}  }x11+\frac{Qskin \times  AEXP \times  0.25}{BSA \times  V_{plasma}} x17.
+\end{multline}
+
+\begin{multline}
+  \frac{dx11}{dt} = \left(\frac{DSC \times  AEXP \times  (1-FEXP)}{SCDX} x1-\frac{Pfo \times  AEXP \times  FEXP}{V_{TFo} \times  HFo_{well}} x10\right.\\
+  \left. -\left(\left(\frac{DSC \times  HSC_{well}}{V_{well} \times  SCDX}-\frac{u_1 \times  HSC_{well}}{V_{well} }\right) \times  AEXP \times  (1-FEXP) \right.\right.\\
+  \left.\left.-\frac{Pfo \times  AEXP \times  FEXP}{V_{well}} \right)x11+f_1 (t) \right) \times  ON.
+\end{multline}
+
+
+如(\ref{eq1}), 其中的偏微分方程本质上是一个扩散对流方程,其解$\varphi$代表角质层(Stratum Corneum)中BPs含量, 自变量$x$代表角质层的深度, 自变量$t$代表时间, $DSC$代表BPS在角质层中的有效扩
+散系数, $u_1$代表BPS随脱屑向皮肤表面转移的速度, $T_{SC}$代表角质层的深度.
+\begin{equation}\label{eq1}
+\frac{\partial \varphi(x,t) }{\partial t^2} = DSC \frac{\partial^2 \varphi(x,t)}{\partial x^2} + u_1 \frac{\partial \varphi(x,t)}{\partial t}, \quad 0\leq x <T_{SC}, \quad t\geq 0
+\end{equation}
 
 
 
+\section{PBPK模型的求解}
+确定模型的数学形式后, 将Hu等人\cite{12}提供的数据相对应地代入至方程的各个参数, 使用Python中的第三方库函数scipy.integrate.odeint()对微分方程组求解. 
+每个方程的解都对应了一条人体某组织器官或尿液内BPS(或BPS-g, BPS-s)含量随时间变化的曲线, 故每个解的初值都应设置为0
 \clearpage
 \mbox{}
 \thispagestyle{empty}
