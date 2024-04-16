@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  16 APR 2024 15:09
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  16 APR 2024 22:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1019,48 +1019,18 @@ LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <10.53937> not available
 ]
 第二章
 
-LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <15.05624> not available
-(Font)              size <14.4> substituted on input line 219.
+Underfull \vbox (badness 4205) has occurred while \output is active []
 
+ [2
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\begingroup' on input line 219.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 219.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\NAT@ctype' on input line 219.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 219.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 219.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 219.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\new@ifnextchar' on input line 219.
-
-
-Overfull \hbox (2.73688pt too wide) in paragraph at lines 245--247
+]
+Overfull \hbox (2.73688pt too wide) in paragraph at lines 247--249
 []\TU/FandolSong-Regular(0)/m/n/10.53937 如 \TU/lmr/m/n/10.53937 ([][]2.3[][]), \TU/FandolSong-Regular(0)/m/n/10.53937 其 中 的 偏 微 分 方 程 本 质 上 是 一 个 扩 散 对 流 方 程\TU/lmr/m/n/10.53937 , \TU/FandolSong-Regular(0)/m/n/10.53937 其 解 $\OML/cmm/m/it/10.53937 '$ \TU/FandolSong-Regular(0)/m/n/10.53937 代 表 角 质 层 \TU/lmr/m/n/10.53937 (Stratum Corneum)
  []
 
-[2
-
-]
 LaTeX Font Info:    Font shape `TU/FandolSong-Regular(0)/m/sl' in size <10.53937> not available
-(Font)              Font shape `TU/FandolSong-Regular(0)/m/it' tried instead on input line 256.
- [3] [4
+(Font)              Font shape `TU/FandolSong-Regular(0)/m/it' tried instead on input line 258.
+[3] [4
 
 ]
 附录 A
@@ -1093,17 +1063,17 @@ Package fontspec Info: Font family 'FandolFang-Regular(0)' created for font
 ] (./论文.aux)
 
 LaTeX Font Warning: Size substitutions with differences
-(Font)              up to 0.65625pt have occurred.
+(Font)              up to 0.41063pt have occurred.
 
 Package rerunfilecheck Info: File `论文.out' has not changed.
-(rerunfilecheck)             Checksum: DFF935D1A8E7FA138D69C5EBE4801281;961.
+(rerunfilecheck)             Checksum: 6092EC2AF7A95537848410CDBDB6C66B;951.
  ) 
 Here is how much of TeX's memory you used:
- 30909 strings out of 476919
- 625193 string characters out of 5825424
+ 30872 strings out of 476919
+ 624502 string characters out of 5825424
  1172381 words of memory out of 5000000
- 50333 multiletter control sequences out of 15000+600000
- 412518 words of font info for 97 fonts, out of 8000000 for 9000
+ 50307 multiletter control sequences out of 15000+600000
+ 407364 words of font info for 73 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  101i,11n,104p,466b,1203s stack positions out of 5000i,500n,10000p,200000b,80000s
 

@@ -2,7 +2,7 @@
 \contentsline {chapter}{Abstract}{iii}{chapter*.3}%
 \contentsline {chapter}{\numberline {第一章\hspace {.3em}}引言}{1}{chapter.1}%
 \contentsline {chapter}{\numberline {第二章\hspace {.3em}}PBPK模型的建立}{2}{chapter.2}%
-\contentsline {section}{\numberline {2.1}模型的生理与实验背景\cite {11}}{2}{section.2.1}%
+\contentsline {section}{\numberline {2.1}模型的实验与生理背景}{2}{section.2.1}%
 \contentsline {section}{\numberline {2.2}模型的数学形式}{2}{section.2.2}%
 \contentsline {section}{\numberline {2.3}PBPK模型的求解}{3}{section.2.3}%
 \contentsline {chapter}{\numberline {附录 A\hspace {.3em}}代码}{5}{appendix.A}%

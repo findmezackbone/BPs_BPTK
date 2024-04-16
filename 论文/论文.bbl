@@ -1,4 +1,4 @@
-\begin{thebibliography}{12}
+\begin{thebibliography}{13}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax\else
@@ -115,5 +115,16 @@ YINGZHOU8.
 \newblock Pbk[EB/OL].
 \newblock 2022.
 \newblock \url{https://github.com/YingZhou8/PBK}.
+
+\bibitem[Khmiri et~al.(2020)Khmiri, Côté, Mantha, Khemiri, Lacroix, Gely,
+  Toutain, Picard-Hagen, Gayrard, and Bouchard]{13}
+KHMIRI~I, CôTé~J, MANTHA~M, et~al.
+\newblock Toxicokinetics of bisphenol-s and its glucuronide in plasma and urine
+  following oral and dermal exposure in volunteers for the interpretation of
+  biomonitoring data[J/OL].
+\newblock Environment International, 2020, 138: 105644.
+\newblock
+  \url{https://www.sciencedirect.com/science/article/pii/S0160412019349967}.
+\newblock DOI: \doi{https://doi.org/10.1016/j.envint.2020.105644}.
 
 \end{thebibliography}

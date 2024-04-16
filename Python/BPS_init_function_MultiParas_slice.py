@@ -14,13 +14,13 @@ sampling_time_index = (200*sampling_time_range).astype(int) #采样时间节点�
 #plasma:26 , urineBPS:38 , urineBPSg:54
 def BPS_BPTK_MultiParas(t = time,volunteer_ID =j, paras = paradata ,slice_index = sampling_time_index ,mode = '63'):
     
-	plasma_data = np.zeros((np.shape(paras)[0],15000))
-	urinebps_data = np.zeros((np.shape(paras)[0],15000))
-	urinebpsg_data = np.zeros((np.shape(paras)[0],15000))
+	plasma_data = np.zeros((np.shape(paras)[0],np.shape(sampling_time_index)[0]))
+	urinebps_data = np.zeros((np.shape(paras)[0],np.shape(sampling_time_index)[0]))
+	urinebpsg_data = np.zeros((np.shape(paras)[0],np.shape(sampling_time_index)[0]))
 	para_BP_individual = np.loadtxt(open("R\para_BP_individual.csv"),delimiter=",",skiprows=1,usecols=[2,3,4,5])
 	#读取受试者生理参数(第五位受试者数据有缺失，暂取四位的数据)
 
-	i = j-1 #用于控制受试者的编号，可取值-1，0,1,2
+	i = volunteer_ID-1 #用于控制受试者的编号，可取值-1，0,1,2
 	gender=para_BP_individual[1,i+1]  #1 for male, 2 for female
 	bw= para_BP_individual[0,i+1]   #体重，kg 
 
@@ -366,8 +366,8 @@ def BPS_BPTK_MultiParas(t = time,volunteer_ID =j, paras = paradata ,slice_index 
 	t = time
 	for i in tqdm(range(np.shape(paras)[0])):
 		result = odeint(FUN, (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), t , args=(paras[i,0],paras[i,1],paras[i,2]))
-		plasma_data[i,:] = result[sampling_time_index ,25] #plasma:26 , urineBPS:38 , urineBPSg:54
-		urinebps_data[i,:] = result[sampling_time_index ,37] 
-		urinebpsg_data[i,:] = result[sampling_time_index ,53] 
+		plasma_data[i,:] = result[slice_index ,25] #plasma:26 , urineBPS:38 , urineBPSg:54
+		urinebps_data[i,:] = result[slice_index ,37] 
+		urinebpsg_data[i,:] = result[slice_index ,53] 
 
 	return plasma_data,urinebps_data,urinebpsg_data
