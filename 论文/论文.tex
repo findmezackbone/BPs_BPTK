@@ -205,7 +205,7 @@ This is my English abstract.
 BPA与双酚S(BPS)两种BPs经口服进入人体后, 经消化系统来到小肠,并在此分别葡萄糖醛酸化为BPA-g与BPS-g, 葡萄糖醛酸化后的双酚物质会进入血液循环并最终随尿液排出体外;未葡萄糖醛酸化的BPA或BPS将会进入肝脏并在此被部分磷酸化为BPA-s或BPS-s,部分BPs在肝脏仍会被葡萄糖醛酸化,这些衍生物与未发生反应的BPs都会直接进入血液循环并最终随尿液排出体外\cite{2,1}.同时,在小肠或肝脏处进入血液循环的BPs会随血液进入人体的各个器官,如脑,生殖腺等.若BPs经由皮肤渗透进入人体,将会直接进入血液循环并跟随血液到达各个器官,其中进入小肠或肝脏的部分BPs将会根据所处位置被葡萄糖醛酸化或是被磷酸化.
 为了找寻比BPA更安全的替代品, 研究BPS等双酚物质在人体中的代谢过程是有必要的\cite{6}.
 
-生理药代动力学模型(Physiology-Based Pharmacokinetic Model, PBPK)是药学中定量描述化学品在人体中吸收,分布,代谢,排泄过程的经典模型,常被用于化学品生态风险评价,人类健康风险评估以及药物开发\cite{7}.PBTK模型将包含血浆在内的对目标化学品特异性较强的靶点组织器官抽象为一个个”房室”,以质量守恒定律和相关生化反应为基础定量计算目标化学品在各房室之间的交换与各房室之内的代谢过程\cite{8}.当某些靶点组织器官的目标化学品含量难以实际测出时, PBTK模型的结果能够提供一个良好的预测 \cite{7}.只需要确定PBPK模型中重要参数的数值, 就能在脱离实际人体实验的情况下给出人体吸收目标化学品后靶点组织器官的化学品含量.
+生理药代动力学模型(Physiology-Based Pharmacokinetic Model, PBPK)是药学中定量描述化学品在人体中吸收,分布,代谢,排泄过程的经典模型,常被用于化学品生态风险评价,人类健康风险评估以及药物开发\cite{7}.PBPK模型将包含血浆在内的对目标化学品特异性较强的靶点组织器官抽象为一个个”房室”,以质量守恒定律和相关生化反应为基础定量计算目标化学品在各房室之间的交换与各房室之内的代谢过程\cite{8}.当某些靶点组织器官的目标化学品含量难以实际测出时, PBTK模型的结果能够提供一个良好的预测 \cite{7}.只需要确定PBPK模型中重要参数的数值, 就能在脱离实际人体实验的情况下给出人体吸收目标化学品后靶点组织器官的化学品含量.
 
 Yang等人在2015年首次建立了使用人类参数的BPA在生物体内的PBPK模型,该模型基于口服摄入的吸收方式, 共设置了10个仓室,分别为血浆,肝脏,脂肪,性腺,血流丰富组织,血流缓慢组织,大脑和皮肤,剩下两个仓室分别是BPA-g和BPA-s的反应仓室\cite{10}. Karrer等人在2018年重新调整了此PBPK模型, 提供了BPA的其他双酚类替代品的模型参数, 并增加了通过皮肤渗透吸收BPs的情形\cite{9}.Hu等人在2023年对皮肤渗透模型进行了改进,在原本皮肤作为单独仓室的基础上将其分割成了五个小仓室,分别为表皮储仓,角质层,活性表皮,毛囊以及未参与渗透吸收的未暴露皮肤\cite{11}.
 该文章设置了志愿者实验, 利用BPS暴露后受试者尿液中BPS与BPS-g的含量来优化PBPK模型与皮肤仓室相关的三个参数, 并使用敏感性与不确定性分析评估了修改后的PBPK模型.
@@ -231,18 +231,92 @@ Hu\cite{11}等人通过使用含有氘代BPS(BPS-d8)的热敏纸摩擦手指的�
 本文中的PBPK模型共有个14仓室,包括:皮肤表皮储仓, 角质层, 毛囊, 活性表皮层, 胃, 小肠, 未暴露于化学品的皮肤, 血浆, 脂肪, 性腺, 肝脏, 脑, 血流丰富组织, 血流缓慢组织. 
 根据各仓室之间的关系以及BPS在各仓室内的生化反应, 得到16个解关于时间$t$变化的常微分方程与1个偏微分方程. 这些微分方程共同构成了BPS的带平行分层皮肤仓室的PBPK模型.  
 
-\begin{multline}
+\begin{multline}\label{eq10}
   \frac{dx10}{dt} = -\left(\frac{Pfo \times  AEXP \times  FEXP}{V_{TFo}  \times  HFo_{well} }
   +\frac{Qskin \times  AEXP \times  0.25}{BSA \times  V_{TFo}  \times  pskin}\right)x10\\
   +\frac{Pfo \times  AEXP \times  FEXP}{V_{well}  }x11+\frac{Qskin \times  AEXP \times  0.25}{BSA \times  V_{plasma}} x17.
 \end{multline}
 
-\begin{multline}
+\begin{multline}\label{eq11}
   \frac{dx11}{dt} = \left(\frac{DSC \times  AEXP \times  (1-FEXP)}{SCDX} x1-\frac{Pfo \times  AEXP \times  FEXP}{V_{TFo} \times  HFo_{well}} x10\right.\\
   \left. -\left(\left(\frac{DSC \times  HSC_{well}}{V_{well} \times  SCDX}-\frac{u_1 \times  HSC_{well}}{V_{well} }\right) \times  AEXP \times  (1-FEXP) \right.\right.\\
   \left.\left.-\frac{Pfo \times  AEXP \times  FEXP}{V_{well}} \right)x11+f_1 (t) \right) \times  ON.
 \end{multline}
 
+
+\begin{multline}\label{eq12}
+  \frac{dx12}{dt}=\frac{DSC \times  AEXP \times  (1-FEXP)}{SCDX} x9+\left(\left(\frac{-DSC \times  HSC_{VE}}{V_{TVE}  \times  SCDX}-\frac{u_1  \times  HSC_{VE}}{V_{TVE} }\right)\times \right.\\ 
+   \left.AEXP \times  (1-FEXP)-\frac{Qskin \times  AEXP \times  0.75}{BSA \times  V_{TVE}  \times  pskin}\right)x12+\frac{Qskin \times  AEXP \times  0.75}{BSA \times  V_{plasma} } x17.
+\end{multline}
+
+\begin{equation}\label{eq13}
+  \frac{dx13}{dt}=-(k_0+ge)x13+f_2 (t).
+\end{equation}
+
+\begin{multline}\label{eq14}
+  \frac{dx14}{dt}=\frac{-Qskin \times  (1-\frac{AEXP}{BSA})}{(V_{skin}-V_{TSC}-V_{TVE}-V_{TFo}) \times  pskin} x14+\frac{Qskin \times  (1-\frac{AEXP}{BSA})}{V_{plasma}}  x17.
+\end{multline}
+
+\begin{equation}\label{eq15}
+  \frac{dx15}{dt}=\frac{-Qfat}{V_{fat}  \times  pfat} x15+\frac{Qfat}{V_{plasma}}  x17.
+\end{equation}
+
+\begin{equation}\label{eq16}
+  \frac{dx16}{dt}=\frac{-Qgonad}{V_{gonad}  \times  pgonad} x16+\frac{Qgonad}{V_{plasma}}  x17.
+\end{equation}
+
+\begin{multline}\label{eq17}
+  \frac{dx17}{dt}=\frac{(Qc-Kurinebpa) \times  Qskin \times  \frac{AEXP}{BSA} \times  0.25}{Qc \times  V_{TFo}  \times  pskin} x10+\frac{(Qc-Kurinebpa) \times  Qskin \times  \frac{AEXP}{BSA} \times  0.75}{Qc \times  V_{TVE}  \times  pskin} x12\\
+  +\frac{(Qc-Kurinebpa) \times  Qskin \times  (1-\frac{AEXP}{BSA})}{Qc \times  (V_{skin}-V_{TSC}-V_{TVE}-V_{TFo}) \times  pskin} x14+\frac{(Qc-Kurinebpa) \times  Qfat}{Qc \times  V_{fat}  \times  pfat} x15\\
+  +\frac{(Qc-Kurinebpa) \times  Qgonad}{Qc \times  V_{gonad}  \times  pgonad} x16-\frac{Qc}{V_{plasma}}  x17+\frac{(Qc-Kurinebpa) \times  Qbrain}{Qc \times  V_{brain} \times  pbrain} x18\\
+  +\frac{(Qc-Kurinebpa) \times  Qrich}{Qc \times  V_{rich}  \times  prich} x19+\frac{(Qc-Kurinebpa) \times  Qslow}{Qc \times  V_{slow}  \times  pslow} x20
+  +\frac{(Qc-Kurinebpa) \times  Qliver}{Qc \times  V_{liver} \times  pliver} x24.
+\end{multline}
+
+\begin{equation}\label{eq18}
+  \frac{dx18}{dt}=\frac{-Qbrain}{V_{brain}  \times  pbrain} x18+\frac{Qbrain}{V_{plasma}}  x17.
+\end{equation}
+
+\begin{equation}\label{eq19}
+  \frac{dx19}{dt}=\frac{-Qrich}{V_{rich}  \times  prich} x19+\frac{Qrich}{V_{plasma}}  x17.
+\end{equation}
+
+\begin{equation}\label{eq20}
+  \frac{dx20}{dt}=\frac{-Qslow}{V_{slow}  \times  pslow} x20+\frac{Qslow}{V_{plasma}}  x17.
+\end{equation}
+
+\begin{equation}\label{eq21}
+  \frac{dx21}{dt}=-kGIing \times  x21+\frac{Vmaxgutg \times  x23}{enterocytes \times  Kmgutg+x23+\frac{x23^2}{enterocytes \times  Ksigutg}}.
+\end{equation}
+
+\begin{equation}\label{eq22}
+  \frac{dx22}{dt}=-kGIins \times  x22+\frac{Vmaxguts \times  x23}{enterocytes \times  Kmguts+x23}.
+\end{equation}
+
+\begin{equation}\label{eq23}
+  \frac{dx23}{dt}=ge \times  x13-k1 \times  x23-\frac{Vmaxgutg \times  x23}{enterocytes \times  Kmgutg+x23+\frac{x23^2}{enterocytes \times  Ksigutg}}-\frac{Vmaxguts \times  x23}{enterocytes \times  Kmguts+x23}.
+\end{equation}
+
+\begin{multline}\label{eq24}
+  \frac{dx24}{dt}=k0 \times  x13-\frac{Qliver}{V_{plasma} } x17+k1 \times  x23-\frac{Qliver}{V_{liver}  \times  pliver} x24+kenterobpag \times  x25+kenterobpas \times  x26\\
+  -\frac{Vmaxliver \times  x24}{V_{liver}  \times  pliver \times  Kmliver+x24}-\frac{Vmaxlivers \times  x24}{V_{liver}  \times  pliver \times  Kmlivers+x24}.
+\end{multline}
+
+\begin{equation}\label{eq25}
+  \frac{dx25}{dt}=met2g \times  kGIing \times  x21-(kentero+k4_{IV}+kenterobpag) \times  x25+\frac{met2g \times  Vmaxliver \times  x24}{V_{liver}  \times  pliver \times  Kmliver+x24}.
+\end{equation}
+
+\begin{equation}\label{eq26}
+  \frac{dx26}{dt}=met2s \times  kGIins \times  x22-(kentero+k4_{IV}+kenterobpas) \times  x26+\frac{met2s \times  Vmaxlivers \times  x24}{V_{liver}  \times  pliver \times  Kmlivers+x24}.
+\end{equation}
+
+\begin{equation}\label{eq27}
+  \frac{dx27}{dt}=met1g \times  kGIing \times  x21+kentero \times  x25-\frac{Kurinebpag}{Vbodyg+10^{-34} } x27+\frac{met1g \times  Vmaxliver \times  x24}{V_{liver}  \times  pliver \times  Kmliver+x24}.
+\end{equation}
+
+\begin{equation}\label{eq28}
+  \frac{dx28}{dt}=met1s \times  kGIins \times  x22+kentero \times  x26-\frac{Kurinebpas}{Vbodys+10^{-34}} x28+\frac{met1s \times  Vmaxlivers \times  x24}{V_{liver}  \times  pliver \times  Kmlivers+x24}.
+\end{equation}
 
 如(\ref{eq1}), 其中的偏微分方程本质上是一个扩散对流方程,其解$\varphi$代表角质层(Stratum Corneum)中BPs含量, 自变量$x$代表角质层的深度, 自变量$t$代表时间, $DSC$代表BPS在角质层中的有效扩
 散系数, $u_1$代表BPS随脱屑向皮肤表面转移的速度, $T_{SC}$代表角质层的深度.

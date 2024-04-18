@@ -18,17 +18,17 @@ import keyboard
 
 
 # 准备数据
-X = np.load("Python\optim\DataFromBPTK\BPSplasma_init_Data_final.npy")  #输入数据
+X = np.load("Python\optim\DataFromBPTK\plasma68\plasma68_zzc.npy")  #输入数据
+print(np.shape(X))
+#DSC_range = np.hstack((np.arange(15,10,-1.2),np.arange(15.5,20,0.5),np.arange(21,30,1.2),31,34,37))
+#PFO_range = np.hstack((1.2,np.arange(2,8,0.4),np.arange(8,15,1.8)))
+#u1_range = np.hstack((1.2,2.4,np.arange(3,8,0.4),np.arange(8.8,15,4/3)))
+#y1 = np.array(list(itertools.product(DSC_range, PFO_range, u1_range))) #标签#
 
-DSC_range = np.hstack((np.arange(15,10,-1.2),np.arange(15.5,20,0.5),np.arange(21,30,1.2),31,34,37))
-PFO_range = np.hstack((1.2,np.arange(2,8,0.4),np.arange(8,15,1.8)))
-u1_range = np.hstack((1.2,2.4,np.arange(3,8,0.4),np.arange(8.8,15,4/3)))
-y1 = np.array(list(itertools.product(DSC_range, PFO_range, u1_range))) #标签
-
-y2 = np.load("Python\optim\DataFromBPTK\labels.npy")
-
-y3 = np.load("Python\optim\DataFromBPTK\labels_SG.npy")
-y =  np.vstack((y1,y2,y3))
+y2 = np.load("Python\optim\DataFromBPTK\labels_zzc.npy")
+y = y2
+#y3 = np.load("Python\optim\DataFromBPTK\labels_SG.npy")
+#y =  np.vstack((y1,y2,y3))
 # 数据预处理 标准化数据
 
 # 数据预处理 标准化数据
@@ -41,7 +41,7 @@ X = torch.tensor(X).float()
 y = torch.tensor(y).float()
 
 # 划分训练集、验证集和测试集
-X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.12, random_state=20)
+X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.15, random_state=20)
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=20)
 
 # 将数据转移到 GPU（如果可用
@@ -197,7 +197,7 @@ for epoch in range(num_epochs):
             val_outputs = model(val_inputs)
             val_loss += criterion(val_outputs, val_labels)/len(val_inputs)
 
-    if val_loss / len(val_loader) <0.010:
+    if val_loss / len(val_loader) <0.004:
         patience_on = 1
     # Early Stopping
     if val_loss < best_val_loss:

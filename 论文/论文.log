@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  16 APR 2024 22:46
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  18 APR 2024 17:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1024,13 +1024,58 @@ Underfull \vbox (badness 4205) has occurred while \output is active []
  [2
 
 ]
-Overfull \hbox (2.73688pt too wide) in paragraph at lines 247--249
-[]\TU/FandolSong-Regular(0)/m/n/10.53937 如 \TU/lmr/m/n/10.53937 ([][]2.3[][]), \TU/FandolSong-Regular(0)/m/n/10.53937 其 中 的 偏 微 分 方 程 本 质 上 是 一 个 扩 散 对 流 方 程\TU/lmr/m/n/10.53937 , \TU/FandolSong-Regular(0)/m/n/10.53937 其 解 $\OML/cmm/m/it/10.53937 '$ \TU/FandolSong-Regular(0)/m/n/10.53937 代 表 角 质 层 \TU/lmr/m/n/10.53937 (Stratum Corneum)
+Underfull \hbox (badness 10000) detected at line 258
+ []$[]  [] \OT1/cmr/m/n/10.53937 = []\OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 14 + []\OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 17\OML/cmm/m/it/10.53937 :$ [][][]  
+ []
+
+
+Overfull \hbox (40.42972pt too wide) detected at line 274
+ []$[]  [] \OT1/cmr/m/n/10.53937 = []\OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 10 + []\OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 12$ 
+ []
+
+
+Overfull \hbox (23.10349pt too wide) detected at line 274
+ []$[] \OT1/cmr/m/n/10.53937 + []\OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 19 + []\OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 20 + []\OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 24\OML/cmm/m/it/10.53937 :$ []  
+ []
+
+
+Overfull \hbox (53.19902pt too wide) detected at line 298
+[][] \OT1/cmr/m/n/10.53937 = \OML/cmm/m/it/10.53937 ge \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 13 \OMS/cmsy/m/n/10.53937 ^^@ \OML/cmm/m/it/10.53937 k\OT1/cmr/m/n/10.53937 1 \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 23 \OMS/cmsy/m/n/10.53937 ^^@ [] ^^@ []\OML/cmm/m/it/10.53937 :
  []
 
 LaTeX Font Info:    Font shape `TU/FandolSong-Regular(0)/m/sl' in size <10.53937> not available
-(Font)              Font shape `TU/FandolSong-Regular(0)/m/it' tried instead on input line 258.
-[3] [4
+(Font)              Font shape `TU/FandolSong-Regular(0)/m/it' tried instead on input line 298.
+[3]
+Overfull \hbox (6.16002pt too wide) detected at line 303
+ []$[]  [] \OT1/cmr/m/n/10.53937 = \OML/cmm/m/it/10.53937 k\OT1/cmr/m/n/10.53937 0 \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 13 \OMS/cmsy/m/n/10.53937 ^^@ []\OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 17 + \OML/cmm/m/it/10.53937 k\OT1/cmr/m/n/10.53937 1 \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 23 \OMS/cmsy/m/n/10.53937 ^^@ []\OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 24 + \OML/cmm/m/it/10.53937 kenterobpag \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 25 + \OML/cmm/m/it/10.53937 kenterobpas \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 26$ 
+ []
+
+
+Overfull \hbox (16.23877pt too wide) detected at line 307
+[][] \OT1/cmr/m/n/10.53937 = \OML/cmm/m/it/10.53937 met\OT1/cmr/m/n/10.53937 2\OML/cmm/m/it/10.53937 g \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 kGIing \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 21 \OMS/cmsy/m/n/10.53937 ^^@ \OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 kentero \OT1/cmr/m/n/10.53937 + \OML/cmm/m/it/10.53937 k\OT1/cmr/m/n/10.53937 4[] + \OML/cmm/m/it/10.53937 kenterobpag\OT1/cmr/m/n/10.53937 ) \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 25 + []\OML/cmm/m/it/10.53937 :
+ []
+
+
+Overfull \hbox (19.78479pt too wide) detected at line 311
+[][] \OT1/cmr/m/n/10.53937 = \OML/cmm/m/it/10.53937 met\OT1/cmr/m/n/10.53937 2\OML/cmm/m/it/10.53937 s \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 kGIins \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 22 \OMS/cmsy/m/n/10.53937 ^^@ \OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 kentero \OT1/cmr/m/n/10.53937 + \OML/cmm/m/it/10.53937 k\OT1/cmr/m/n/10.53937 4[] + \OML/cmm/m/it/10.53937 kenterobpas\OT1/cmr/m/n/10.53937 ) \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 26 + []\OML/cmm/m/it/10.53937 :
+ []
+
+
+Overfull \hbox (12.66348pt too wide) detected at line 315
+[][] \OT1/cmr/m/n/10.53937 = \OML/cmm/m/it/10.53937 met\OT1/cmr/m/n/10.53937 1\OML/cmm/m/it/10.53937 g \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 kGIing \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 21 + \OML/cmm/m/it/10.53937 kentero \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 25 \OMS/cmsy/m/n/10.53937 ^^@ []\OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 27 + []\OML/cmm/m/it/10.53937 :
+ []
+
+
+Overfull \hbox (16.2095pt too wide) detected at line 319
+[][] \OT1/cmr/m/n/10.53937 = \OML/cmm/m/it/10.53937 met\OT1/cmr/m/n/10.53937 1\OML/cmm/m/it/10.53937 s \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 kGIins \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 22 + \OML/cmm/m/it/10.53937 kentero \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 26 \OMS/cmsy/m/n/10.53937 ^^@ []\OML/cmm/m/it/10.53937 x\OT1/cmr/m/n/10.53937 28 + []\OML/cmm/m/it/10.53937 :
+ []
+
+
+Overfull \hbox (8.00656pt too wide) in paragraph at lines 321--323
+[]\TU/FandolSong-Regular(0)/m/n/10.53937 如 \TU/lmr/m/n/10.53937 ([][]2.20[][]), \TU/FandolSong-Regular(0)/m/n/10.53937 其 中 的 偏 微 分 方 程 本 质 上 是 一 个 扩 散 对 流 方 程\TU/lmr/m/n/10.53937 , \TU/FandolSong-Regular(0)/m/n/10.53937 其 解 $\OML/cmm/m/it/10.53937 '$ \TU/FandolSong-Regular(0)/m/n/10.53937 代 表 角 质 层 \TU/lmr/m/n/10.53937 (Stratum Corneum)
+ []
+
+[4] [5
 
 ]
 附录 A
@@ -1050,15 +1095,15 @@ Package fontspec Info: Font family 'FandolFang-Regular(0)' created for font
 (fontspec)             <->"[FandolFang-Regular.otf]/OT:language=dflt;"
 (fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
 
-[5
+[6
 
-] (./论文.bbl [6
+] (./论文.bbl [7
 
-] [7
+] [8
 
-]) [8] [9
+]) [9] [10
 
-] [10
+] [11
 
 ] (./论文.aux)
 
@@ -1069,12 +1114,12 @@ Package rerunfilecheck Info: File `论文.out' has not changed.
 (rerunfilecheck)             Checksum: 6092EC2AF7A95537848410CDBDB6C66B;951.
  ) 
 Here is how much of TeX's memory you used:
- 30872 strings out of 476919
- 624502 string characters out of 5825424
- 1172381 words of memory out of 5000000
- 50307 multiletter control sequences out of 15000+600000
+ 30891 strings out of 476919
+ 624616 string characters out of 5825424
+ 1171381 words of memory out of 5000000
+ 50326 multiletter control sequences out of 15000+600000
  407364 words of font info for 73 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  101i,11n,104p,466b,1203s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on 论文.pdf (14 pages).
+Output written on 论文.pdf (15 pages).

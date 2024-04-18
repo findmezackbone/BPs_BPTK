@@ -191,7 +191,7 @@ for epoch in range(num_epochs):
     with torch.no_grad():
         for val_inputs, val_labels in val_loader:
             val_outputs = model(val_inputs)
-            val_loss += criterion(val_outputs, val_labels)/len(val_oinputs)
+            val_loss += criterion(val_outputs, val_labels)/len(val_inputs)
 
     if val_loss / len(val_loader) <0.002:
         patience_on = 1

@@ -161,6 +161,6 @@ def test_NewData_NN(origin_para = paras , model = bestmodel, model_path = best_m
     mean_err28 = np.mean(err28,axis=0)
     mean_err= np.hstack((mean_abs_err,mean_rel_err))
 
-    return err28,loss,label_rel_err_mean,mean_err,mean_r2,result_FromNN_Total/np.shape(origin_para)[0],result_True_Total/np.shape(origin_para)[0],result_FromNN_Total_Adjusted/np.shape(origin_para)[0],result_True_Total_Adjusted/np.shape(origin_para)[0]
+    return mean_err28,loss,label_rel_err_mean,mean_err,mean_r2,result_FromNN_Total/np.shape(origin_para)[0],result_True_Total/np.shape(origin_para)[0],result_FromNN_Total_Adjusted/np.shape(origin_para)[0],result_True_Total_Adjusted/np.shape(origin_para)[0]
 
 
