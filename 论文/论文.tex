@@ -89,19 +89,20 @@
   framesep=1em % 设置代码与边框的距离
 }
 % 自定义多级标题格式
-\CTEXsetup[nameformat={\huge \heiti},titleformat={\huge \heiti},beforeskip={0.0cm},afterskip={1.2cm}]{chapter}
+%\CTEXsetup[nameformat={\huge \heiti},titleformat={\huge \heiti},beforeskip={0.0cm},afterskip={1.2cm}]{chapter}
 % 上一行为旧版的语法,可以选择注释上一行,取消注释下一行.
-%\ctexset { chapter = { nameformat={\huge \heiti  },titleformat={\huge \heiti  },beforeskip={0.0cm},afterskip={1.2cm} } } 
+\ctexset { chapter = { nameformat={\huge \heiti  },titleformat={\huge \heiti  },beforeskip={0.0cm},afterskip={1.2cm} } } 
 \usepackage{titlesec}
-\titleformat{\section}[block]{\Large\centering\heiti\bfseries}{\arabic{chapter}.\arabic{section}}{1em}{}[]
-\titleformat{\subsection}[block]{\large \heiti\bfseries}{\arabic{chapter}.\arabic{section}.\arabic{subsection}}{1em}{}[]
+\titleformat{\section}[block]{\Large\centering\heiti}{\arabic{chapter}.\arabic{section}}{1em}{}[]
+\titleformat{\subsection}[block]{\large \heiti}{\arabic{chapter}.\arabic{section}.\arabic{subsection}}{1em}{}[]
 \titleformat{\subsubsection}[block]{\normalsize\bfseries}{\arabic{subsection}-\alph{subsubsection}}{1em}{}[]
-\titleformat{\paragraph}[block]{\small\bfseries}{[\arabic{paragraph}]}{1em}{}[]
+\titleformat{\paragraph}[block]{\small}{[\arabic{paragraph}]}{1em}{}[]
 % 使用Ctex自带的\section的标题会出现问题,使用titlesec\chapter的标题要么无法显示汉字数字,要么无法显示字母A,只能做缝合怪了!
 
 \usepackage{gbt7714}
 % 将参考文献的格式更改为与国标《文后参考文献著录规则》GB/T 7714-2005一致.
 % 需要使用其它格式时请将该行注释, 并在参考文献部分将指定语句取消注释.
+\usepackage{tikz}
 
 
 %导言区设置完毕
@@ -215,115 +216,197 @@ Hu等人文章的参数优化部分中使用了传统的优化算法, 在计算�
 
 \chapter{PBPK模型的建立}
 Hu等人\cite{11}在github中共享了论文中的数据以及部分代码\cite{12}. 共享中包含了PBPK模型和参数优化所使用的受试者真实数据等, 本章内容参照了这些工作.该模型对多种双酚类物质都适用, 本文后续只讨论
-双酚S(BPS)的情形.
+双酚S(BPS)的情形, 且只考虑皮肤暴露途径的外源BPS输入.
 \section{模型的实验与生理背景}
-Hu\cite{11}等人通过使用含有氘代BPS(BPS-d8)的热敏纸摩擦手指的方式令受试者暴露于BPS.受试者接触热敏纸共$\frac{1}{60}h$, 脱离热敏纸后再等待$2h$, $\frac{13}{6}h$时彻底清洗皮肤,清空表皮储仓内的BPS.
+Hu\cite{11}等人通过使用含有氘代BPS(BPS-d8)的热敏纸摩擦手指的方式令受试者暴露于BPS.受试者接触热敏纸共$\frac{1}{6}h$, 脱离热敏纸后再等待$2h$, $\frac{13}{6}h$时彻底清洗皮肤,清空表皮储仓内的BPS.
 在接触实验开始的$72h$, 受试者被要求每$4.3h$左右提供一次尿液样本, 以检测尿液中的BPS与BPS-g的含量.
 在另一个BPS人体接触实验中, Khmiri等人\cite{13}同时监测了受试者的血液与尿液. 接触BPS起的前$2h$内每$0.25h$取样一次血液, 第2小时至第8小时内每$1h$取样一次血液, 之后分别在$10h$, $24h$, $48h$时取样一次血液.
 尿液的取样节点不是固定的, 而是将接触BPS后$48h$分成了11个时段. 受试者在单个时段内的所有排尿都会被收集,作为该时段标签下的一个整体取样. 
 
-从受试者与热敏纸接触时起, 热敏纸内的BPS通过手指表皮储存进入毛囊和角质层, 接着扩散进入活性表皮层, 再通过毛囊和活性表皮层与内环境的交换进入体循环. 血浆携带BPS通过血液交换将
-其送入肝脏, 脑, 脂肪, 性腺等组织器官. 部分BPS在肝脏反应为BPS-g, 未反应的BPS会有部分通过血液交换从肝脏进入小肠, 部分BPS在小肠反应为BPS-g或BPS-s. 体内的BPS-g与BPS-s不会再反应为其他物质, 这两种物质
-会像始终未发生反应的BPS一样, 随血液进入肾脏, 最终通过尿液排出. 
+从受试者与热敏纸接触时起, 热敏纸内的BPS通过手指表皮储存进入毛囊和角质层, 接着扩散进入活性表皮层, 再通过毛囊和活性表皮层与内环境的交换进入体循环, 平行分层皮肤仓室内的物质交换情况的图片形式如图\ref{分层皮肤}. 血浆携带BPS通过血液交换将
+其送入肝脏, 脑, 脂肪, 性腺等组织器官. 部分BPS在肝脏反应为BPS-g或BPS-s.体内的BPS-g与BPS-s不会再反应为其他物质, 这两种物质
+会像始终未发生反应的BPS一样, 最终随血液进入肾脏, 通过尿液排出. 在只有皮肤暴露途径吸收外源BPS的情况下, 不考虑BPS的肝肠循环过程, 认为胃肠部不存在BPS, 且小肠不发生BPS葡萄苷酸化为BPS-g的反应. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.6]{./figs/p1.png}
+  \caption{平行分层皮肤仓室的简化图解(箭头代表BPS的可能运输方向)}
+  \label{分层皮肤}
+\end{figure}
 
  
 \section{模型的数学形式}
-本文中的PBPK模型共有个14仓室,包括:皮肤表皮储仓, 角质层, 毛囊, 活性表皮层, 胃, 小肠, 未暴露于化学品的皮肤, 血浆, 脂肪, 性腺, 肝脏, 脑, 血流丰富组织, 血流缓慢组织. 
-根据各仓室之间的关系以及BPS在各仓室内的生化反应, 得到16个解关于时间$t$变化的常微分方程与1个偏微分方程. 这些微分方程共同构成了BPS的带平行分层皮肤仓室的PBPK模型.  
+本文中的PBPK模型共有个14仓室,包括:暴露皮肤\{皮肤表皮储仓, 角质层, 毛囊, 活性表皮层\}, 胃, 小肠, 未暴露于化学品的皮肤, 血浆, 脂肪, 性腺, 肝脏, 脑, 血流丰富组织, 血流缓慢组织.
+其中暴露的含义为“在实验中与BPS接触”.
+根据各仓室之间的关系以及BPS在各仓室内的生化反应, 得到19个解关于时间$t$变化的常微分方程与1个偏微分方程. 这些微分方程共同构成了BPS的带平行分层皮肤仓室的PBPK模型.  
 
-\begin{multline}\label{eq10}
-  \frac{dx10}{dt} = -\left(\frac{Pfo \times  AEXP \times  FEXP}{V_{TFo}  \times  HFo_{well} }
-  +\frac{Qskin \times  AEXP \times  0.25}{BSA \times  V_{TFo}  \times  pskin}\right)x10\\
-  +\frac{Pfo \times  AEXP \times  FEXP}{V_{well}  }x11+\frac{Qskin \times  AEXP \times  0.25}{BSA \times  V_{plasma}} x17.
-\end{multline}
+\subsubsection*{角质层内BPS的浓度$\varphi(x,t)$}
+如(\ref{eq0}), 其中的偏微分方程本质上是一个扩散对流方程,其解$\varphi$代表角质层(Stratum Corneum)中BPs含量, 自变量$x$代表角质层的深度, 自变量$t$代表时间, $DSC$代表BPS在角质层中的有效扩
+散系数$(cm^2/h)$, $u_1$代表BPS随脱屑向皮肤表面转移的速度$(cm/min)$, $T_{SC}$代表角质层的深度$(um)$, $HSC_{well}$代表角质层和皮肤表皮储仓之间的分配系数, 
+$C_{well}(t)$代表皮肤表皮储仓在t时刻的BPS浓度$(nmol/cm^3)$, $HSC_{VE}$代表角质层和活性表皮之间的分配系数, $C_{VE}(t)$代表活性表皮在t时刻的BPS浓度$(nmol/cm^2)$.
 
-\begin{multline}\label{eq11}
-  \frac{dx11}{dt} = \left(\frac{DSC \times  AEXP \times  (1-FEXP)}{SCDX} x1-\frac{Pfo \times  AEXP \times  FEXP}{V_{TFo} \times  HFo_{well}} x10\right.\\
-  \left. -\left(\left(\frac{DSC \times  HSC_{well}}{V_{well} \times  SCDX}-\frac{u_1 \times  HSC_{well}}{V_{well} }\right) \times  AEXP \times  (1-FEXP) \right.\right.\\
-  \left.\left.-\frac{Pfo \times  AEXP \times  FEXP}{V_{well}} \right)x11+f_1 (t) \right) \times  ON.
-\end{multline}
-
-
-\begin{multline}\label{eq12}
-  \frac{dx12}{dt}=\frac{DSC \times  AEXP \times  (1-FEXP)}{SCDX} x9+\left(\left(\frac{-DSC \times  HSC_{VE}}{V_{TVE}  \times  SCDX}-\frac{u_1  \times  HSC_{VE}}{V_{TVE} }\right)\times \right.\\ 
-   \left.AEXP \times  (1-FEXP)-\frac{Qskin \times  AEXP \times  0.75}{BSA \times  V_{TVE}  \times  pskin}\right)x12+\frac{Qskin \times  AEXP \times  0.75}{BSA \times  V_{plasma} } x17.
-\end{multline}
-
-\begin{equation}\label{eq13}
-  \frac{dx13}{dt}=-(k_0+ge)x13+f_2 (t).
+\begin{equation}\label{eq0}
+  \left\{\begin{aligned}
+    \frac{\partial \varphi(x,t) }{\partial t^2} &= DSC \frac{\partial^2 \varphi(x,t)}{\partial x^2} + u_1 \frac{\partial \varphi(x,t)}{\partial t}, && 0\leq x \geq T_{SC}, \quad t\geq 0\\
+    \varphi(0,t) &= HSC_{well} \times C_{well}(t), &&t\geq 0\\
+    \varphi(T_{SC},t) &= HSC_{VE} \times C_{VE}(t), &&t\geq 0\\
+    \varphi(x,0) &= 0, &&0\leq x \geq T_{SC}\\
+  \end{aligned}\right.
+  \end{equation}
+\noindent 使用空间离散化的办法, 将角质层视作一个长度为$T_{SC}$的线段, 将该线段等距分为$10$段, 共$11$个节点$\{x_i\}_{0\leq i\leq 10}$. 其中第一个节点$x_0$视作皮肤表皮储仓, 最后一个节点$x_{10}$视作活性表皮.
+$x_1$至$x_9$九个节点处BPS浓度的一阶与二阶空间导数值通过中心差分法近似表示: 
+\begin{equation}\label{eq1.1}
+  \left\{\begin{aligned}
+    \frac{\partial^2}{\partial x^2}\varphi(x_j, t) &\approx \frac{\varphi_{j+1}(t) - 2\varphi_j(t) + \varphi_{j-1}(t)}{(\Delta x)^2}\\
+    \frac{\partial}{\partial x}\varphi(x_j, t) &\approx \frac{\varphi_{j+1}(t) - \varphi_{j-1}(t)}{2\Delta x}\\
+  \end{aligned}\right.
+  \end{equation}
+  \noindent 整理后得到这九个节点处BPS浓度关于时间的一阶导数值如(\ref{eq1}), $i=2,3,\dots,8$与(\ref{eq2}),(\ref{eq3}).其中$SCDX = \frac{T_{SC}}{10}$, 
+  $V_{well}$为暴露皮肤表面储仓沉积体积$(cm^3)$, $A_{well}(t)$为皮肤表皮储仓在t时刻的BPS含量$(nmol)$,$V_{TVE}$为暴露皮肤活性表皮层体积$(cm^3)$, $A_{VE}(t)$为活性表皮在t时刻的BPS含量$(nmol)$.
+  节点$x_1$和$x_9$处的时间导数值与其他节点不同的原因是: 与它们相邻的部分涉及到皮肤的不同层室,需要利用BPS在不同层室组织间
+  的分配系数来确定两个不同层室间BPS的转移情况. 
+\begin{equation}\label{eq1}
+  \frac{dC_{SCi}(t)}{dt}=\left(\frac{DSC}{SCDX^2} -\frac{u_1}{2 \times  SCDX}\right)C_{SCi-1}(t)-\frac{2 \times DSC}{SCDX^2}  C_{SCi}(t)+\left(\frac{DSC}{SCDX^2}+\frac{u_1}{2 \times  SCDX}\right)C_{SCi+1}(t).
 \end{equation}
 
+\begin{multline}\label{eq2}
+  \frac{dC_{SC1}(t)}{dt}=\left(\frac{DSC \times  HSC_{well}}{V_{well}  \times  SCDX^2 }-\frac{u_1  \times  HSC_{well}}{V_{well}  \times  2 \times  SCDX}\right)A_{well}(t)   -\frac{2 \times DSC}{SCDX^2}  C_{SC1}(t)\\
+  +\left(\frac{DSC}{SCDX^2}+\frac{u_1}{2 \times  SCDX}\right)C_{SC2}(t).
+\end{multline}
+
+\begin{multline}\label{eq3}
+  \frac{dC_{SC9}(t)}{dt}=\left(\frac{DSC}{SCDX^2} -\frac{u_1}{2 \times  SCDX}\right)C_{SC8}(t)-\frac{2 \times DSC}{SCDX^2}  C_{SC9}(t)\\
+  +\left(\frac{DSC \times  HSC_{VE}}{V_{TVE}  \times  SCDX^2 }-\frac{u_1  \times  HSC_{VE}}{V_{TVE}  \times  2 \times  SCDX}\right)A_{VE}(t) .
+\end{multline}
+
+接下来介绍模型中余下的19个解关于时间$t$变化的常微分方程, 此部分内方程中出现的变量与常量的含义详情见附录\ref{app:B}.
+\subsubsection*{毛囊内BPS的含量$A_{Fo}(t)$}
+见(\ref{eq10}), 方程等式两端为$A_{Fo}(t)$的一阶导数. 在该PBPK模型中, 毛囊与皮肤表皮储仓和血液之间有着直接的物质交换, 故毛囊内BPS含量的增减与表皮储仓或血浆中BPS的含量有关, BPS在宏观上遵循着顺浓度梯度运输的
+规则在不同组织内交换. 同时, 毛囊内BPS含量的增减会受到自身的限制, 当毛囊内BPS浓度高于血浆或表皮储仓中BPS浓度时, BPS会顺浓度梯度进入浓度小的组织.
+\begin{multline}\label{eq10}
+  \frac{dA_{Fo}(t)}{dt} = -\left(\frac{Pfo \times  AEXP \times  FEXP}{V_{TFo}  \times  HFo_{well} }
+  +\frac{Qskin \times  AEXP \times  0.25}{BSA \times  V_{TFo}  \times  pskin}\right)A_{Fo}(t)\\
+  +\frac{Pfo \times  AEXP \times  FEXP}{V_{well}  }A_{well}(t)+\frac{Qskin \times  AEXP \times  0.25}{BSA \times  V_{plasma}} A_{plasma}(t).
+\end{multline}
+
+\subsubsection*{皮肤表皮储仓内BPS的含量$A_{well}(t)$}
+见(\ref{eq11}), 方程等式两端为$A_{well}(t)$的一阶导数. 类似(\ref{eq10}), 等式右端表现出了表皮储仓与节点$x_1$处的角质层和毛囊之间的顺浓度梯度物质交换关系. 同时, 皮肤表皮储存作为在实验
+中直接和外源BPS接触的部位, 它要接受一个剂量为$f_1 (t)$(单位:nmol)的持续的外源BPS输入. 当$t>Time_{add}=\frac{1}{6}h$时, 皮肤停止接触外源BPS, $f_1 (t)=0$. 
+等式右端有一个因数$ON(t)$, 当$t\leq Time_{expose}=\frac{13}{6}h$时, $ON(t)=1$, 皮肤处于BPS暴露状态;当$t> Time_{expose}$时, $ON(t)=0$, 暴露过BPS的皮肤被彻底清洗, 表皮储仓清空, 后续$A_{well}(t)$的值与一阶
+导数值都为0.
+\begin{multline}\label{eq11}
+  \frac{dA_{well}(t)}{dt} = \left(\frac{DSC \times  AEXP \times  (1-FEXP)}{SCDX} C_{SC1}(t)-\frac{Pfo \times  AEXP \times  FEXP}{V_{TFo} \times  HFo_{well}} A_{Fo}(t)\right.\\
+  \left. -\left(\left(\frac{DSC \times  HSC_{well}}{V_{well} \times  SCDX}-\frac{u_1 \times  HSC_{well}}{V_{well} }\right) \times  AEXP \times  (1-FEXP) \right.\right.\\
+  \left.\left.-\frac{Pfo \times  AEXP \times  FEXP}{V_{well}} \right)A_{well}(t)+f_1 (t) \right) \times  ON(t).
+\end{multline}
+
+\subsubsection*{活性表皮层内BPS的含量$A_{VE}(t)$}
+见(\ref{eq12}), 方程等式两端为$A_{VE}(t)$的一阶导数. 类似(\ref{eq10}), 等式右端表现出了活性表皮层与节点$x_9$处的角质层, 毛囊和血浆之间的顺浓度梯度物质交换关系. 
+\begin{multline}\label{eq12}
+  \frac{dA_{VE}(t)}{dt}=\frac{DSC \times  AEXP \times  (1-FEXP)}{SCDX} C_{SC9}(t)+\left(\left(\frac{-DSC \times  HSC_{VE}}{V_{TVE}  \times  SCDX}-\frac{u_1  \times  HSC_{VE}}{V_{TVE} }\right)\times \right.\\ 
+   \left.AEXP \times  (1-FEXP)-\frac{Qskin \times  AEXP \times  0.75}{BSA \times  V_{TVE}  \times  pskin}\right)A_{VE}(t)+\frac{Qskin \times  AEXP \times  0.75}{BSA \times  V_{plasma} } A_{plasma}(t).
+\end{multline}
+
+\subsubsection*{胃部BPS的含量$A_{ST}(t)$}
+见(\ref{eq13}), 方程等式两端为$A_{ST}(t)$的一阶导数. 等式右端的第一个加数代表胃部BPS向肝脏和小肠转移的过程, 第二个加数是剂量为$f_2 (t)$(单位:nmol)的通过口服吸收的外源BPS. 但由于本文不考虑
+口服吸收BPS的情形, $f_2 (t)\equiv 0$, 可认为胃部内始终不含有BPS或它的衍生物.
+\begin{equation}\label{eq13}
+  \frac{dA_{ST}(t)}{dt}=-(k_0+ge)A_{ST}(t)+f_2 (t).
+\end{equation}
+\subsubsection*{未暴露于BPS的皮肤, 脂肪, 性腺, 脑部, 血流丰富组织, 血流缓慢组织的BPS的含量}
+见(\ref{eq14})至(\ref{eq20}), 方程等式两端为小标题中组织器官内BPS含量的一阶导数. 这些等式的右端一致地代表了对应组织器官与血浆之间的顺浓度梯度物质交换关系. 
 \begin{multline}\label{eq14}
-  \frac{dx14}{dt}=\frac{-Qskin \times  (1-\frac{AEXP}{BSA})}{(V_{skin}-V_{TSC}-V_{TVE}-V_{TFo}) \times  pskin} x14+\frac{Qskin \times  (1-\frac{AEXP}{BSA})}{V_{plasma}}  x17.
+  \frac{dA_{skin}(t)}{dt}=\frac{-Qskin \times  (1-\frac{AEXP}{BSA})}{(V_{skin}-V_{TSC}-V_{TVE}-V_{TFo}) \times  pskin} A_{skin}(t)+\frac{Qskin \times  (1-\frac{AEXP}{BSA})}{V_{plasma}}  A_{plasma}(t).
 \end{multline}
 
 \begin{equation}\label{eq15}
-  \frac{dx15}{dt}=\frac{-Qfat}{V_{fat}  \times  pfat} x15+\frac{Qfat}{V_{plasma}}  x17.
+  \frac{dA_{fat}(t)}{dt}=\frac{-Qfat}{V_{fat}  \times  pfat} A_{fat}(t)+\frac{Qfat}{V_{plasma}}  A_{plasma}(t).
 \end{equation}
 
 \begin{equation}\label{eq16}
-  \frac{dx16}{dt}=\frac{-Qgonad}{V_{gonad}  \times  pgonad} x16+\frac{Qgonad}{V_{plasma}}  x17.
+  \frac{dA_{gonad}(t)}{dt}=\frac{-Qgonad}{V_{gonad}  \times  pgonad} A_{gonad}(t)+\frac{Qgonad}{V_{plasma}}  A_{plasma}(t).
 \end{equation}
 
-\begin{multline}\label{eq17}
-  \frac{dx17}{dt}=\frac{(Qc-Kurinebpa) \times  Qskin \times  \frac{AEXP}{BSA} \times  0.25}{Qc \times  V_{TFo}  \times  pskin} x10+\frac{(Qc-Kurinebpa) \times  Qskin \times  \frac{AEXP}{BSA} \times  0.75}{Qc \times  V_{TVE}  \times  pskin} x12\\
-  +\frac{(Qc-Kurinebpa) \times  Qskin \times  (1-\frac{AEXP}{BSA})}{Qc \times  (V_{skin}-V_{TSC}-V_{TVE}-V_{TFo}) \times  pskin} x14+\frac{(Qc-Kurinebpa) \times  Qfat}{Qc \times  V_{fat}  \times  pfat} x15\\
-  +\frac{(Qc-Kurinebpa) \times  Qgonad}{Qc \times  V_{gonad}  \times  pgonad} x16-\frac{Qc}{V_{plasma}}  x17+\frac{(Qc-Kurinebpa) \times  Qbrain}{Qc \times  V_{brain} \times  pbrain} x18\\
-  +\frac{(Qc-Kurinebpa) \times  Qrich}{Qc \times  V_{rich}  \times  prich} x19+\frac{(Qc-Kurinebpa) \times  Qslow}{Qc \times  V_{slow}  \times  pslow} x20
-  +\frac{(Qc-Kurinebpa) \times  Qliver}{Qc \times  V_{liver} \times  pliver} x24.
-\end{multline}
-
 \begin{equation}\label{eq18}
-  \frac{dx18}{dt}=\frac{-Qbrain}{V_{brain}  \times  pbrain} x18+\frac{Qbrain}{V_{plasma}}  x17.
+  \frac{dA_{brain}(t)}{dt}=\frac{-Qbrain}{V_{brain}  \times  pbrain} A_{brain}(t)+\frac{Qbrain}{V_{plasma}}  A_{plasma}(t).
 \end{equation}
 
 \begin{equation}\label{eq19}
-  \frac{dx19}{dt}=\frac{-Qrich}{V_{rich}  \times  prich} x19+\frac{Qrich}{V_{plasma}}  x17.
+  \frac{dA_{rich}(t)}{dt}=\frac{-Qrich}{V_{rich}  \times  prich} A_{rich}(t)+\frac{Qrich}{V_{plasma}}  A_{plasma}(t).
 \end{equation}
 
 \begin{equation}\label{eq20}
-  \frac{dx20}{dt}=\frac{-Qslow}{V_{slow}  \times  pslow} x20+\frac{Qslow}{V_{plasma}}  x17.
+  \frac{dA_{slow}(t)}{dt}=\frac{-Qslow}{V_{slow}  \times  pslow} A_{slow}(t)+\frac{Qslow}{V_{plasma}}  A_{plasma}(t).
 \end{equation}
 
+\subsubsection*{血浆内的BPS的含量}
+见(\ref{eq17}), 方程等式两端为血浆内BPS含量的一阶导数. 血浆是体循环的重要组成部分, 该PBPK模型内的各仓室由血浆连接起来, 几乎每个仓室都与血浆有直接的物质交换, BPS从组织器官内进入血浆, 血浆又
+携带着BPS进入各个组织器官. 等式的右端代表了血浆与毛囊, 活性表皮层, 未直接暴露于BPS的皮肤组织, 脂肪, 性腺, 脑部, 血流丰富组织, 血流缓慢组织, 肝脏之间的顺浓度梯度物质交换关系. 
+等式右端除了$A_{plasma}(t)$项外每一项都有因数$Qc-Kurinebps$, 其中$Qc$是心脏血流速度$(L/h)$, $Kurinebps$是BPS的尿液排泄参数$(L/h)$, 它们相减代表了每轮血液循环净剩的携带了BPS的血浆量.
+\begin{multline}\label{eq17}
+  \frac{dA_{plasma}(t)}{dt}=\frac{(Qc-Kurinebps) \times  Qskin \times  \frac{AEXP}{BSA} \times  0.25}{Qc \times  V_{TFo}  \times  pskin} A_{Fo}(t)\\
+  +\frac{(Qc-Kurinebps) \times  Qskin \times  \frac{AEXP}{BSA} \times  0.75}{Qc \times  V_{TVE}  \times  pskin} A_{VE}(t)\\
+  +\frac{(Qc-Kurinebps) \times  Qskin \times  (1-\frac{AEXP}{BSA})}{Qc \times  (V_{skin}-V_{TSC}-V_{TVE}-V_{TFo}) \times  pskin} A_{skin}(t)\\
+  +\frac{(Qc-Kurinebps) \times  Qfat}{Qc \times  V_{fat}  \times  pfat} A_{fat}(t)
+  +\frac{(Qc-Kurinebps) \times  Qgonad}{Qc \times  V_{gonad}  \times  pgonad} A_{gonad}(t)\\
+  -\frac{Qc}{V_{plasma}}  A_{plasma}(t)+\frac{(Qc-Kurinebps) \times  Qbrain}{Qc \times  V_{brain} \times  pbrain} A_{brain}(t)\\
+  +\frac{(Qc-Kurinebps) \times  Qrich}{Qc \times  V_{rich}  \times  prich} A_{rich}(t)
+  +\frac{(Qc-Kurinebps) \times  Qslow}{Qc \times  V_{slow}  \times  pslow} A_{slow}(t)\\
+  +\frac{(Qc-Kurinebps) \times  Qliver}{Qc \times  V_{liver} \times  pliver} A_{liver}(t).
+\end{multline}
+
+\subsubsection*{胃肠部的BPS-g的含量$A_{GIBPSg}(t)$与胃肠部的BPS-s的含量$A_{GIBPSs}(t)$}
+见(\ref{eq21}), 方程等式两端为胃肠部的BPS-g的含量的一阶导数. 等式右端的第二个加数代表了小肠内的BPS葡萄苷酸化为BPS-g的过程, 第一个加数代表了BPS-g从胃肠部进入血液的过程. 
+在本文中, 没有口服吸收途径, 认为胃肠部不存在BPS-g或BPS-s. 对于(\ref{eq22})有类似的说明, 不同在于小肠内几乎不发生BPS硫酸盐化为BPS-s的反应.
 \begin{equation}\label{eq21}
-  \frac{dx21}{dt}=-kGIing \times  x21+\frac{Vmaxgutg \times  x23}{enterocytes \times  Kmgutg+x23+\frac{x23^2}{enterocytes \times  Ksigutg}}.
+  \frac{dA_{GIBPSg}(t)}{dt}=-kGIing \times  A_{GIBPSg}(t)+\frac{Vmaxgutg \times  A_{SI}(t)}{enterocytes \times  Kmgutg+A_{SI}(t)+\frac{A_{SI}(t)^2}{enterocytes \times  Ksigutg}}.
 \end{equation}
 
 \begin{equation}\label{eq22}
-  \frac{dx22}{dt}=-kGIins \times  x22+\frac{Vmaxguts \times  x23}{enterocytes \times  Kmguts+x23}.
+  \frac{dA_{GIBPSs}(t)}{dt}=-kGIins \times  A_{GIBPSs}(t)+\frac{Vmaxguts \times  A_{SI}(t)}{enterocytes \times  Kmguts+A_{SI}(t)}.
 \end{equation}
-
-\begin{equation}\label{eq23}
-  \frac{dx23}{dt}=ge \times  x13-k1 \times  x23-\frac{Vmaxgutg \times  x23}{enterocytes \times  Kmgutg+x23+\frac{x23^2}{enterocytes \times  Ksigutg}}-\frac{Vmaxguts \times  x23}{enterocytes \times  Kmguts+x23}.
-\end{equation}
-
+\subsubsection*{小肠的BPS的含量$A_{SI}(t)$}
+见(\ref{eq23}), 方程等式两端为小肠的BPS的含量的一阶导数. 等式右端的第一个加数代表了口服BPS时胃部BPS进入小肠的过程, 第二个加数代表了小肠内部分BPS进入肝脏的过程, 后两个加数代表了部分BPS在小肠内葡萄苷酸化为BPS-g与硫酸盐化为BPS-s的反应过程
+(小肠内几乎不发生BPS磷酸盐化反应, 此处对应的最大反应速率$Vmaxguts$非常小). 
+在本文中, 没有口服吸收BPS的途径, 认为小肠内不存在BPS及其衍生物. 
+\begin{multline}\label{eq23}
+  \frac{dA_{SI}(t)}{dt}=ge \times  A_{ST}(t)-k1 \times  A_{SI}(t)-\frac{Vmaxgutg \times  A_{SI}(t)}{enterocytes \times  Kmgutg+A_{SI}(t)+\frac{A_{SI}(t)^2}{enterocytes \times  Ksigutg}}\\
+  -\frac{Vmaxguts \times  A_{SI}(t)}{enterocytes \times  Kmguts+A_{SI}(t)}.
+\end{multline}
+\subsubsection*{肝脏的BPS的含量$A_{liver}(t)$}
+见(\ref{eq24}), 方程等式两端为肝脏的BPS的含量的一阶导数. 等式右端的前两个加数分别代表了口服BPS时胃部和小肠内BPS进入肝脏的过程, 第三第四个加数代表了肝脏与血浆之间的顺浓度梯度物质交换关系, 第五第六个加数代表了
+BPS-g与BPS-s引起肝脏内部分BPS发生肝肠循环的过程, 后两个加数代表了部分BPS在肝脏内葡萄苷酸化为BPS-g与硫酸盐化为BPS-s的反应过程. 
 \begin{multline}\label{eq24}
-  \frac{dx24}{dt}=k0 \times  x13-\frac{Qliver}{V_{plasma} } x17+k1 \times  x23-\frac{Qliver}{V_{liver}  \times  pliver} x24+kenterobpag \times  x25+kenterobpas \times  x26\\
-  -\frac{Vmaxliver \times  x24}{V_{liver}  \times  pliver \times  Kmliver+x24}-\frac{Vmaxlivers \times  x24}{V_{liver}  \times  pliver \times  Kmlivers+x24}.
+  \frac{dA_{liver}(t)}{dt}=k0 \times  A_{ST}(t)+k1 \times  A_{SI}(t)+\frac{Qliver}{V_{plasma} } A_{plasma}(t)-\frac{Qliver}{V_{liver}  \times  pliver} A_{liver}(t)\\
+  +kenterobpsg \times  A_{BPSg\_delay}(t)+kenterobpss \times  A_{BPSs\_delay}(t)\\
+  -\frac{Vmaxliverg \times  A_{liver}(t)}{V_{liver}  \times  pliver \times  Kmliverg+A_{liver}(t)}-\frac{Vmaxlivers \times  A_{liver}(t)}{V_{liver}  \times  pliver \times  Kmlivers+A_{liver}(t)}.
 \end{multline}
 
-\begin{equation}\label{eq25}
-  \frac{dx25}{dt}=met2g \times  kGIing \times  x21-(kentero+k4_{IV}+kenterobpag) \times  x25+\frac{met2g \times  Vmaxliver \times  x24}{V_{liver}  \times  pliver \times  Kmliver+x24}.
-\end{equation}
+\subsubsection*{发生肝肠循环/小肠内的BPS-g/BPS-s的量$A_{BPSg\_delay}(t)$/$A_{BPSs\_delay}(t)$}
+见(\ref{eq25}), 方程等式两端为发生肝肠循环的BPS-g的量的一阶导数. 等式右端的第一个加数代表了胃肠部BPS-g进入血浆后再进入肝肠循环的过程,第二个加数代表了肝肠循环中的BPS-g进入血液循环的过程, 最后一个加数
+代表了肝脏中BPS新转化成的BPS-g进入肝肠循环的过程. 对于发生肝肠循环的BPS-s的量的方程(\ref{eq26}), 有着完全一致的描述.
+\begin{multline}\label{eq25}
+  \frac{dA_{BPSg\_delay}(t)}{dt}=met2g \times  kGIing \times  A_{GIBPSg}(t)-(kentero+k4_{IV}+kenterobpsg) \times  A_{BPSg\_delay}(t)\\
+  +\frac{met2g \times  Vmaxliverg \times  A_{liver}(t)}{V_{liver}  \times  pliver \times  Kmliverg+A_{liver}(t)}.
+\end{multline}
 
-\begin{equation}\label{eq26}
-  \frac{dx26}{dt}=met2s \times  kGIins \times  x22-(kentero+k4_{IV}+kenterobpas) \times  x26+\frac{met2s \times  Vmaxlivers \times  x24}{V_{liver}  \times  pliver \times  Kmlivers+x24}.
-\end{equation}
+\begin{multline}\label{eq26}
+  \frac{dA_{BPSs\_delay}(t)}{dt}=met2s \times  kGIins \times  A_{GIBPSs}(t)-(kentero+k4_{IV}+kenterobpss) \times  A_{BPSs\_delay}(t)\\
+  +\frac{met2s \times  Vmaxlivers \times  A_{liver}(t)}{V_{liver}  \times  pliver \times  Kmlivers+A_{liver}(t)}.
+\end{multline}
 
-\begin{equation}\label{eq27}
-  \frac{dx27}{dt}=met1g \times  kGIing \times  x21+kentero \times  x25-\frac{Kurinebpag}{Vbodyg+10^{-34} } x27+\frac{met1g \times  Vmaxliver \times  x24}{V_{liver}  \times  pliver \times  Kmliver+x24}.
-\end{equation}
+\subsubsection*{人体内BPS-g/BPS-s的总含量$A_{BPSg}(t)$/$A_{BPSs}(t)$}
+见(\ref{eq27}), 方程等式两端为人体内BPS-g的总含量的一阶导数. 等式右端的第一个加数代表了口服摄入BPS时, 胃肠部产生的BPS-g进入血液后未进入肝肠循环的部分BPS-g, 第二个加数代表了正在进行肝肠循环的BPS-g, 第三个
+加数代表了BPS-g随尿液排出人体的过程, 最后一个加数代表了BPS通过肝脏转化成的BPS-g进入血液后未进入肝肠循环的部分BPS-g.(\ref{eq28})与之相似.
 
-\begin{equation}\label{eq28}
-  \frac{dx28}{dt}=met1s \times  kGIins \times  x22+kentero \times  x26-\frac{Kurinebpas}{Vbodys+10^{-34}} x28+\frac{met1s \times  Vmaxlivers \times  x24}{V_{liver}  \times  pliver \times  Kmlivers+x24}.
-\end{equation}
+\begin{multline}\label{eq27}
+  \frac{dA_{BPSg}(t)}{dt}=met1g \times  kGIing \times  A_{GIBPSg}(t)+kentero \times  A_{BPSg\_delay}(t)-\frac{Kurinebpsg}{Vbodyg+10^{-34} } A_{BPSg}(t)\\
+  +\frac{met1g \times  Vmaxliverg \times  A_{liver}(t)}{V_{liver}  \times  pliver \times  Kmliverg+A_{liver}(t)}.
+\end{multline}
 
-如(\ref{eq1}), 其中的偏微分方程本质上是一个扩散对流方程,其解$\varphi$代表角质层(Stratum Corneum)中BPs含量, 自变量$x$代表角质层的深度, 自变量$t$代表时间, $DSC$代表BPS在角质层中的有效扩
-散系数, $u_1$代表BPS随脱屑向皮肤表面转移的速度, $T_{SC}$代表角质层的深度.
-\begin{equation}\label{eq1}
-\frac{\partial \varphi(x,t) }{\partial t^2} = DSC \frac{\partial^2 \varphi(x,t)}{\partial x^2} + u_1 \frac{\partial \varphi(x,t)}{\partial t}, \quad 0\leq x <T_{SC}, \quad t\geq 0
-\end{equation}
-
+\begin{multline}\label{eq28}
+  \frac{dA_{BPSs}(t)}{dt}=met1s \times  kGIins \times  A_{GIBPSs}(t)+kentero \times  A_{BPSs\_delay}(t)-\frac{Kurinebpss}{Vbodys+10^{-34}} A_{BPSs}(t)\\
+  +\frac{met1s \times  Vmaxlivers \times  A_{liver}(t)}{V_{liver}  \times  pliver \times  Kmlivers+A_{liver}(t)}.
+\end{multline}
 
 
 \section{PBPK模型的求解}
@@ -340,7 +423,111 @@ Hu\cite{11}等人通过使用含有氘代BPS(BPS-d8)的热敏纸摩擦手指的�
 \begin{lstlisting}[language=PYTHON]
 
 \end{lstlisting}
+\chapter{PBPK模型物理量名称-含义对照表}
+\CTEXsetup[format={\Large\bfseries}]{section}
+\section*{模型中待求解变量}
+\label{app:B}
+\noindent$C_{SCi}(t)$  {\hfill 暴露皮肤组织的深度为$i\times \frac{T_{SC}}{10}$的角质层在t时刻的BPS浓度$(nmol/cm^3)$}\\
+$A_{Fo}(t)$ {\hfill  暴露皮肤组织的毛囊在t时刻的BPS含量$(nmol)$}\\
+$A_{well}(t)${\hfill 暴露皮肤组织的表皮储仓在t时刻的BPS含量$(nmol)$}\\
+$A_{VE}(t)${\hfill 暴露皮肤组织的活性表皮在t时刻的BPS含量$(nmol)$}\\
+$A_{ST}(t)${\hfill 胃部在t时刻的BPS含量$(nmol)$}\\
+$A_{skin}(t)${\hfill 未暴露皮肤组织在t时刻的BPS含量$(nmol)$}\\
+$A_{fat}(t)${\hfill 脂肪组织在t时刻的BPS含量$(nmol)$}\\
+$A_{gonad}(t)${\hfill 性腺在t时刻的BPS含量$(nmol)$}\\
+$A_{plasma}(t)${\hfill 血浆在t时刻的BPS含量$(nmol)$}\\
+$A_{brain}(t)${\hfill 脑部在t时刻的BPS含量$(nmol)$}\\
+$A_{rich}(t)${\hfill 血流丰富组织在t时刻的BPS含量$(nmol)$}\\
+$A_{slow}(t)${\hfill 血流缓慢组织在t时刻的BPS含量$(nmol)$}\\
+$A_{GIBPSg}(t)${\hfill 胃肠部在t时刻的BPS-g含量$(nmol)$}\\
+$A_{GIBPSs}(t)${\hfill 胃肠部在t时刻的BPS-s含量$(nmol)$}\\
+$A_{SI}(t)${\hfill 小肠在t时刻的BPS含量$(nmol)$}\\
+$A_{liver}(t)${\hfill 肝脏在t时刻的BPS含量$(nmol)$}\\
+$A_{BPSg\_delay}(t)${\hfill 发生了肝肠循环的BPS-g的量/小肠在t时刻的BPS-g含量$(nmol)$}\\
+$A_{BPSs\_delay}(t)${\hfill 发生了肝肠循环的BPS-s的量/小肠在t时刻的BPS-s含量$(nmol)$}\\
+$A_{BPSg}(t)${\hfill 整个机体在t时刻的BPS-g含量$(nmol)$}\\
+$A_{BPSs}(t)${\hfill 整个机体在t时刻的BPS-s含量$(nmol)$}
 
+\section*{其他变量}
+\noindent$\varphi(x,t)${\hfill   暴露皮肤组织的角质层深度x处在t时刻的BPS浓度$(nmol/cm^3)$,}\\
+$f_1(t)$ {\hfill  皮肤接触外源BPS的量$(nmol)$, 当$t> Time_{add}$时, $f_1(t)=0$}\\
+$ON(t)$ {\hfill  布尔值, 当$t\leq Time_{expose}$时, $ON(t)=1$, 皮肤处于BPS暴露状态;}\\ 
+.\hfill 当$t> Time_{expose}$时, $ON(t)=0$, 皮肤处于未暴露状态\\
+$f_2(t)$ {\hfill  口服外源BPS的量$(nmol)$, 本文中不考虑口服情况, $f_2(t)=0$}\\
+
+\section*{待反演的参数}
+\noindent$DSC$ {\hfill  角质层中的有效扩散系数$(cm^2/h)$}\\
+$u_1$ {\hfill  由脱屑而向皮肤表面转移的速度$(cm/min)$}\\
+$Pfo$ {\hfill  毛囊的渗透系数$(cm/h)$}
+
+\section*{理化数据中的常量}
+\noindent$T_{SC}$ {\hfill  角质层的深度$(um)$}\\
+$SCDX$ {\hfill  角质层的深度的$\frac{1}{10}(um)$}\\
+$HSC_{well}$ {\hfill  角质层和皮肤表皮储仓之间的分配系数}\\
+$V_{well}$ {\hfill  暴露皮肤组织的表面储仓体积$(L)$}\\
+$HSC_{VE}$ {\hfill  角质层和活性表皮之间的分配系数}\\
+$V_{TVE}$ {\hfill  暴露皮肤组织的活性表皮层体积$(L)$}\\
+$AEXP $ {\hfill  暴露皮肤组织面积$ (dm^2)$}\\
+$ FEXP$ {\hfill  暴露皮肤组织中毛囊的面积分数}\\
+$HFo_{well}$ {\hfill  毛囊和皮肤表皮储仓之间的分配系数}\\
+$V_{TFo}$ {\hfill  暴露皮肤组织的毛囊体积$(L)$}\\
+$ Qskin$ {\hfill  皮肤血液流速$(L/h) $}\\
+$ pskin$ {\hfill  皮肤-血浆分配系数}\\
+$ BSA$ {\hfill  人体皮肤表面积$(dm^2) $}\\
+$V_{plasma}$ {\hfill  血浆体积$(L)$}\\
+$k0 $ {\hfill  口服给药时BPS从胃进入肝脏的系数$(h^{-1})$}\\
+$k1 $ {\hfill  口服给药时BPS从小肠进入肝脏的系数$(h^{-1})$}\\
+$ ge$ {\hfill  口服给药时BPS由胃转移至小肠的系数$(h^{-1})$}\\
+$V_{TSC}$ {\hfill  暴露皮肤组织的角质层体积$(L)$}\\
+$V_{skin}$ {\hfill  皮肤组织的体积$(L)$}\\
+$ Qfat$ {\hfill  脂肪组织血液流速$(L/h) $}\\
+$V_{fat}$ {\hfill  脂肪组织的体积$(L)$}\\
+$ pfat$ {\hfill  脂肪-血浆分配系数}\\
+$ Qgonad$ {\hfill  性腺血液流速$(L/h) $}\\
+$V_{gonad}$ {\hfill  性腺的体积$(L)$}\\
+$ pgonad$ {\hfill  性腺-血浆分配系数}\\
+$ Kurinebps $ {\hfill  BPS尿液排泄参数$(L/h)$}\\
+$ Qc$ {\hfill  心脏血液流速$(L/h)$}\\
+$ Qbrain$ {\hfill  脑部血液流速$(L/h) $}\\
+$V_{brain}$ {\hfill  脑部的体积$(L)$}\\
+$ pbrain$ {\hfill  脑部-血浆分配系数}\\
+$ Qrich$ {\hfill  血流丰富组织血液流速$(L/h) $}\\
+$V_{rich}$ {\hfill  血流丰富组织的体积$(L)$}\\
+$ prich$ {\hfill  血流丰富组织-血浆分配系数}\\
+$ Qslow$ {\hfill  血流缓慢组织血液流速$(L/h) $}\\
+$V_{slow}$ {\hfill  血流缓慢组织的体积$(L)$}\\
+$ pslow$ {\hfill  血流缓慢组织-血浆分配系数}\\
+$ Qliver$ {\hfill  肝脏血液流速$(L/h) $}\\
+$V_{liver}$ {\hfill  肝脏的体积$(L)$}\\
+$ pliver$ {\hfill  肝脏-血浆分配系数}\\
+$kGIing$ {\hfill 口服给药BPS-g从肠到血中的系数 $(h^{-1})$}\\
+$kGIins $ {\hfill  口服给药BPS-s从肠到血中的系数 $(h^{-1})$}\\
+$Vmaxgutg$ {\hfill  肠道中BPS葡萄苷酸化的最大反应速度$(nmol/h)$}\\
+$Vmaxguts$ {\hfill  肠道中BPS硫酸盐化的最大反应速度$(nmol/h)$}\\
+$enterocytes $ {\hfill  小肠体积$(L)$}\\
+$ Kmgutg$ {\hfill  肠道中BPS葡萄苷酸化的米氏常数$(nmol)$}\\
+$ Kmguts$ {\hfill  肠道中BPS硫酸盐化的米氏常数$(nmol)$}\\
+$ Ksigutg$ {\hfill  肠道中葡萄苷酸化结合底物抑制常数$(nmol)$}\\
+$ kenterobpsg$ {\hfill  BPS-g肝肠循环使得BPS发生循环的速率$(h^{-1})$}\\
+$ kenterobpss$ {\hfill  BPS-s肝肠循环使得BPS发生循环的速率$(h^{-1})$}\\
+$ Kmliverg$ {\hfill  肝脏中BPS葡萄苷酸化的米氏常数$(nmol)$}\\
+$Vmaxliverg$ {\hfill  肠道中BPS葡萄苷酸化的最大反应速度$(nmol/h)$}\\
+$ Kmlivers$ {\hfill  肝脏中BPS硫酸盐化的米氏常数$(nmol)$}\\
+$Vmaxlivers$ {\hfill  肠道中BPS硫酸盐化的最大反应速度$(nmol/h)$}\\
+$met1g $ {\hfill  肝脏中BPS-g进入血液中的比例}\\
+$ met1s$ {\hfill  肝脏中BPS-s进入血液中的比例}\\
+$met2g = 1 -  met1g$ {\hfill  肝脏中BPS-g进入肝肠循环的比例}\\
+$ met2s= 1 -  met1s$ {\hfill  肝脏中BPS-s进入肝肠循环的比例}\\
+$ kentero$ {\hfill  BPS-g肝肠循环的速率$(h^{-1})$}\\
+$k4_{IV} $ {\hfill  BPS-g在肝肠循环中的粪便消除系数$(h^{-1})$}\\
+$ Kurinebpsg$ {\hfill  BPS-g的尿液排泄参数$(L/h)$}\\
+$Vbodyg  $ {\hfill  参与BPS-g分布的组织体积$(L)$}\\
+$ Kurinebpss$ {\hfill  BPS-s的尿液排泄参数$(L/h)$}\\
+$ Vbodys$ {\hfill  参与BPS-s分布的组织体积$(L)$}
+
+\section*{实验设置的常量}
+\noindent$Time_{add}=\frac{1}{6}h$ {\hfill  手指皮肤触摸热敏纸(外源BPS)的时间$(h)$}\\
+$Time_{expose}=\frac{13}{6}h$ {\hfill  手指皮肤表皮储仓内BPS含量大于0的时间$(h)$}\\
 \clearpage
 \mbox{}
 \thispagestyle{empty}

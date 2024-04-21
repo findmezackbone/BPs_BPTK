@@ -2,14 +2,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 sys.path.append("Python") 
-from BPS_init_function_MultiParas import BPS_BPTK_MultiParas
+from BPS_init_function_MultiParas_copy import BPS_BPTK_MultiParas
 
 from scipy import stats
 
 j = 0
 time = np.arange(0,75,0.005) #七十五个小时的时间戳
 a = np.array([[16,5,5]])
-blood,bps,bpsg = BPS_BPTK_MultiParas(t = time,volunteer_ID =1, paras = a ,mode = '63')
+data,blood,bps,bpsg = BPS_BPTK_MultiParas(t = time,volunteer_ID =1, paras = a ,mode = '63')
+
+
+plt.plot(time,data[:,17],label = 'blood')
+plt.legend()
+
+plt.show()
 
 plt.plot(time,bps[0],label = 'bps')
 
