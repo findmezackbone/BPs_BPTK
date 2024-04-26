@@ -1,4 +1,7 @@
 library(deSolve)
+
+
+start1 <- Sys.time()   #记录程序起始时间
 para_BP_individual<- read.csv("D:\\1st\\Project_pharmacy\\R_language\\para_BP_individual.csv")
 
 i<-2
@@ -375,5 +378,8 @@ zeit <- seq(0,75, 0.005) # (h) time
 BPS1<-ode(y=yini_bps_dermal,times=zeit,  func=PBTKmod_bps, 
           parms=para_bps_dermal, method="lsoda")
 
+end1 <- Sys.time()   #记录结束时间
+deltatime = difftime(end1, start1, units = "sec")  #计算运行时间
+print(deltatime)#18.16208s
 plot(BPS1[,28])
-write.csv(BPS1,"D://1st//Project_pharmacy//R_language//OriginalResult.csv")
+#write.csv(BPS1,"D://1st//Project_pharmacy//R_language//OriginalResult.csv")

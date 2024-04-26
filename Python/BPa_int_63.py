@@ -393,8 +393,8 @@ original_result = original_result.T
 R_28_result = np.loadtxt (open("D://1st/Project_pharmacy//R_language//R_28_BPA_Result.csv"),delimiter=",",skiprows=1,usecols=range(2,30))
 R_28_result = R_28_result[0:19200,:]
 
-BPA_result_1 = np.load("D://1st//Project_pharmacy//Python//BPA_result_1.npy")
-BPA_result_2 = np.load("D://1st//Project_pharmacy//Python//BPA_result_2.npy")
+BPA_result_1 = np.load("Python\BPS_result_1.npy")
+BPA_result_2 = np.load("Python\BPA_result_2.npy")
 #读取R语言源代码中得到的模型结果
  
 plt.plot(t,original_result[:,16],label = 'R_EXPmodel_result')
@@ -403,17 +403,4 @@ plt.plot(t,BPA_result_2,label = 'python_28model_result')
 plt.xlabel('time(h)')
 plt.ylabel('concentration of BPA in liver')
 plt.legend()
-plt.show()
-
-plt.plot(t,abs(abs(BPA_result_2)-result[:,33]),label = 'Python_result')
-plt.xlabel('time(h)')
-plt.ylabel('Absolute Error of 63 and 28 Results')
-plt.show()
-
-
-print(BPA_result_2.shape)
-plt.plot(t,abs(result[:,33]/abs(BPA_result_2)-1),label = 'Python_result')
-
-plt.xlabel('time(h)')
-plt.ylabel('Relative Error of 63 and 26 Results')
 plt.show()

@@ -103,7 +103,7 @@
 % 将参考文献的格式更改为与国标《文后参考文献著录规则》GB/T 7714-2005一致.
 % 需要使用其它格式时请将该行注释, 并在参考文献部分将指定语句取消注释.
 \usepackage{tikz}
-
+\usepackage{pgf}
 
 %导言区设置完毕
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -219,13 +219,14 @@ Hu等人\cite{11}在github中共享了论文中的数据以及部分代码\cite{
 双酚S(BPS)的情形, 且只考虑皮肤暴露途径的外源BPS输入.
 \section{模型的实验与生理背景}
 Hu\cite{11}等人通过使用含有氘代BPS(BPS-d8)的热敏纸摩擦手指的方式令受试者暴露于BPS.受试者接触热敏纸共$\frac{1}{6}h$, 脱离热敏纸后再等待$2h$, $\frac{13}{6}h$时彻底清洗皮肤,清空表皮储仓内的BPS.
-在接触实验开始的$72h$, 受试者被要求每$4.3h$左右提供一次尿液样本, 以检测尿液中的BPS与BPS-g的含量.
+在接触实验开始的$72h$, 受试者被要求每$4.3h$左右提供一次尿液样本, 以检测尿液中的BPS与BPS-g的含量(不检测BPS-s的尿液含量, 因为缺少相应的检测试剂).
 在另一个BPS人体接触实验中, Khmiri等人\cite{13}同时监测了受试者的血液与尿液. 接触BPS起的前$2h$内每$0.25h$取样一次血液, 第2小时至第8小时内每$1h$取样一次血液, 之后分别在$10h$, $24h$, $48h$时取样一次血液.
 尿液的取样节点不是固定的, 而是将接触BPS后$48h$分成了11个时段. 受试者在单个时段内的所有排尿都会被收集,作为该时段标签下的一个整体取样. 
 
 从受试者与热敏纸接触时起, 热敏纸内的BPS通过手指表皮储存进入毛囊和角质层, 接着扩散进入活性表皮层, 再通过毛囊和活性表皮层与内环境的交换进入体循环, 平行分层皮肤仓室内的物质交换情况的图片形式如图\ref{分层皮肤}. 血浆携带BPS通过血液交换将
 其送入肝脏, 脑, 脂肪, 性腺等组织器官. 部分BPS在肝脏反应为BPS-g或BPS-s.体内的BPS-g与BPS-s不会再反应为其他物质, 这两种物质
 会像始终未发生反应的BPS一样, 最终随血液进入肾脏, 通过尿液排出. 在只有皮肤暴露途径吸收外源BPS的情况下, 不考虑BPS的肝肠循环过程, 认为胃肠部不存在BPS, 且小肠不发生BPS葡萄苷酸化为BPS-g的反应. 
+整个PBPK模型的仓室间BPS, BPS-g, BPS-s的交换情况如图\ref{模型图解}所示.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.6]{./figs/p1.png}
@@ -233,7 +234,12 @@ Hu\cite{11}等人通过使用含有氘代BPS(BPS-d8)的热敏纸摩擦手指的�
   \label{分层皮肤}
 \end{figure}
 
- 
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.6]{./figs/p2.png}
+  \caption{BPS人体内PBPK模型的简化图解(箭头代表BPS的可能运输方向)}
+  \label{模型图解}
+\end{figure}
 \section{模型的数学形式}
 本文中的PBPK模型共有个14仓室,包括:暴露皮肤\{皮肤表皮储仓, 角质层, 毛囊, 活性表皮层\}, 胃, 小肠, 未暴露于化学品的皮肤, 血浆, 脂肪, 性腺, 肝脏, 脑, 血流丰富组织, 血流缓慢组织.
 其中暴露的含义为“在实验中与BPS接触”.
@@ -242,7 +248,7 @@ Hu\cite{11}等人通过使用含有氘代BPS(BPS-d8)的热敏纸摩擦手指的�
 \subsubsection*{角质层内BPS的浓度$\varphi(x,t)$}
 如(\ref{eq0}), 其中的偏微分方程本质上是一个扩散对流方程,其解$\varphi$代表角质层(Stratum Corneum)中BPs含量, 自变量$x$代表角质层的深度, 自变量$t$代表时间, $DSC$代表BPS在角质层中的有效扩
 散系数$(cm^2/h)$, $u_1$代表BPS随脱屑向皮肤表面转移的速度$(cm/min)$, $T_{SC}$代表角质层的深度$(um)$, $HSC_{well}$代表角质层和皮肤表皮储仓之间的分配系数, 
-$C_{well}(t)$代表皮肤表皮储仓在t时刻的BPS浓度$(nmol/cm^3)$, $HSC_{VE}$代表角质层和活性表皮之间的分配系数, $C_{VE}(t)$代表活性表皮在t时刻的BPS浓度$(nmol/cm^2)$.
+$C_{well}(t)$代表皮肤表皮储仓在$t$时刻的BPS浓度$(nmol/cm^3)$, $HSC_{VE}$代表角质层和活性表皮之间的分配系数, $C_{VE}(t)$代表活性表皮在$t$时刻的BPS浓度$(nmol/cm^2)$.
 
 \begin{equation}\label{eq0}
   \left\{\begin{aligned}
@@ -261,7 +267,7 @@ $x_1$至$x_9$九个节点处BPS浓度的一阶与二阶空间导数值通过中�
   \end{aligned}\right.
   \end{equation}
   \noindent 整理后得到这九个节点处BPS浓度关于时间的一阶导数值如(\ref{eq1}), $i=2,3,\dots,8$与(\ref{eq2}),(\ref{eq3}).其中$SCDX = \frac{T_{SC}}{10}$, 
-  $V_{well}$为暴露皮肤表面储仓沉积体积$(cm^3)$, $A_{well}(t)$为皮肤表皮储仓在t时刻的BPS含量$(nmol)$,$V_{TVE}$为暴露皮肤活性表皮层体积$(cm^3)$, $A_{VE}(t)$为活性表皮在t时刻的BPS含量$(nmol)$.
+  $V_{well}$为暴露皮肤表面储仓沉积体积$(cm^3)$, $A_{well}(t)$为皮肤表皮储仓在$t$时刻的BPS含量$(nmol)$,$V_{TVE}$为暴露皮肤活性表皮层体积$(cm^3)$, $A_{VE}(t)$为活性表皮在$t$时刻的BPS含量$(nmol)$.
   节点$x_1$和$x_9$处的时间导数值与其他节点不同的原因是: 与它们相邻的部分涉及到皮肤的不同层室,需要利用BPS在不同层室组织间
   的分配系数来确定两个不同层室间BPS的转移情况. 
 \begin{equation}\label{eq1}
@@ -313,7 +319,7 @@ $x_1$至$x_9$九个节点处BPS浓度的一阶与二阶空间导数值通过中�
   \frac{dA_{ST}(t)}{dt}=-(k_0+ge)A_{ST}(t)+f_2 (t).
 \end{equation}
 \subsubsection*{未暴露于BPS的皮肤, 脂肪, 性腺, 脑部, 血流丰富组织, 血流缓慢组织的BPS的含量}
-见(\ref{eq14})至(\ref{eq20}), 方程等式两端为小标题中组织器官内BPS含量的一阶导数. 这些等式的右端一致地代表了对应组织器官与血浆之间的顺浓度梯度物质交换关系. 
+见(\ref{eq14})至(\ref{eq20}), 各方程的等式两端为小标题中组织器官内BPS含量的一阶导数. 这些等式的右端一致地代表了对应组织器官与血浆之间的顺浓度梯度物质交换关系. 
 \begin{multline}\label{eq14}
   \frac{dA_{skin}(t)}{dt}=\frac{-Qskin \times  (1-\frac{AEXP}{BSA})}{(V_{skin}-V_{TSC}-V_{TVE}-V_{TFo}) \times  pskin} A_{skin}(t)+\frac{Qskin \times  (1-\frac{AEXP}{BSA})}{V_{plasma}}  A_{plasma}(t).
 \end{multline}
@@ -408,10 +414,50 @@ BPS-g与BPS-s引起肝脏内部分BPS发生肝肠循环的过程, 后两个加�
   +\frac{met1s \times  Vmaxlivers \times  A_{liver}(t)}{V_{liver}  \times  pliver \times  Kmlivers+A_{liver}(t)}.
 \end{multline}
 
+综上, 本文的PBPK模型的数学形式的主要部分为一个由28个常微分方程构成的微分方程组, 其中每个方程的解关于时间$t$变化, 且每个解的初值都是0.
+除此之外, 根据实验过程, 还需计算尿液中的BPS与BPS-g的在$t$时刻的含量$A_{urinebps}(t)$与$A_{urinebpsg}(t)$, (\ref{eq29})与(\ref{eq30})给出了它们的一阶导数值.
+这两个等式都不是常微分方程.
+\begin{multline}\label{eq29}
+  \frac{dA_{urinebps}(t)}{dt}=Kurinebps\times \left(\frac{  Qskin \times  \frac{AEXP}{BSA} \times  0.25}{Qc \times  V_{TFo}  \times  pskin} A_{Fo}(t)
+  +\frac{  Qskin \times  \frac{AEXP}{BSA} \times  0.75}{Qc \times  V_{TVE}  \times  pskin} A_{VE}(t)\right.\\
+  \left.+\frac{  Qskin \times  (1-\frac{AEXP}{BSA})}{Qc \times  (V_{skin}-V_{TSC}-V_{TVE}-V_{TFo}) \times  pskin} A_{skin}(t)\right.\\
+  \left.+\frac{  Qfat}{Qc \times  V_{fat}  \times  pfat} A_{fat}(t)
+  +\frac{  Qgonad}{Qc \times  V_{gonad}  \times  pgonad} A_{gonad}(t)\right.\\
+  \left.+\frac{  Qbrain}{Qc \times  V_{brain} \times  pbrain} A_{brain}(t)
+  +\frac{  Qrich}{Qc \times  V_{rich}  \times  prich} A_{rich}(t)\right.\\
+  \left.+\frac{  Qslow}{Qc \times  V_{slow}  \times  pslow} A_{slow}(t)
+  +\frac{  Qliver}{Qc \times  V_{liver} \times  pliver} A_{liver}(t)\right).
+\end{multline}
 
+\begin{equation}\label{eq30}
+  \frac{dA_{urinebpsg}(t)}{dt}=\frac{Kurinebpsg}{Vbodyg+10^{-34} } A_{BPSg}(t).
+\end{equation}
 \section{PBPK模型的求解}
-确定模型的数学形式后, 将Hu等人\cite{12}提供的数据相对应地代入至方程的各个参数, 使用Python中的第三方库函数scipy.integrate.odeint()对微分方程组求解. 
-每个方程的解都对应了一条人体某组织器官或尿液内BPS(或BPS-g, BPS-s)含量随时间变化的曲线, 故每个解的初值都应设置为0
+确定模型的数学形式后, 将Hu等人\cite{12}提供的数据相对应地代入至方程的各个参数, 使用Python中的第三方库函数scipy.integrate.odeint()对
+微分方程组求解, 该函数默认使用LSODA数值格式. 根据Hu等人\cite{11}的实验, 每个解的初值都设置为0, 时间网格设置为$range(0,75,0.005)$, 时间步长为$0.005h$, 共$15000$个时间节点.
+每个方程的解都对应了一条人体某组织器官内BPS(或BPS-g, BPS-s)的含量$(mmol)$或浓度$(mmol/L)$随时间变化的曲线.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.49\textwidth}
+    \centering
+    \resizebox{1.13\textwidth}{!}{\input{./figs/pcode1.pgf}}
+    \caption{$A_{plasma}(t)$的相对误差}
+  \end{subfigure}
+  \begin{subfigure}{0.495\textwidth}
+    \centering
+    \resizebox{1.15\textwidth}{!}{\input{./figs/pcode1_1.pgf}}
+    \caption{$A_{urinebps}(t)$的相对误差}
+  \end{subfigure}
+  \caption{与前人PBPK模型计算出的结果的相对误差}
+  \label{PBPK模型结果对比}
+\end{figure}
+
+
+图\ref{PBPK模型结果对比}展示了本文的模型数值求解结果与参考代码\cite{12}中结果中$A_{plasma}(t)$与$A_{urinebps}(t)$的相对误差, 可以看到
+第一个绝对误差曲线的最大值在$0.01\%$附近, 第二个绝对误差曲线的最大值在$0.002\%$附近, 说明对Hu等人\cite{11}提出的模型的求解复现效果较好.
+分别运行150次前人模型求解代码与本文复现的模型求解代码, 取单次运行的平均, 得到本文的模型求解单次平均运行时间为$0.1086s$, 前人的单词平均运行时间为$18.1621s$,
+本文复现代码的运行速度约为前人速度的$167$倍.
 \clearpage
 \mbox{}
 \thispagestyle{empty}
@@ -427,29 +473,30 @@ BPS-g与BPS-s引起肝脏内部分BPS发生肝肠循环的过程, 后两个加�
 \CTEXsetup[format={\Large\bfseries}]{section}
 \section*{模型中待求解变量}
 \label{app:B}
-\noindent$C_{SCi}(t)$  {\hfill 暴露皮肤组织的深度为$i\times \frac{T_{SC}}{10}$的角质层在t时刻的BPS浓度$(nmol/cm^3)$}\\
-$A_{Fo}(t)$ {\hfill  暴露皮肤组织的毛囊在t时刻的BPS含量$(nmol)$}\\
-$A_{well}(t)${\hfill 暴露皮肤组织的表皮储仓在t时刻的BPS含量$(nmol)$}\\
-$A_{VE}(t)${\hfill 暴露皮肤组织的活性表皮在t时刻的BPS含量$(nmol)$}\\
-$A_{ST}(t)${\hfill 胃部在t时刻的BPS含量$(nmol)$}\\
-$A_{skin}(t)${\hfill 未暴露皮肤组织在t时刻的BPS含量$(nmol)$}\\
-$A_{fat}(t)${\hfill 脂肪组织在t时刻的BPS含量$(nmol)$}\\
-$A_{gonad}(t)${\hfill 性腺在t时刻的BPS含量$(nmol)$}\\
-$A_{plasma}(t)${\hfill 血浆在t时刻的BPS含量$(nmol)$}\\
-$A_{brain}(t)${\hfill 脑部在t时刻的BPS含量$(nmol)$}\\
-$A_{rich}(t)${\hfill 血流丰富组织在t时刻的BPS含量$(nmol)$}\\
-$A_{slow}(t)${\hfill 血流缓慢组织在t时刻的BPS含量$(nmol)$}\\
-$A_{GIBPSg}(t)${\hfill 胃肠部在t时刻的BPS-g含量$(nmol)$}\\
-$A_{GIBPSs}(t)${\hfill 胃肠部在t时刻的BPS-s含量$(nmol)$}\\
-$A_{SI}(t)${\hfill 小肠在t时刻的BPS含量$(nmol)$}\\
-$A_{liver}(t)${\hfill 肝脏在t时刻的BPS含量$(nmol)$}\\
-$A_{BPSg\_delay}(t)${\hfill 发生了肝肠循环的BPS-g的量/小肠在t时刻的BPS-g含量$(nmol)$}\\
-$A_{BPSs\_delay}(t)${\hfill 发生了肝肠循环的BPS-s的量/小肠在t时刻的BPS-s含量$(nmol)$}\\
-$A_{BPSg}(t)${\hfill 整个机体在t时刻的BPS-g含量$(nmol)$}\\
-$A_{BPSs}(t)${\hfill 整个机体在t时刻的BPS-s含量$(nmol)$}
-
+\noindent$C_{SCi}(t)$  {\hfill 暴露皮肤组织的深度为$i\times \frac{T_{SC}}{10}$的角质层在$t$时刻的BPS浓度$(nmol/cm^3)$}\\
+$A_{Fo}(t)$ {\hfill  暴露皮肤组织的毛囊在$t$时刻的BPS含量$(nmol)$}\\
+$A_{well}(t)${\hfill 暴露皮肤组织的表皮储仓在$t$时刻的BPS含量$(nmol)$}\\
+$A_{VE}(t)${\hfill 暴露皮肤组织的活性表皮在$t$时刻的BPS含量$(nmol)$}\\
+$A_{ST}(t)${\hfill 胃部在$t$时刻的BPS含量$(nmol)$}\\
+$A_{skin}(t)${\hfill 未暴露皮肤组织在$t$时刻的BPS含量$(nmol)$}\\
+$A_{fat}(t)${\hfill 脂肪组织在$t$时刻的BPS含量$(nmol)$}\\
+$A_{gonad}(t)${\hfill 性腺在$t$时刻的BPS含量$(nmol)$}\\
+$A_{plasma}(t)${\hfill 血浆在$t$时刻的BPS含量$(nmol)$}\\
+$A_{brain}(t)${\hfill 脑部在$t$时刻的BPS含量$(nmol)$}\\
+$A_{rich}(t)${\hfill 血流丰富组织在$t$时刻的BPS含量$(nmol)$}\\
+$A_{slow}(t)${\hfill 血流缓慢组织在$t$时刻的BPS含量$(nmol)$}\\
+$A_{GIBPSg}(t)${\hfill 胃肠部在$t$时刻的BPS-g含量$(nmol)$}\\
+$A_{GIBPSs}(t)${\hfill 胃肠部在$t$时刻的BPS-s含量$(nmol)$}\\
+$A_{SI}(t)${\hfill 小肠在$t$时刻的BPS含量$(nmol)$}\\
+$A_{liver}(t)${\hfill 肝脏在$t$时刻的BPS含量$(nmol)$}\\
+$A_{BPSg\_delay}(t)${\hfill 发生了肝肠循环的BPS-g的量/小肠在$t$时刻的BPS-g含量$(nmol)$}\\
+$A_{BPSs\_delay}(t)${\hfill 发生了肝肠循环的BPS-s的量/小肠在$t$时刻的BPS-s含量$(nmol)$}\\
+$A_{BPSg}(t)${\hfill 整个机体在$t$时刻的BPS-g含量$(nmol)$}\\
+$A_{BPSs}(t)${\hfill 整个机体在$t$时刻的BPS-s含量$(nmol)$}\\
+$A_{urinebps}(t)${\hfill 人体排出的尿液在$t$时刻累计的BPS含量$(nmol)$}\\
+$A_{urinebpsg}(t)${\hfill  人体排出的尿液在$t$时刻累计的BPS-g含量$(nmol)$}
 \section*{其他变量}
-\noindent$\varphi(x,t)${\hfill   暴露皮肤组织的角质层深度x处在t时刻的BPS浓度$(nmol/cm^3)$,}\\
+\noindent$\varphi(x,t)${\hfill   暴露皮肤组织的角质层深度x处在$t$时刻的BPS浓度$(nmol/cm^3)$,}\\
 $f_1(t)$ {\hfill  皮肤接触外源BPS的量$(nmol)$, 当$t> Time_{add}$时, $f_1(t)=0$}\\
 $ON(t)$ {\hfill  布尔值, 当$t\leq Time_{expose}$时, $ON(t)=1$, 皮肤处于BPS暴露状态;}\\ 
 .\hfill 当$t> Time_{expose}$时, $ON(t)=0$, 皮肤处于未暴露状态\\

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  22 APR 2024 01:15
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  26 APR 2024 18:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1013,42 +1013,56 @@ LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <10.53937> not available
 第二章
 File: ./figs/p1.png Graphic file (type bmp)
 <./figs/p1.png>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [2
+File: ./figs/p2.png Graphic file (type bmp)
+<./figs/p2.png>
+[2
 
 ]
-Overfull \hbox (2.73688pt too wide) in paragraph at lines 243--246
+Overfull \hbox (2.73688pt too wide) in paragraph at lines 249--252
 []\TU/FandolSong-Regular(0)/m/n/10.53937 如 \TU/lmr/m/n/10.53937 ([][]2.1[][]), \TU/FandolSong-Regular(0)/m/n/10.53937 其 中 的 偏 微 分 方 程 本 质 上 是 一 个 扩 散 对 流 方 程\TU/lmr/m/n/10.53937 , \TU/FandolSong-Regular(0)/m/n/10.53937 其 解 $\OML/cmm/m/it/10.53937 '$ \TU/FandolSong-Regular(0)/m/n/10.53937 代 表 角 质 层 \TU/lmr/m/n/10.53937 (Stratum Corneum)
  []
 
-
-Overfull \hbox (42.03436pt too wide) detected at line 269
+LaTeX Font Info:    Font shape `TU/FandolSong-Regular(0)/m/sl' in size <10.53937> not available
+(Font)              Font shape `TU/FandolSong-Regular(0)/m/it' tried instead on input line 268.
+[3]
+Overfull \hbox (42.03436pt too wide) detected at line 275
 [][] \OT1/cmr/m/n/10.53937 = [] \OML/cmm/m/it/10.53937 C[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 ) \OMS/cmsy/m/n/10.53937 ^^@ []\OML/cmm/m/it/10.53937 C[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 ) + [] \OML/cmm/m/it/10.53937 C[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 )\OML/cmm/m/it/10.53937 :
  []
 
-LaTeX Font Info:    Font shape `TU/FandolSong-Regular(0)/m/sl' in size <10.53937> not available
-(Font)              Font shape `TU/FandolSong-Regular(0)/m/it' tried instead on input line 279.
-[3]
-Overfull \hbox (1.04727pt too wide) detected at line 307
+[4]
+Overfull \hbox (1.04727pt too wide) detected at line 313
  []$[] [] \OML/cmm/m/it/10.53937 A[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 ) + []\OML/cmm/m/it/10.53937 A[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 )\OML/cmm/m/it/10.53937 :$ []  
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [4]
-Overfull \hbox (0.52023pt too wide) detected at line 319
+Overfull \hbox (0.52023pt too wide) detected at line 325
  []$[]  [] \OT1/cmr/m/n/10.53937 = []\OML/cmm/m/it/10.53937 A[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 ) + []\OML/cmm/m/it/10.53937 A[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 )\OML/cmm/m/it/10.53937 :$ []  
  []
 
 [5] [6]
-Overfull \hbox (1.72548pt too wide) detected at line 390
+Overfull \hbox (1.72548pt too wide) detected at line 396
  []$[]  [] \OT1/cmr/m/n/10.53937 = \OML/cmm/m/it/10.53937 met\OT1/cmr/m/n/10.53937 2\OML/cmm/m/it/10.53937 g \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 kGIing \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 A[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 ) \OMS/cmsy/m/n/10.53937 ^^@ \OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 kentero \OT1/cmr/m/n/10.53937 + \OML/cmm/m/it/10.53937 k\OT1/cmr/m/n/10.53937 4[] + \OML/cmm/m/it/10.53937 kenterobpsg\OT1/cmr/m/n/10.53937 ) \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 A[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 )$ 
  []
 
-[7] [8] [9
+[7] (./figs/pcode1.pgf
+
+Package fontspec Warning: Font "FandolHei-Regular" does not contain requested
+(fontspec)                Script "CJK".
+
+)
+Overfull \hbox (28.8482pt too wide) in paragraph at lines 444--445
+ [][] 
+ []
+
+(./figs/pcode1_1.pgf)
+Overfull \hbox (33.61745pt too wide) in paragraph at lines 449--450
+ [][] 
+ []
+
+
+Underfull \vbox (badness 1783) has occurred while \output is active []
+
+ [8] [9] [10
 
 ]
 附录 A
@@ -1068,7 +1082,7 @@ Package fontspec Info: Font family 'FandolFang-Regular(0)' created for font
 (fontspec)             <->"[FandolFang-Regular.otf]/OT:language=dflt;"
 (fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
 
-[10
+[11
 
 ]
 附录 B
@@ -1078,27 +1092,27 @@ Package ctex Warning: Command `\CTEXsetup' is deprecated.
 (ctex)                set.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 452--457
+Underfull \hbox (badness 10000) in paragraph at lines 499--504
 
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 4913) has occurred while \output is active []
 
- [11
+ [12
 
-] [12]
-Underfull \hbox (badness 10000) in paragraph at lines 529--531
+] [13]
+Underfull \hbox (badness 10000) in paragraph at lines 576--578
 
  []
 
-[13] (./论文.bbl [14
+[14] (./论文.bbl [15
 
-] [15
+] [16
 
-]) [16] [17
+]) [17] [18
 
-] [18
+] [19
 
 ] (./论文.aux)
 
@@ -1106,15 +1120,15 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.41063pt have occurred.
 
 Package rerunfilecheck Info: File `论文.out' has not changed.
-(rerunfilecheck)             Checksum: 23E2945748BE7E5CA2BE8D6A2E95EAB4;1117.
+(rerunfilecheck)             Checksum: 4F8E367B7983BBE24F462B306EF891C6;1117.
  ) 
 Here is how much of TeX's memory you used:
- 30928 strings out of 476919
- 625823 string characters out of 5825424
- 1172380 words of memory out of 5000000
- 50356 multiletter control sequences out of 15000+600000
- 407372 words of font info for 74 fonts, out of 8000000 for 9000
+ 31044 strings out of 476919
+ 628297 string characters out of 5825424
+ 1172381 words of memory out of 5000000
+ 50446 multiletter control sequences out of 15000+600000
+ 410867 words of font info for 96 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  101i,11n,104p,466b,1203s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on 论文.pdf (22 pages).
+Output written on 论文.pdf (23 pages).

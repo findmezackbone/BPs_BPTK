@@ -5,8 +5,8 @@
 \contentsline {section}{\numberline {2.1}模型的实验与生理背景}{2}{section.2.1}%
 \contentsline {section}{\numberline {2.2}模型的数学形式}{3}{section.2.2}%
 \contentsline {section}{\numberline {2.3}PBPK模型的求解}{8}{section.2.3}%
-\contentsline {chapter}{\numberline {附录 A\hspace {.3em}}代码}{10}{appendix.A}%
-\contentsline {section}{\numberline {A.1}代码环境}{10}{section.A.1}%
-\contentsline {chapter}{\numberline {附录 B\hspace {.3em}}PBPK模型物理量名称-含义对照表}{11}{appendix.B}%
-\contentsline {chapter}{参考文献}{16}{appendix*.5}%
-\contentsline {chapter}{致谢}{18}{appendix*.6}%
+\contentsline {chapter}{\numberline {附录 A\hspace {.3em}}代码}{11}{appendix.A}%
+\contentsline {section}{\numberline {A.1}代码环境}{11}{section.A.1}%
+\contentsline {chapter}{\numberline {附录 B\hspace {.3em}}PBPK模型物理量名称-含义对照表}{12}{appendix.B}%
+\contentsline {chapter}{参考文献}{17}{appendix*.7}%
+\contentsline {chapter}{致谢}{19}{appendix*.8}%

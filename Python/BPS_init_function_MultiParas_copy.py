@@ -363,8 +363,6 @@ def BPS_BPTK_MultiParas(t = time,volunteer_ID =j, paras = paradata ,mode = '63')
 	t = time
 	for i in tqdm(range(np.shape(paras)[0])):
 		result = odeint(FUN, (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), t , args=(paras[i,0],paras[i,1],paras[i,2]))
-		plasma_data[i,:] = result[:,25] #plasma:26 , urineBPS:38 , urineBPSg:54
-		urinebps_data[i,:] = result[:,37] 
-		urinebpsg_data[i,:] = result[:,53] 
+		
 
-	return result,plasma_data,urinebps_data,urinebpsg_data
+	return result
