@@ -17,9 +17,10 @@ import matplotlib.pyplot as plt
 import keyboard
 
 
-X0 = np.load("Python\optim\DataFromBPTK\plasma28\plasma28_zzc.npy")  #输入数据
+X0 = np.load("Python\optim\DataFromBPTK\plasma28_zzc.npy")  #输入数据
 X1 = np.load("Python\optim\DataFromBPTK\\urine15\\urinebps15_zzc.npy")
 X2 = np.load("Python\optim\DataFromBPTK\\urine15\\urinebpsg15_zzc.npy")
 X =  np.hstack((X0,X1,X2))
+
 print(np.shape(X))
 np.save("Python\optim\DataFromBPTK\plasma28+urine15x2\plasma28+urine15x2_zzc.npy",X)

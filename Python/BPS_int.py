@@ -2,7 +2,8 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif']=['SimHei'] # 用来正常显示中文标签
-plt.rcParams['axes.unicode_minus']=False # 用来正常显示负号
+plt.rcParams['axes.unicode_minus'] = False   # 用来正常显示负号
+
 import matplotlib.ticker as ticker
 from scipy.integrate import odeint
 i = 0
@@ -385,9 +386,9 @@ plt.ylabel('concentration of BPS in plasma')
 plt.legend()
 plt.show()
 
-plt.plot(t[1:],abs(result[1:,26]-original_result[1:,26]),label = 'Python_result')
+plt.semilogy(t[1:],abs(result[1:,26]-original_result[1:,26]),label = 'Python_result')
 plt.xlabel('时间(h)')
-plt.ylabel('与前人的数值求解结果的绝对误差')
+plt.ylabel('与前人的数值求解结果的绝对误差的十进对数')
 plt.show()
 
 def to_percent(y, position):
@@ -397,7 +398,7 @@ def to_percent(y, position):
 
 plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(to_percent))
 
-plt.plot(t[21:],abs(result[21:,37]/original_result[21:,37]-1),label = 'Python_result')
+plt.semilogy(t[21:],abs(result[21:,37]/original_result[21:,37]-1),label = 'Python_result')
 plt.xlabel('时间(h)')
-plt.ylabel('与前人的数值求解结果的相对误差')
+plt.ylabel('与前人的数值求解结果的相对误差的十进对数')
 plt.show()

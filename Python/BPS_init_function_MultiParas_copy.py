@@ -361,8 +361,9 @@ def BPS_BPTK_MultiParas(t = time,volunteer_ID =j, paras = paradata ,mode = '63')
 			RAbpac,RAbpas])
 
 	t = time
+	data = np.zeros((np.shape(paras)[0],15000,59))
 	for i in tqdm(range(np.shape(paras)[0])):
 		result = odeint(FUN, (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), t , args=(paras[i,0],paras[i,1],paras[i,2]))
-		
+		data[i,:,:] = result
 
-	return result
+	return data

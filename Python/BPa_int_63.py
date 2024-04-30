@@ -380,27 +380,27 @@ def FUN(XX,t): #定义微分方程组
 		RAreabsorptions,dAurines,RAurinebpas,
 		RAbpac,RAbpas,dVurine])
 
-t = np.arange(0, 96, 0.005) #七十五个小时的时间戳
+t = np.arange(0, 75, 0.005) #七十五个小时的时间戳
 
 result = odeint(FUN, (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), t)
 
-plt.plot(t,result[:,33],label = 'Python_63model_result')
+plt.plot(t,result[:,25],label = 'Python_63model_result')
 
 
-original_result = np.loadtxt (open("D://1st/Project_pharmacy//R_language//BPA_Result.csv"),delimiter=",",skiprows=1,usecols=range(1,19201))
-original_result = original_result.T
+#original_result = np.loadtxt (open("D://1st/Project_pharmacy//R_language//BPA_Result.csv"),delimiter=",",skiprows=1,usecols=range(1,19201))
+#original_result = original_result.T
 
-R_28_result = np.loadtxt (open("D://1st/Project_pharmacy//R_language//R_28_BPA_Result.csv"),delimiter=",",skiprows=1,usecols=range(2,30))
-R_28_result = R_28_result[0:19200,:]
+#R_28_result = np.loadtxt (open("D://1st/Project_pharmacy//R_language//R_28_BPA_Result.csv"),delimiter=",",skiprows=1,usecols=range(2,30))
+#R_28_result = R_28_result[0:19200,:]
 
-BPA_result_1 = np.load("Python\BPS_result_1.npy")
-BPA_result_2 = np.load("Python\BPA_result_2.npy")
+#BPA_result_1 = np.load("Python\BPS_result_1.npy")
+#BPA_result_2 = np.load("Python\BPA_result_2.npy")
 #读取R语言源代码中得到的模型结果
  
-plt.plot(t,original_result[:,16],label = 'R_EXPmodel_result')
-plt.plot(t,R_28_result[:,23],label = 'R_28_result')
-plt.plot(t,BPA_result_2,label = 'python_28model_result')
+#plt.plot(t,original_result[:,16],label = 'R_EXPmodel_result')
+#plt.plot(t,R_28_result[:,23],label = 'R_28_result')
+#plt.plot(t,BPA_result_2,label = 'python_28model_result')
 plt.xlabel('time(h)')
-plt.ylabel('concentration of BPA in liver')
+plt.ylabel('concentration of BPA in plasma')
 plt.legend()
 plt.show()

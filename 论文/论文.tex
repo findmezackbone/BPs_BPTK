@@ -270,9 +270,10 @@ $x_1$至$x_9$九个节点处BPS浓度的一阶与二阶空间导数值通过中�
   $V_{well}$为暴露皮肤表面储仓沉积体积$(cm^3)$, $A_{well}(t)$为皮肤表皮储仓在$t$时刻的BPS含量$(nmol)$,$V_{TVE}$为暴露皮肤活性表皮层体积$(cm^3)$, $A_{VE}(t)$为活性表皮在$t$时刻的BPS含量$(nmol)$.
   节点$x_1$和$x_9$处的时间导数值与其他节点不同的原因是: 与它们相邻的部分涉及到皮肤的不同层室,需要利用BPS在不同层室组织间
   的分配系数来确定两个不同层室间BPS的转移情况. 
-\begin{equation}\label{eq1}
-  \frac{dC_{SCi}(t)}{dt}=\left(\frac{DSC}{SCDX^2} -\frac{u_1}{2 \times  SCDX}\right)C_{SCi-1}(t)-\frac{2 \times DSC}{SCDX^2}  C_{SCi}(t)+\left(\frac{DSC}{SCDX^2}+\frac{u_1}{2 \times  SCDX}\right)C_{SCi+1}(t).
-\end{equation}
+\begin{multline}\label{eq1}
+  \frac{dC_{SCi}(t)}{dt}=\left(\frac{DSC}{SCDX^2} -\frac{u_1}{2 \times  SCDX}\right)C_{SCi-1}(t)-\frac{2 \times DSC}{SCDX^2}  C_{SCi}(t)\\
+  +\left(\frac{DSC}{SCDX^2}+\frac{u_1}{2 \times  SCDX}\right)C_{SCi+1}(t).
+\end{multline}
 
 \begin{multline}\label{eq2}
   \frac{dC_{SC1}(t)}{dt}=\left(\frac{DSC \times  HSC_{well}}{V_{well}  \times  SCDX^2 }-\frac{u_1  \times  HSC_{well}}{V_{well}  \times  2 \times  SCDX}\right)A_{well}(t)   -\frac{2 \times DSC}{SCDX^2}  C_{SC1}(t)\\
@@ -434,7 +435,10 @@ BPS-g与BPS-s引起肝脏内部分BPS发生肝肠循环的过程, 后两个加�
 \end{equation}
 \section{PBPK模型的求解}
 确定模型的数学形式后, 将Hu等人\cite{12}提供的数据相对应地代入至方程的各个参数, 使用Python中的第三方库函数scipy.integrate.odeint()对
-微分方程组求解, 该函数默认使用LSODA数值格式. 根据Hu等人\cite{11}的实验, 每个解的初值都设置为0, 时间网格设置为$range(0,75,0.005)$, 时间步长为$0.005h$, 共$15000$个时间节点.
+微分方程组求解, 该函数默认使用LSODA数值格式. LSODA是一种高效的支持自适应步长的算法\cite{14}, 根据设置好的误差限度, 若按照原有的预设步长来进行下一节点的数值计算, 得到的误差大于限度, 则将此步预设步长拆分为更小的多个步长, 
+以此来减小误差至限度以内; 若按照预设步长计算时得到的误差远小于限度, 则适当增大步长以减小资源消耗. 同时, LSODA同时支持刚性与非刚性问题, 处理刚性问题时, 它使用后向微分公式(BDF),处理非刚性问题时, 它使用Runge-Kutta公式.
+
+根据Hu等人\cite{11}的实验, 每个解的初值都设置为0, 时间网格设置为$range(0,75,0.005)$, 时间步长为$0.005h$, 共$15000$个时间节点.
 每个方程的解都对应了一条人体某组织器官内BPS(或BPS-g, BPS-s)的含量$(mmol)$或浓度$(mmol/L)$随时间变化的曲线.
 
 \begin{figure}[H]
@@ -456,7 +460,7 @@ BPS-g与BPS-s引起肝脏内部分BPS发生肝肠循环的过程, 后两个加�
 
 图\ref{PBPK模型结果对比}展示了本文的模型数值求解结果与参考代码\cite{12}中结果中$A_{plasma}(t)$与$A_{urinebps}(t)$的相对误差, 可以看到
 第一个绝对误差曲线的最大值在$0.01\%$附近, 第二个绝对误差曲线的最大值在$0.002\%$附近, 说明对Hu等人\cite{11}提出的模型的求解复现效果较好.
-分别运行150次前人模型求解代码与本文复现的模型求解代码, 取单次运行的平均, 得到本文的模型求解单次平均运行时间为$0.1086s$, 前人的单词平均运行时间为$18.1621s$,
+分别运行150次前人模型求解代码与本文复现的模型求解代码, 取单次运行的平均, 得到本文的模型求解代码的单次平均运行时间为$0.1086s$, 前人的代码平均运行时间为$18.1621s$,
 本文复现代码的运行速度约为前人速度的$167$倍.
 \clearpage
 \mbox{}

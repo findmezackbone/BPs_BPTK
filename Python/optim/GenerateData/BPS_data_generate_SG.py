@@ -16,18 +16,18 @@ time = np.arange(0,75,0.005) #七十五个小时的时间戳
 grids_scale = sparse_grids_scale(dim=3 , level=9)
 parameter_range = np.zeros((18943,3))
 
-parameter_range[:,0] = 14*grids_scale[:,0]+10.28
+parameter_range[:,0] = 14*grids_scale[:,0]+14.5
 parameter_range[:,1] = 10*grids_scale[:,1]+1.39
 parameter_range[:,2] = 9*grids_scale[:,2]+1.2
 
-sampling_time_range = np.hstack((np.arange(0.5,20,0.5),20,np.arange(20.5,75,2))) #采样时间节点，在0至75小时内共选取了68个时间节点 
-sampling_time_index = (200*sampling_time_range).astype(int) #采样时间节点在求解器结果中的索引值
-
-
-BPS_plasma_data = np.zeros((18943,68)) #提前分配内存
 print(np.shape(parameter_range))
 np.save("Python\optim\DataFromBPTK\labels_SG.npy",parameter_range)
-result = BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras=parameter_range ,mode = '63')
-BPS_plasma_data = result[:,sampling_time_index]
+plasma,urinebps,urinebpsg = BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras=parameter_range ,mode = '63')
 
-np.save("Python\optim\DataFromBPTK\BPSplasma_init_Data_addition_SG.npy",BPS_plasma_data)
+print(np.shape(urinebpsg))
+print(np.shape(urinebps))
+print(np.shape(plasma))
+
+np.save("Python\\optim\\DataFromBPTK\\huge\\plasma_SG.npy",plasma)
+np.save("Python\\optim\\DataFromBPTK\\huge\\urinebps_SG.npy",urinebps)
+np.save("Python\\optim\\DataFromBPTK\\huge\\urinebpsg_SG.npy",urinebpsg)
