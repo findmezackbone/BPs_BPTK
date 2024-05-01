@@ -1,0 +1,2 @@
+预处理手段: ln(10000*label +1)
+loss ：mode 4

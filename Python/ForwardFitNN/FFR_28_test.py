@@ -125,6 +125,8 @@ criterion = nn.MSELoss()
 # 加载效果最好的模型
 best_model = CustomResNN(hyperparas).to(device)
 best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_best.pth'))
+#best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_pause3.pth'))
+#best_model.load_state_dict(torch.load('Python\ForwardFitNN\Settled_Model\\threeTo28\\4\model2.pth'))
 
 # 在测试集上评估模型
 test_dataset = TensorDataset(X_test, y_test)
@@ -167,9 +169,6 @@ FromNN_result = FromNN.cpu().numpy().flatten()
 FromNN_result = label_transform_reverse(FromNN_result)
 example_paras =  example_paras.cpu().numpy().flatten()
 
-print(f'Test Loss: {test_loss / len(test_loader)}')
-print(f'测试集上标签与输出的MRE: {test_relativeerror / len(test_loader)}')
-
 id = 0
 time = np.arange(0,75,0.005)
 result_True = BPS_BPTK(t = time,volunteer_ID =id, DSC_0=example_paras [0], PFO_0=example_paras [1], u1_0=example_paras [2] ,mode = '63')
@@ -194,7 +193,7 @@ outputs = outputs.detach().numpy()
 y_test = label_transform_reverse(y_test)
 outputs = label_transform_reverse(outputs)
 mse = np.mean((y_test - outputs ) ** 2)
-mre = np.mean(np.abs(y_test - outputs )/np.maximum(y_test, 1E-8))
+mre = np.mean(np.abs(y_test - outputs )/np.maximum(y_test, 1E-9))
 print(f'整个测试集的原始标签与输出的真实变换的MSE为  {mse}')
 print(f'整个测试集的原始标签与输出的真实变换的MRE为  {mre}')
 print(mre)

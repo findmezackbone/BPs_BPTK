@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  29 APR 2024 13:23
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  1 MAY 2024 00:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -784,7 +784,7 @@ Overfull \hbox (56.88123pt too wide) in paragraph at lines 231--245
 [][] 
  []
 
-[4] [5] [6] (./report_NN.aux)
+[4] [5] [6] [7] (./report_NN.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -792,12 +792,12 @@ Package rerunfilecheck Info: File `report_NN.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 19002 strings out of 476919
- 372703 string characters out of 5825424
+ 19004 strings out of 476919
+ 372718 string characters out of 5825424
  946636 words of memory out of 5000000
- 38657 multiletter control sequences out of 15000+600000
+ 38659 multiletter control sequences out of 15000+600000
  413051 words of font info for 93 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  101i,17n,104p,366b,386s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report_NN.pdf (6 pages).
+Output written on report_NN.pdf (7 pages).

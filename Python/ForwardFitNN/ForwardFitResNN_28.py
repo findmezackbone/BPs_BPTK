@@ -134,13 +134,30 @@ num_epochs = 300
 # 初始化模型、损失函数和优化器
 model = CustomResNN(hyperparas).to(device)
 
+loss_function=nn.MSELoss()
+
 def criterion(output,label,mode = 1):
     if mode == 1:
-        return(nn.MSELoss(output,label))
+        return loss_function(output,label)
     if mode == 2:
         output_reverse = label_transform_reverse_tensor(output)
         label_reverse = label_transform_reverse_tensor(label)
         return torch.mean(torch.abs(output_reverse - label_reverse)/torch.max(label_reverse, torch.full_like(label_reverse, 1E-9)))
+    if mode == 3:
+        output_reverse = label_transform_reverse_tensor(output)
+        label_reverse = label_transform_reverse_tensor(label)
+        loss2 = torch.mean(torch.abs(output_reverse - label_reverse)/torch.max(label_reverse, torch.full_like(label_reverse, 1E-9)))
+        loss1 = loss_function(output,label)
+        loss = loss1 + 0.001*loss2
+        return loss
+    if mode == 4:
+        output_reverse = label_transform_reverse_tensor(output)
+        label_reverse = label_transform_reverse_tensor(label)
+        loss2 = torch.mean(torch.abs(output_reverse - label_reverse)/torch.max(label_reverse, torch.full_like(label_reverse, 1E-9)))
+        loss1 = loss_function(output,label)
+        loss3 = torch.mean((output_reverse - label_reverse)**2)
+        loss = 0.5*1E4*loss1 + 7*loss2 + 1E9*loss3
+        return loss, 0.5*1E4*loss1, 7*loss2, 1E9*loss3
 
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
@@ -209,7 +226,7 @@ for epoch in range(num_epochs):
     for inputs, labels in train_loader:
         optimizer.zero_grad()
         outputs = model(inputs)
-        loss = criterion(outputs, labels)
+        loss,_,_,_ = criterion(outputs, labels, mode =4)
         loss.backward()
         optimizer.step()
         train_loss += (loss/len(inputs)).item()
@@ -217,11 +234,20 @@ for epoch in range(num_epochs):
     # 验证模型
     model.eval()
     val_loss = 0.0
+    loss1_total =0.0
+    loss2_total =0.0
+    loss3_total =0.0
     with torch.no_grad():
         for val_inputs, val_labels in val_loader:
             val_outputs = model(val_inputs)
-            val_loss += criterion(val_outputs, val_labels)/len(val_inputs)
-
+            val_loss_single,loss1,loss2,loss3 = criterion(val_outputs, val_labels, mode =4)
+            loss1 = loss1/len(val_inputs)
+            loss2 = loss2/len(val_inputs)
+            loss3 = loss3/len(val_inputs)
+            val_loss += val_loss_single/len(val_inputs)
+            loss1_total += loss1
+            loss2_total += loss2
+            loss3_total += loss3
     #if val_loss / len(val_loader) <0.002:
         #patience_on = 1
     # Early Stopping
@@ -240,6 +266,7 @@ for epoch in range(num_epochs):
         break
     if patience_on == 0:
         print(f'Epoch {epoch+1}, Training Loss: {train_loss / len(train_loader)}, Validation Loss: {val_loss / len(val_loader)}, best val-loss now : {best_val_loss / len(val_loader)}')
+        print(f'Validation Loss Part: A{loss1_total/ len(val_loader)}, B{loss2_total/ len(val_loader)}, C{loss3_total/ len(val_loader)}')
     else: 
         print(f'Epoch {epoch+1}, Training Loss: {train_loss / len(train_loader)}, Validation Loss: {val_loss / len(val_loader)}, earlystopping is on, {patience_counter}steps after last bestloss, best val-loss now : {best_val_loss / len(val_loader)}') 
 
@@ -264,9 +291,30 @@ with torch.no_grad():
             example_paras = test_inputs
             FromNN = test_outputs
         count = 1
+        test_loss_single,_,_,_ = criterion(test_outputs, test_labels, mode =4)
+        test_loss += test_loss_single/len(test_inputs)
+        test_relativeerror += torch.mean(torch.abs(test_outputs - test_labels)/torch.max(test_labels, torch.full_like(test_labels, 1E-9)))
+    print(f'Test Loss: {test_loss / len(test_loader)}')
+    print(f'测试集上标签与输出的MRE: {test_relativeerror / len(test_loader)}')
 
-        test_loss += criterion(test_outputs, test_labels)/len(test_inputs)
-        test_relativeerror += torch.mean(torch.abs(test_outputs - test_labels)/torch.max(test_labels, torch.full_like(test_labels, 1E-7)))
+# 在测试集上评估模型
+test_dataset = TensorDataset(X_test, y_test)
+test_loader = DataLoader(test_dataset, batch_size=1,shuffle = None)
+
+test_loss = 0.0
+test_relativeerror = 0.0
+with torch.no_grad():
+    count = 0
+    for test_inputs, test_labels in test_loader:
+        
+        test_outputs = best_model(test_inputs)
+        if count == 0:
+            example_paras = test_inputs
+            FromNN = test_outputs
+        count = 1
+
+        test_loss += criterion(test_outputs, test_labels, mode =4)
+        test_relativeerror += torch.mean(torch.abs(test_outputs - test_labels)/torch.max(test_labels, torch.full_like(test_labels, 1E-9)))
     print(f'Test Loss: {test_loss / len(test_loader)}')
     print(f'测试集上标签与输出的MRE: {test_relativeerror / len(test_loader)}')
 
