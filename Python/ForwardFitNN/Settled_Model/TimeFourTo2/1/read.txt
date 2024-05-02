@@ -1,0 +1,8 @@
+输入 三参数＋时间点 （0至75小时）
+输出 该时间点的尿液BPS与BPSg含量
+
+使用架构：hyperparas = {'input_dim':4,'hidden_dim':50,'hidden_nums':5,'output_dim':2,'block_layer_nums':3}
+
+loss函数：mode 1
+
+X与y均标准化
