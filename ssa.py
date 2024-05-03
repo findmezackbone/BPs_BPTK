@@ -18,11 +18,9 @@ import keyboard
 
 
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+a = torch.tensor([[1,2,3],[3,4,5]])
+b = torch.tensor([[1,2,3]])
+c = torch.sum(a, dim=1)
 
-
-print(torch.__version__)
-print(torch.backends.cudnn.enabled)
-
-print(torch.version.cuda)
-print(device)
+print(c.shape)
+print(c)

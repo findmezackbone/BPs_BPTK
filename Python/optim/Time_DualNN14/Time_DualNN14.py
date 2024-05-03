@@ -32,21 +32,24 @@ def standard_transform(x):
     x = (x - mean) / std
     return x,mean,std
 
+def standard_transform_paras(x,mean,std):
+    
+    x = (x - mean) / std
+    return x
+
+
 def inverse_transform(x, mean, std):
     # 将标准化后的张量乘以标准差，然后加上均值
     x = x * std + mean
     return x
 
 # 准备数据
-X1 = np.load("Python\optim\DataFromBPTK\\plasma5_add.npy")  #输入数据
-X2 = np.load("Python\optim\DataFromBPTK\\urinebps5_1_add.npy")  #输入数据
-X3 = np.load("Python\optim\DataFromBPTK\\urinebpsg5_1_add.npy")  #输入数据
-X = np.hstack((X1,X2,X3))
-print(np.shape(X))
-y1 = np.load("Python\optim\DataFromBPTK\labels_zzc.npy")
-y2 =np.load("Python\optim\DataFromBPTK\labels_SG.npy")
-y = np.vstack((y1,y2))
 
+X =  np.load("Python\optim\Time_DualNN14\database\input_add.npy")  
+print(np.shape(X))
+
+y = np.load("Python\optim\Time_DualNN14\database\label_add.npy")  
+print(np.shape(y))
 # 数据预处理 标准化数据
 X = torch.tensor(X).float()
 y = torch.tensor(y).float()
@@ -65,6 +68,14 @@ X_train, X_val, X_test = X_train.to(device), X_val.to(device), X_test.to(device)
 y_train, y_val, y_test = y_train.to(device), y_val.to(device), y_test.to(device)
 
 
+X1 = np.load("Python\ForwardFitNN\WithTime\Database\ForwardInput_zzc.npy")
+X2 = np.load("Python\ForwardFitNN\WithTime\Database\ForwardInput_SG.npy")
+X_forward =  np.vstack((X1,X2))
+_,X_forward_mean, X_forward_std = standard_transform(X_forward)
+y1 = np.load("Python\ForwardFitNN\WithTime\Database\ForwardLabel_zzc.npy")  #输入标签数据
+y2 = np.load("Python\ForwardFitNN\WithTime\Database\ForwardLabel_SG.npy")  #输入标签数据
+y_forward = np.vstack((y1,y2))
+_,y_forward_mean, y_forward_std = standard_transform(y_forward)
 
 class ResNetBlock(nn.Module):
     def __init__(self, hyperparas):
@@ -100,10 +111,10 @@ class ResNetBlock(nn.Module):
 class ResNN_Forward(nn.Module):
     def __init__(self,hyperparas):
         super().__init__()
-        self.input_dim = hyperparas['input_dim'] #3
+        self.input_dim = hyperparas['input_dim'] #28
         self.hidden_dim = hyperparas['hidden_dim'] #30
         self.hidden_nums = hyperparas['hidden_nums'] #3
-        self.output_dim = hyperparas['output_dim'] #5
+        self.output_dim = hyperparas['output_dim'] #3
         self.block_layer_nums = hyperparas['block_layer_nums'] #3
 
         self.layer_list = []
@@ -144,61 +155,53 @@ class ResNN_Reverse(nn.Module):
         return self.linear_Res_final(inputs)
 
 #超参数合集
-hyperparas_reverse = {'input_dim':15,'hidden_dim':30,'hidden_nums':3,'output_dim':3,'block_layer_nums':3}
-hyperparas_forward_plasma = {'input_dim':3,'hidden_dim':30,'hidden_nums':3,'output_dim':5,'block_layer_nums':3}
-hyperparas_forward_urine = {'input_dim':3,'hidden_dim':30,'hidden_nums':3,'output_dim':5,'block_layer_nums':3}
+hyperparas_reverse = {'input_dim':28,'hidden_dim':50,'hidden_nums':4,'output_dim':3,'block_layer_nums':3}
+
+hyperparas_forward_urine = {'input_dim':4,'hidden_dim':50,'hidden_nums':5,'output_dim':2,'block_layer_nums':3}
 learning_rate = 0.001
 num_epochs = 300
 
 
 # 初始化模型、损失函数和优化器
 model = ResNN_Reverse(hyperparas_reverse).to(device)
-model_forward_plasma = ResNN_Forward(hyperparas_forward_plasma).to(device)
-model_forward_plasma.load_state_dict(torch.load('Python\ForwardFitNN\Settled_Model\\threeTo5\\plasma\model1.pth'))
+
 model_forward_urine = ResNN_Forward(hyperparas_forward_urine).to(device)
-model_forward_urine.load_state_dict(torch.load('Python\ForwardFitNN\Settled_Model\\threeTo5\\urine\\model1.pth'))
-model_forward_urineg = ResNN_Forward(hyperparas_forward_urine).to(device)
-model_forward_urineg.load_state_dict(torch.load('Python\ForwardFitNN\Settled_Model\\threeTo5\\urineg\\model1.pth'))
+model_forward_urine.load_state_dict(torch.load('Python\\ForwardFitNN\\Settled_Model\\TimeFourTo2\\1\\model1.pth'))
+
 loss_function=nn.MSELoss()
 
 def criterion(output,label,input,mode = 1):
     if mode == 1:
         return loss_function(output,label)
-    if mode == 2:
-        output_forward_plasma = model_forward_plasma(output) #模型输出的三参数代入至PBPK的拟合网络中得到一个代表28个血液药含量采样点的数组
-        output_forward_plasma = label_transform_reverse_tensor(output_forward_plasma)
-        input_inverse = inverse_transform(input, X_mean, X_std) #将输入特征解除标准化
-        return loss_function(output_forward_plasma,input_inverse[:,:28])
-    if mode == 3:
-        output_forward_urine = model_forward_urine(output) #模型输出的三参数代入至PBPK的拟合网络中得到一个代表15个尿液bps含量采样点的数组
-        output_forward_urine = label_transform_reverse_tensor(output_forward_urine)
-        input_inverse = inverse_transform(input, X_mean, X_std) #将输入特征解除标准化
-        return loss_function(output_forward_urine,input_inverse[:,28:43])
-    if mode == 4:
-        output_forward_urineg = model_forward_urineg(output) #模型输出的三参数代入至PBPK的拟合网络中得到一个代表15个尿液bpsg含量采样点的数组
-        output_forward_urineg = label_transform_reverse_tensor(output_forward_urineg)
-        input_inverse = inverse_transform(input, X_mean, X_std) #将输入特征解除标准化
-        return loss_function(output_forward_urineg,input_inverse[:,43:68])
+
     
 
     if mode == 5:
-        output_forward_plasma = model_forward_plasma(output) #模型输出的三参数代入至PBPK的拟合网络中得到一个代表28个血液药含量采样点的数组
-        output_forward_plasma = label_transform_reverse_tensor(output_forward_plasma)
-        output_forward_urine = model_forward_urine(output) #模型输出的三参数代入至PBPK的拟合网络中得到一个代表15个尿液bps含量采样点的数组
-        output_forward_urine = label_transform_reverse_tensor(output_forward_urine)
-        output_forward_urineg = model_forward_urineg(output) #模型输出的三参数代入至PBPK的拟合网络中得到一个代表15个尿液bpsg含量采样点的数组
-        output_forward_urineg = label_transform_reverse_tensor(output_forward_urineg)
-        input_inverse = inverse_transform(input, X_mean, X_std) #将输入特征解除标准化
-        loss0 = loss_function(output,label)
-        loss1 = loss_function(output_forward_plasma,input_inverse[:,:5])
-        loss3 = loss_function(output_forward_urine,input_inverse[:,5:10])
-        loss5 = loss_function(output_forward_urineg,input_inverse[:,10:15])
-        loss0 = 1E1 *loss0
-        loss1 = 1E7 *loss1
-        loss3 = 1E6 *loss3
-        loss5 = 1E5 *loss5
-        loss = loss0 + loss1 + loss3 + loss5
-        return loss, loss0, loss1, loss3, loss5
+
+        loss2 = 0.0
+        loss3 = 0.0
+
+        for i in range(input.shape[1]/2):
+            output_transformed = torch.cat((output, input[:,input.shape[1]/2+i]), dim=1)
+            output_transformed = standard_transform_paras(output_transformed,X_forward_mean,X_forward_std)#把数据变得与正向模型的输入 匹配
+
+            output_forward_urine = model_forward_urine(output_transformed) #模型输出的三参数代入至PBPK的拟合网络中得到一个代表15个尿液bps含量采样点的数组
+
+            output_forward_urine = inverse_transform(output_forward_urine,y_forward_mean,y_forward_std) #把正向模型输出变正常
+            output_forward_urine_add = torch.sum(output_forward_urine, dim=1)
+            loss2 += loss_function(input[:,i],output_forward_urine_add)/(input.shape[1]/2)
+            loss3 += torch.mean(torch.abs(input[:,i] - output_forward_urine_add)/torch.max(input[:,i], torch.full_like(input[:,i], 1E-9)))
+            
+        
+        loss1 = loss_function(output,label)
+
+        
+        
+        loss1 = loss1
+        loss2 = loss2
+        loss3 = loss3
+        loss = loss1 + loss2 + loss3
+        return loss,  loss1, loss2, loss3
 
 
 
@@ -270,11 +273,11 @@ for epoch in range(num_epochs):
     loss1_total =0.0
     loss2_total =0.0
     loss3_total =0.0
-    loss4_total =0.0
+    
     for inputs, labels in train_loader:
         optimizer.zero_grad()
         outputs = model(inputs)
-        loss,_,_,_,_= criterion(outputs, labels,inputs, mode =5)
+        loss,_,_,_= criterion(outputs, labels,inputs, mode =5)
         loss.backward()
         optimizer.step()
         train_loss += (loss/len(inputs)).item()
@@ -286,16 +289,16 @@ for epoch in range(num_epochs):
         for val_inputs, val_labels in val_loader:
             val_outputs = model(val_inputs)
 
-            val_loss_single,loss1,loss2,loss3,loss4 = criterion(val_outputs, val_labels, val_inputs, mode =5)
+            val_loss_single,loss1,loss2,loss3 = criterion(val_outputs, val_labels, val_inputs, mode =5)
             loss1 = loss1/len(val_inputs)
             loss2 = loss2/len(val_inputs)
             loss3 = loss3/len(val_inputs)
-            loss4 = loss4/len(val_inputs)
+           
             val_loss += val_loss_single/len(val_inputs)
             loss1_total += loss1
             loss2_total += loss2
             loss3_total += loss3
-            loss4_total += loss4
+           
 
     #if val_loss / len(val_loader) <0.002:
         #patience_on = 1
@@ -315,7 +318,7 @@ for epoch in range(num_epochs):
         break
     if patience_on == 0:
         print(f'Epoch {epoch+1}, Training Loss: {train_loss / len(train_loader)}, Validation Loss: {val_loss / len(val_loader)}, best val-loss now : {best_val_loss / len(val_loader)}')
-        print(f'Validation Loss Part: A{loss1_total/ len(val_loader)}, B{loss2_total/ len(val_loader)}, C{loss3_total/ len(val_loader)}, D{loss4_total/ len(val_loader)}')
+        print(f'Validation Loss Part: A{loss1_total/ len(val_loader)}, B{loss2_total/ len(val_loader)}, C{loss3_total/ len(val_loader)}')
     else: 
         print(f'Epoch {epoch+1}, Training Loss: {train_loss / len(train_loader)}, Validation Loss: {val_loss / len(val_loader)}, earlystopping is on, {patience_counter}steps after last bestloss, best val-loss now : {best_val_loss / len(val_loader)}') 
 
@@ -340,7 +343,7 @@ with torch.no_grad():
             example_FromNN_3para = test_outputs
             count = 1
         
-        test_loss_single,_,_,_,_ = criterion(test_outputs, test_labels,test_inputs, mode =5)
+        test_loss_single,_,_,_ = criterion(test_outputs, test_labels,test_inputs, mode =5)
         test_loss += test_loss_single/len(test_inputs)
  
         
@@ -359,37 +362,26 @@ print(f'Test Loss: {test_loss / len(test_loader)}')
 id = 0
 time = np.arange(0,75,0.005)
 
-plasmaTrue,urineTrue,urinegTrue  =  BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = example_True_3para ,mode = '63')
-plasmaFromNN,urineFromNN,urinegFromNN  =  BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = example_FromNN_3para ,mode = '63')
+_,urineTrue,urinegTrue  =  BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = example_True_3para ,mode = '63')
+_,urineFromNN,urinegFromNN  =  BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = example_FromNN_3para ,mode = '63')
 
 
-plt.subplot(221)
-plt.plot(time,plasmaFromNN[0,:],label = 'FromNN_result')
-plt.plot(time,plasmaTrue[0,:],label = 'True_result')
-plt.xlabel('time(h)')
-plt.ylabel('concentration of BPS in plasma')
-plt.legend()
 
-plt.subplot(222)
+plt.subplot(121)
 plt.plot(time,urineFromNN[0,:],label = 'FromNN_result')
 plt.plot(time,urineTrue[0,:],label = 'True_result')
 plt.xlabel('time(h)')
 plt.ylabel('concentration of BPS in plasma')
 plt.legend()
 
-plt.subplot(223)
+plt.subplot(122)
 plt.plot(time,urinegFromNN[0,:],label = 'FromNN_result')
 plt.plot(time,urinegTrue[0,:],label = 'True_result')
 plt.xlabel('time(h)')
-plt.ylabel('concentration of BPS in plasma')
+plt.ylabel('concentration of BPSg in plasma')
 plt.legend()
 
-plt.subplot(224)
-plt.plot(time,plasmaFromNN[0,:],label = 'FromNN_result')
-plt.plot(time,plasmaTrue[0,:],label = 'True_result')
-plt.xlabel('time(h)')
-plt.ylabel('concentration of BPS in plasma')
-plt.legend()
 
 plt.show()
 
+  
