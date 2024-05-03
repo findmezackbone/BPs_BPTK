@@ -16,7 +16,13 @@ sys.path.append("Python")
 import matplotlib.pyplot as plt
 import keyboard
 
-a = np.array([[1,2,3],[4,5,6]])
-b = a.flatten()
 
-print(b)
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+
+print(torch.__version__)
+print(torch.backends.cudnn.enabled)
+
+print(torch.version.cuda)
+print(device)

@@ -18,6 +18,9 @@ plt.rcParams['font.sans-serif']=['SimHei'] # 用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False # 用来正常显示负号
 import keyboard
 
+torch.backends.cudnn.enabled = True
+
+
 
 # 准备数据
 y1 = np.load("Python\ForwardFitNN\WithTime\Database\ForwardLabel_zzc.npy")  #输入标签数据
@@ -64,6 +67,8 @@ X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, r
 
 # 检查GPU是否可用
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+print(device)
 X_train, X_val, X_test = X_train.to(device), X_val.to(device), X_test.to(device)
 y_train, y_val, y_test = y_train.to(device), y_val.to(device), y_test.to(device)
 
@@ -125,7 +130,7 @@ class CustomResNN(nn.Module):
         return self.linear_Res_final(inputs)
 
 #超参数合集
-hyperparas = {'input_dim':4,'hidden_dim':50,'hidden_nums':5,'output_dim':2,'block_layer_nums':3}
+hyperparas = {'input_dim':4,'hidden_dim':60,'hidden_nums':6,'output_dim':2,'block_layer_nums':3}
 learning_rate = 0.001
 num_epochs = 300
 

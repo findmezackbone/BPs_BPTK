@@ -1,3 +1,4 @@
 Documents/*.pdf
 Python/optim/DataFromBPTK/huge/
 论文/论文模板/
+Python/optim/Time_DualNN14/database/*.npy
