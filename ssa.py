@@ -19,8 +19,15 @@ import keyboard
 
 
 a = torch.tensor([[1,2,3],[3,4,5]])
-b = torch.tensor([[1,2,3]])
-c = torch.sum(a, dim=1)
 
+b = torch.tensor([1,2,3])
+
+
+
+c = torch.sum(a,dim=1)
+d = a.reshape(6)
+print(a.shape)
 print(c.shape)
 print(c)
+print(d.shape)
+print(d)

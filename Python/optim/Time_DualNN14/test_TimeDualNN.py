@@ -171,7 +171,7 @@ num_epochs = 300
 batchsize_paras = {'train':512,'valid':256,'test':256}
 
 # 初始化模型、损失函数和优化器
-model = ResNN_Reverse(hyperparas_reverse).to(device)
+
 
 model_forward_urine = ResNN_Forward(hyperparas_forward_urine).to(device)
 model_forward_urine.load_state_dict(torch.load('Python\\ForwardFitNN\\Settled_Model\\TimeFourTo2\\1\\model1.pth'))
@@ -228,140 +228,15 @@ def criterion(output,label,input,batchsize,mode = 1):
 
 
 
-optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
 
-# 准备 DataLoader
-train_data = TensorDataset(X_train, y_train)
-train_loader = DataLoader(train_data, batch_size=batchsize_paras['train'], shuffle=True)
 
-val_data = TensorDataset(X_val, y_val)
-val_loader = DataLoader(val_data, batch_size=batchsize_paras['valid'])
-
-patience_counter = 0
-patience_on  = 0
-patience = 9
-stop_training = 0
-# 热键函数
-def on_press(key):
-    global patience_on
-    global stop_training
-    if key.name == 's':#终止训练，储存最好模型
-        print("Training stopped. Saving current best model...")
-        print(f'best validation loss : {best_val_loss/ len(val_loader)}')
-        best_model = ResNN_Reverse(hyperparas_reverse).to(device)
-        best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_best.pth'))
-        best_optimizer = optim.Adam(best_model.parameters(), lr=0.001)
-        best_optimizer.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\optimizer_best.pth'))
-        # 保存效果最好的模型
-        torch.save(best_model.state_dict(), 'Python\optim\Temporary_Model\model_best.pth')
-        torch.save(best_optimizer.state_dict(), 'Python\ForwardFitNN\Temporary_Model\optimizer_best.pth')
-        stop_training = 1
-
-    if key.name == 'q': #中途储存当前最好模型，但并不终止训练
-        print("Saving current best model to pause1...")
-        print(f'best validation loss : {best_val_loss/ len(val_loader)}')
-        best_model = ResNN_Reverse(hyperparas_reverse).to(device)
-        best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_best.pth'))
-        best_optimizer = optim.Adam(best_model.parameters(), lr=0.001)
-        best_optimizer.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\optimizer_best.pth'))
-        # 保存效果最好的模型
-        torch.save(best_model.state_dict(), 'Python\optim\Temporary_Model\model_pause1.pth')
-        torch.save(best_optimizer.state_dict(), 'Python\ForwardFitNN\Temporary_Model\optimizer_pause1.pth')
-        
-    if key.name == 'w': #中途储存当前最好模型，但并不终止训练
-        print("Saving current best model to pause2...")
-        print(f'best validation loss : {best_val_loss/ len(val_loader)}')
-        best_model = ResNN_Reverse(hyperparas_reverse).to(device)
-        best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_best.pth'))
-        best_optimizer = optim.Adam(best_model.parameters(), lr=0.001)
-        best_optimizer.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\optimizer_best.pth'))
-        # 保存效果最好的模型
-        torch.save(best_model.state_dict(), 'Python\optim\Temporary_Model\model_pause2.pth')
-        torch.save(best_optimizer.state_dict(), 'Python\ForwardFitNN\Temporary_Model\optimizer_pause2.pth')
-
-    if key.name == 'e': #中途储存当前最好模型，但并不终止训练
-        print("Saving current best model to pause3...")
-        print(f'best validation loss : {best_val_loss/ len(val_loader)}')
-        best_model = ResNN_Reverse(hyperparas_reverse).to(device)
-        best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_best.pth'))
-        best_optimizer = optim.Adam(best_model.parameters(), lr=0.001)
-        best_optimizer.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\optimizer_best.pth'))
-        # 保存效果最好的模型
-        torch.save(best_model.state_dict(), 'Python\optim\Temporary_Model\model_pause3.pth')
-        torch.save(best_optimizer.state_dict(), 'Python\ForwardFitNN\Temporary_Model\optimizer_pause3.pth')
-
-    if key.name == 'o': #开启early stopping
-        patience_on  = 1
-        print("early stopping is turned on")
-        
-    
-keyboard.on_press(on_press)
-# 训练模型
-best_val_loss = float('inf')
-for epoch in range(num_epochs):
-    if stop_training:
-        break
-    model.train()
-    train_loss = 0.0
-    loss1_total =0.0
-    loss2_total =0.0
-    loss3_total =0.0
-    
-    for inputs, labels in tqdm(train_loader):
-        optimizer.zero_grad()
-        outputs = model(inputs)
-        loss,_,_,_= criterion(outputs, labels,inputs,batchsize=len(inputs), mode =5)
-        loss.backward()
-        optimizer.step()
-        train_loss += (loss/len(inputs)).item()
-
-    # 验证模型
-    model.eval()
-    val_loss = 0.0
-    with torch.no_grad():
-        for val_inputs, val_labels in val_loader:
-            val_outputs = model(val_inputs)
-
-            val_loss_single,loss1,loss2,loss3 = criterion(val_outputs, val_labels, val_inputs,batchsize=len(val_inputs), mode =5)
-            loss1 = loss1/len(val_inputs)
-            loss2 = loss2/len(val_inputs)
-            #loss3 = loss3/len(val_inputs)
-           
-            val_loss += val_loss_single/len(val_inputs)
-            loss1_total += loss1
-            loss2_total += loss2
-            #loss3_total += loss3
-           
-
-    #if val_loss / len(val_loader) <0.002:
-        #patience_on = 1
-    # Early Stopping
-    if val_loss < best_val_loss:
-        best_val_loss = val_loss
-        patience_counter = 0
-        # 保存效果最好的模型
-        torch.save(model.state_dict(), 'Python\optim\Temporary_Model\model_best.pth')
-        torch.save(optimizer.state_dict(), 'Python\ForwardFitNN\Temporary_Model\optimizer_best.pth')
-    else:
-        if patience_on == 1:
-            patience_counter += 1
-    
-    if patience_counter >= patience:
-        print(f'在第{epoch+1}个epoch处，Validation loss did not improve for {patience} epochs. Early stopping...')
-        print(f'best validation loss : {best_val_loss/ len(val_loader)}')
-        break
-    if patience_on == 0:
-        print(f'Epoch {epoch+1}, Training Loss: {train_loss / len(train_loader)}, Validation Loss: {val_loss / len(val_loader)}, best val-loss now : {best_val_loss / len(val_loader)}')
-        print(f'Validation Loss Part: A{loss1_total/ len(val_loader)}, B{loss2_total/ len(val_loader)}')#C{loss3_total/ len(val_loader)}
-    else: 
-        print(f'Epoch {epoch+1}, Training Loss: {train_loss / len(train_loader)}, Validation Loss: {val_loss / len(val_loader)}, earlystopping is on, {patience_counter}steps after last bestloss, best val-loss now : {best_val_loss / len(val_loader)}') 
-
-
-keyboard.unhook_all()
 # 加载效果最好的模型
 best_model = ResNN_Reverse(hyperparas_reverse).to(device)
 best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_best.pth'))
+#best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_pause1.pth'))
+#best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_pause2.pth'))
+
 
 # 在测试集上评估模型
 test_dataset = TensorDataset(X_test, y_test)
@@ -386,6 +261,9 @@ with torch.no_grad():
 
 
 #模型在测试集跑出来的三参数计算出来的浓度曲线和真实三参数计算出来的浓度曲线对比
+example_True_3para = inverse_transform(example_True_3para, y_mean, y_std)
+example_FromNN_3para = inverse_transform(example_FromNN_3para, y_mean, y_std)
+
 example_True_3para = example_True_3para.cpu().numpy()
 #print(example_True_3para)
 
@@ -400,18 +278,20 @@ time = np.arange(0,75,0.005)
 _,urineTrue,urinegTrue  =  BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = example_True_3para ,mode = '63')
 _,urineFromNN,urinegFromNN  =  BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = example_FromNN_3para ,mode = '63')
 
-
+test_id = 200
+print(example_True_3para[test_id,:])
+print(example_FromNN_3para[test_id,:])
 
 plt.subplot(121)
-plt.plot(time,urineFromNN[0,:],label = 'FromNN_result')
-plt.plot(time,urineTrue[0,:],label = 'True_result')
+plt.plot(time,urineFromNN[test_id,:],label = 'FromNN_result')
+plt.plot(time,urineTrue[test_id,:],label = 'True_result')
 plt.xlabel('time(h)')
 plt.ylabel('concentration of BPS in plasma')
 plt.legend()
 
 plt.subplot(122)
-plt.plot(time,urinegFromNN[0,:],label = 'FromNN_result')
-plt.plot(time,urinegTrue[0,:],label = 'True_result')
+plt.plot(time,urinegFromNN[test_id,:],label = 'FromNN_result')
+plt.plot(time,urinegTrue[test_id,:],label = 'True_result')
 plt.xlabel('time(h)')
 plt.ylabel('concentration of BPSg in plasma')
 plt.legend()
