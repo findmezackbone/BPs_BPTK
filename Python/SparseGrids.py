@@ -235,3 +235,20 @@ def sparse_grids_scale(dim=3 , level=6):
     print(np.shape(Grid_scale))
     return Grid_scale
 
+def sparse_grids_scale2(dim=2 , level=6):
+    # 创建一个er维、级别为2的稀疏网格
+    
+    sg = sparseGrid(dim, level)
+    # 生成稀疏网格点
+    sg.generatePoints()
+
+    keys = np.array(list(sg.gP.keys()))
+    Grid_scale = np.zeros((np.shape(keys)[0],4))
+
+    for i in range(np.shape(keys)[0]):
+        Grid_scale[i,0] = 0.5**keys[i,0]*keys[i,1]
+        Grid_scale[i,1] = 0.5**keys[i,2]*keys[i,3]
+
+    print(np.shape(Grid_scale))
+    return Grid_scale
+

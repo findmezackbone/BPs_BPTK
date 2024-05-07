@@ -524,7 +524,7 @@ $\{t^{plasma}_{i}\}_{1 \leq i \leq n_1}$, $\{t^{urine}_{i}\}_{1 \leq i \leq n_2}
 \subsection{标签集的构建}
 
 标签集, 一个$N \times 3$的二维数组, 由$N$条皮肤三参数组合组成. 由于$DSC$, $u_1$, $Pfo$这三个参数的数量级较小, 为了更方便地表示其数值, 将标签$\vec{\alpha}$设置如下. 在原参数数值前乘以一个系数, 使得
-调整后的参数数量级处在$10^0$或$10^1$.
+调整后的参数数量级处在$10^0$或$10^1$. 
 
 \begin{align*}
   \alpha_1 &= DSC \times 10^9 \\
@@ -532,16 +532,67 @@ $\{t^{plasma}_{i}\}_{1 \leq i \leq n_1}$, $\{t^{urine}_{i}\}_{1 \leq i \leq n_2}
   \alpha_3 &= Pfo \times 10^5\\
 \end{align*}
 
+\noindent 本文使用了两种方式得到大量不同的皮肤三参数组合$\vec{\alpha}$数据, 分别是依概率分布随机取样以及稀疏网格法(Sparse Grids). 之后将两种方法得到的数据合并在一起, 构成本章神经网络使用的标签集.
+以下是两种构建方法的具体介绍.
 
+\subsubsection*{截断正态分布取样}
+Hu等人\cite{11}提出了该种取样方法, 并提供了皮肤三参数$\alpha_i$的平均值$mean_i$, 并设定每个参数的变异系数$CV_i = 0.3$, 通过公式$std = CV\times mean$可得到三个参数的标准差$std_i$. 分别建立三个参数的截断正态分布, 分布的平均值为
+$mean_i$, 标准值为$std_i$, 左截断点为$lb_i = mean_i - 1.96\times std_i$ , 右截断点为$ub_i = mean_i + 1.96\times std_i$. 确定截断正态分布后, 使用Python第三方库函数scipy.stats.truncnorm()根据三种概率分布
+对三个参数进行独立的采样, 采样$\alpha_1$共$32$个, $\alpha_2$共$28$个, $\alpha_3$共$28$个. 接下来取它们的笛卡尔积, 得到$32 \times 28 \times 28 = 25,088$组皮肤三参数组合$\vec{\alpha}$. 
 
+\subsubsection*{稀疏网格法}
 
+稀疏网格法\cite{15}是一种可用于在高维参数空间取样的高效方法. 以$m$维参数空间下的同维度等距的网格为例, 有如下的稀疏网格生成迭代步骤:
 
+\begin{enumerate}
+  \item 设置复杂度$k\in \mathbb{N}^+ $, 设置参数取样的平均值或中心点$\bar{x} = (\bar{x}_1 ,\dots, \bar{x}_m)$以及每个维度取样的上下界$\{u_i,l_i\}_{1 \leq i \leq m}$(应满足$\frac{u_i+l_i}{2}=\bar{x}_i$).
+  第$i$个维度的网络格点间距$\Delta x_i = (u_i - l_i)\times 2^{-k}$. 如此, 便得到了一个$m$维空间上含有$(2^k+1)^m$个格点的网格, 称该网格为\textit{密网格}.\\
+  设置迭代步$p$, 初始$p = 1$.初始状态下稀疏网格只有
+  中心点$\bar{x}$一个点, 设置$\bar{x}$为\textit{起点}$x_{start}$, 加入至\textit{起点集}$S$.
+  \item 若$2^{k-p}-1 < 1$, 则取样结束. 否则, 向下执行.
+  \item $\forall x_{start} \in \textit{起点集}S$, 从该点出发, 向每个维度的正负方向共$2\times m$ 个方向上分别以$2^{(p-1)} \cdot \Delta x_i$为步长连续不间断地在密网格上取$2^{k-p}-1$个格点加入到稀疏网格中.
+  例如, 在第$i$个维度的正方向上取
+  $$
+  \{( x_{start}^1,\dots,x_{start}^{i-1},x_{start}^i+j\cdot 2^{(p-1)} \cdot  \Delta x_i, x_{start}^{i+1},\dots,x_{start}^m)\}_{1 \leq j \leq 2^{k-p}-1}.
+  $$
+  当迭代步数$p \geq 2$时, 若密网格在$x_{start}$的某方向上(不妨设为第$q$个维度)有与$x_{start}$距离小于等于$2^{(p-1)} \cdot \Delta x_q$
+  的点已被加入至稀疏网格中, 则不在$x_{start}$的该方向上取点, 并称该方向为$x_{start}$的\textit{未取样方向}. 在该步骤中, 会有被重复放入稀疏网格中的密网格上的点, 在稀疏网格中视作同一元素.
+  
+  \item 
+  当$p = 1$时, $\forall 1 \leq i \leq m$ , 将中心点$\bar{x}$在第$i$维度正负两个方向上与之距离为$(u_i - l_i)\times 2^{-(p+1)}$的两个点加入至起点集中$S$, 共有$2*m*2^{m\times (p-1)}$个新的起点被加入至起点集$S$中, 删去起点集中除了新起点外的起点.\\
+  当$p \geq 2$时, $\forall x_{start} \in \textit{起点集}S$, 从该点出发, 找到并记录稀疏网格在$x_{start}$除未取样方向的方向上与之距离为$(u_i - l_i)\times 2^{-p}$的点, 加入至\textit{分形中心点集}$M$.
+  在此过程中, 会有被重复放入$M$的密网格上的点, 在$M$中视作同一元素. 接下来, $\forall x_{middle} \in \textit{分形中心点集}M$, 从该点出发, 找到并记录
+  稀疏网格在$x_{middle}$在每个维度正负两个方向共$2\times m$ 个方向上与之距离为$(u_i - l_i)\times 2^{-(p+1)}$的点, 加入至起点集$S$中.
+  共有$2*m*2^{m\times (p-1)}$个新的起点被加入至起点集$S$中, 删去起点集中除了新起点外的起点. 
 
+  \item $p = p + 1$, 并跳转至步骤2.
+  \end{enumerate}
 
+以二维空间$[0,1]\times[0,1]$内中心点为$(0.5,0.5)$的稀疏网格为例, 绘制复杂度$k=2,3,5$时的稀疏网格散点图如图\ref{稀疏网格}所示.
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.32\textwidth}
+    \centering
+    \resizebox{1\textwidth}{!}{\input{./figs/pcode2_1.pgf}}
+    \caption{$k=2$}
+  \end{subfigure}
+  \begin{subfigure}{0.32\textwidth}
+    \centering
+    \resizebox{1\textwidth}{!}{\input{./figs/pcode2_2.pgf}}
+    \caption{$k=3$}
+  \end{subfigure}
+  \begin{subfigure}{0.32\textwidth}
+    \centering
+    \resizebox{1\textwidth}{!}{\input{./figs/pcode2_3.pgf}}
+    \caption{$k=5$}
+  \end{subfigure}
 
+  \caption{不同复杂度$k$下的稀疏网格}
+  \label{稀疏网格}
+\end{figure}
 
-
-
+该部分标签集的构造使用了复杂度$k=9$的三维稀疏网格法, 其中中心点为$(mean1,mean2,mean3)$, $u_1-l_1 = 14,\quad u_2-l_2 = 10,\quad u_3-l_3 = 9$, 这些数值的设定参考了截断正态分布取样法.
+通过稀疏网格法共得到了18943条皮肤三参数组数据. 两种方法得到的标签集合起来共44031条数据.
 
 
 
