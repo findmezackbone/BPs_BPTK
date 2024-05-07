@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  6 MAY 2024 17:52
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  7 MAY 2024 16:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1044,21 +1044,11 @@ Overfull \hbox (1.72548pt too wide) detected at line 397
 Package fontspec Warning: Font "FandolHei-Regular" does not contain requested
 (fontspec)                Script "CJK".
 
-)
-Overfull \hbox (28.8482pt too wide) in paragraph at lines 448--449
- [][] 
- []
-
-(./figs/pcode1_1.pgf)
-Overfull \hbox (33.61745pt too wide) in paragraph at lines 453--454
- [][] 
- []
-
-[8] [9]
+) (./figs/pcode1_1.pgf) [8] [9]
 第三章
 [10
 
-] [11
+] [11] [12
 
 ]
 附录 A
@@ -1078,7 +1068,7 @@ Package fontspec Info: Font family 'FandolFang-Regular(0)' created for font
 (fontspec)             <->"[FandolFang-Regular.otf]/OT:language=dflt;"
 (fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
 
-[12
+[13
 
 ]
 附录 B
@@ -1088,27 +1078,27 @@ Package ctex Warning: Command `\CTEXsetup' is deprecated.
 (ctex)                set.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 575--580
+Underfull \hbox (badness 10000) in paragraph at lines 601--606
 
  []
 
 
 Underfull \vbox (badness 4913) has occurred while \output is active []
 
- [13
+ [14
 
-] [14]
-Underfull \hbox (badness 10000) in paragraph at lines 652--654
+] [15]
+Underfull \hbox (badness 10000) in paragraph at lines 678--680
 
  []
 
-[15] (./论文.bbl [16
+[16] (./论文.bbl [17
 
-] [17
+] [18
 
-]) [18] [19
+]) [19] [20
 
-] [20
+] [21
 
 ] (./论文.aux)
 
@@ -1116,15 +1106,15 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.41063pt have occurred.
 
 Package rerunfilecheck Info: File `论文.out' has not changed.
-(rerunfilecheck)             Checksum: 007E8D4F2F031F7B97DADD9C01206CDC;1484.
+(rerunfilecheck)             Checksum: 1C3C5BAD36FA7EF5FD7FC356840835CB;2039.
  ) 
 Here is how much of TeX's memory you used:
- 31064 strings out of 476919
- 628831 string characters out of 5825424
+ 31066 strings out of 476919
+ 628882 string characters out of 5825424
  1172381 words of memory out of 5000000
- 50459 multiletter control sequences out of 15000+600000
- 410907 words of font info for 101 fonts, out of 8000000 for 9000
+ 50458 multiletter control sequences out of 15000+600000
+ 410923 words of font info for 103 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  101i,11n,104p,466b,1203s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on 论文.pdf (24 pages).
+Output written on 论文.pdf (25 pages).

@@ -386,19 +386,21 @@ plt.ylabel('concentration of BPS in plasma')
 plt.legend()
 plt.show()
 
-plt.semilogy(t[1:],abs(result[1:,26]-original_result[1:,26]),label = 'Python_result')
+
+
+plt.plot(t[1:],np.log10(abs(result[1:,26]-original_result[1:,26])),label = 'Python_result')
 plt.xlabel('时间(h)')
 plt.ylabel('与前人的数值求解结果的绝对误差的十进对数')
 plt.show()
-
+'''
 def to_percent(y, position):
     # 将数值乘以100转为百分比，并保留一位小数
     s = f'{100 * y:.5f}%'
     return s
 
 plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(to_percent))
-
-plt.semilogy(t[21:],abs(result[21:,37]/original_result[21:,37]-1),label = 'Python_result')
+'''
+plt.plot(t[21:],np.log10(abs(result[21:,37]/original_result[21:,37]-1)),label = 'Python_result')
 plt.xlabel('时间(h)')
 plt.ylabel('与前人的数值求解结果的相对误差的十进对数')
 plt.show()
