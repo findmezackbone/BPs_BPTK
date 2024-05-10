@@ -392,12 +392,14 @@ BPS-g与BPS-s引起肝脏内部分BPS发生肝肠循环的过程, 后两个加�
 见(\ref{eq25}), 方程等式两端为发生肝肠循环的BPS-g的量的一阶导数. 等式右端的第一个加数代表了胃肠部BPS-g进入血浆后再进入肝肠循环的过程,第二个加数代表了肝肠循环中的BPS-g进入血液循环的过程, 最后一个加数
 代表了肝脏中BPS新转化成的BPS-g进入肝肠循环的过程. 对于发生肝肠循环的BPS-s的量的方程(\ref{eq26}), 有着完全一致的描述.
 \begin{multline}\label{eq25}
-  \frac{dA_{BPSg\_delay}(t)}{dt}=met2g \times  kGIing \times  A_{GIBPSg}(t)-(kentero+k4_{IV}+kenterobpsg) \times  A_{BPSg\_delay}(t)\\
+  \frac{dA_{BPSg\_delay}(t)}{dt}=met2g \times  kGIing \times  A_{GIBPSg}(t)\\
+  -(kentero+k4_{IV}+kenterobpsg) \times  A_{BPSg\_delay}(t)
   +\frac{met2g \times  Vmaxliverg \times  A_{liver}(t)}{V_{liver}  \times  pliver \times  Kmliverg+A_{liver}(t)}.
 \end{multline}
 
 \begin{multline}\label{eq26}
-  \frac{dA_{BPSs\_delay}(t)}{dt}=met2s \times  kGIins \times  A_{GIBPSs}(t)-(kentero+k4_{IV}+kenterobpss) \times  A_{BPSs\_delay}(t)\\
+  \frac{dA_{BPSs\_delay}(t)}{dt}=met2s \times  kGIins \times  A_{GIBPSs}(t)\\
+  -(kentero+k4_{IV}+kenterobpss) \times  A_{BPSs\_delay}(t)
   +\frac{met2s \times  Vmaxlivers \times  A_{liver}(t)}{V_{liver}  \times  pliver \times  Kmlivers+A_{liver}(t)}.
 \end{multline}
 
@@ -464,7 +466,10 @@ BPS-g与BPS-s引起肝脏内部分BPS发生肝肠循环的过程, 后两个加�
 本文复现代码的运行速度约为前人速度的$167$倍.
 
 
-\chapter{使用固定时间节点数据的PBPK模型参数反演的神经网络方法}
+\chapter{PBPK模型参数反演的神经网络方法: 使用固定时间节点数据}
+
+本章使用了对偶学习的办法, 使用PBPK模型正向生成的不含时间信息的数据分别训练了拟合PBPK模型正向求解模型的神经网络以及PBPK模型参数反演的神经网络, 并展示了神经网络在
+测试数据上的效果. 本章将讲解数据集的结构与构造以及网络模型的结构, 训练与效果.
 \section{参数反演的背景与网络模型的基本介绍}
 
 Hu等人\cite{11}在原本人体关于BPs的PBPK模型的基础上创新了平行分层仓室模型, 该部分仓室模型在参数的数值确定方面还不完善, 需要借助人体实验得到的真实数据对
@@ -507,12 +512,10 @@ Hu等人\cite{11}在原本人体关于BPs的PBPK模型的基础上创新了平�
 数据集的结构直接决定了网络的输入与输出数据的形状, 间接决定了网络的功能与效果, 同时网络功能的实现又需要设计合适的数据集结构, 故在此一齐介绍.
 
 首先, 认为PBPK模型中除了皮肤三参数组合外的其他参数都已确定为常数, 并固定求解模型中微分方程组的时间格点与初值, 设置皮肤三参数组合为PBPK模型的求解模型的唯一输入, 
-将整个PBPK模型的求解模型抽象为一个函数, 如(\ref{eq2.1})所示,  $\vec{\alpha}$代表皮肤三参数组合, $\vec{A}_{BPS}$代表某一组分中的BPS含量在给定固定时间节点上的数值, 相应地, $n$是时间节点组的节点数量.
-
+将整个PBPK模型的求解模型抽象为一个函数, 如(\ref{eq2.1})所示,  $\vec{\alpha}$代表皮肤三参数组合, $\vec{A}_{BPS}$代表某一组分中的BPS含量在给定固定时间节点上的数值, 相应地, $n$是时间节点组的节点数量,
 \begin{equation}\label{eq2.1}
-f:(\mathbb{R}^3)^{+} \to (\mathbb{R}^n)^{+},\quad \vec{\alpha}\mapsto \vec{A}_{BPS}
+f:(\mathbb{R}^3)^{+} \to (\mathbb{R}^n)^{+},\quad \vec{\alpha}\mapsto \vec{A}_{BPS}.
 \end{equation}
-
 \noindent 本章内介绍的参数反演神经网络的功能就是拟合(\ref{eq2.1})的反函数, 输入固定节点处血浆与尿液内BPS或BPS-g的含量数值构成的向量$(A(t_1),A(t_2),\dots,A(t_n))$, 网络模型会输出一组近似的与输入对应的皮肤三参数组合
 $\vec{\alpha^*}$.
 
@@ -523,15 +526,13 @@ $\{t^{plasma}_{i}\}_{1 \leq i \leq n_1}$, $\{t^{urine}_{i}\}_{1 \leq i \leq n_2}
 
 \subsection{标签集的构建}
 
-标签集, 一个$N \times 3$的二维数组, 由$N$条皮肤三参数组合组成. 由于$DSC$, $u_1$, $Pfo$这三个参数的数量级较小, 为了更方便地表示其数值, 将标签$\vec{\alpha}$设置如下. 在原参数数值前乘以一个系数, 使得
-调整后的参数数量级处在$10^0$或$10^1$. 
-
+标签集, 一个$N \times 3$的二维数组, 由$N$条皮肤三参数组合组成. 由于$DSC$, $u_1$, $Pfo$这三个参数的数量级较小, 为了更方便地表示其数值, 将标签$\vec{\alpha}$设置如下: 在原参数数值前乘以一个系数, 使得
+调整后的参数数量级处在$10^0$或$10^1$,
 \begin{align*}
-  \alpha_1 &= DSC \times 10^9 \\
-  \alpha_2 &=u_1 \times 10^5\\
-  \alpha_3 &= Pfo \times 10^5\\
+  \alpha_1 &= DSC \times 10^9, \\
+  \alpha_2 &=u_1 \times 10^5,\\
+  \alpha_3 &= Pfo \times 10^5.
 \end{align*}
-
 \noindent 本文使用了两种方式得到大量不同的皮肤三参数组合$\vec{\alpha}$数据, 分别是依概率分布随机取样以及稀疏网格法(Sparse Grids). 之后将两种方法得到的数据合并在一起, 构成本章神经网络使用的标签集.
 以下是两种构建方法的具体介绍.
 
@@ -542,7 +543,7 @@ $mean_i$, 标准值为$std_i$, 左截断点为$lb_i = mean_i - 1.96\times std_i$
 
 \subsubsection*{稀疏网格法}
 
-稀疏网格法\cite{15}是一种可用于在高维参数空间取样的高效方法. 以$m$维参数空间下的同维度等距的网格为例, 有如下的稀疏网格生成迭代步骤:
+稀疏网格法\cite{15,18}是一种可用于在高维参数空间取样的高效方法. 以$m$维参数空间下的同维度等距的网格为例, 有如下的稀疏网格生成迭代步骤:
 
 \begin{enumerate}
   \item 设置复杂度$k\in \mathbb{N}^+ $, 设置参数取样的平均值或中心点$\bar{x} = (\bar{x}_1 ,\dots, \bar{x}_m)$以及每个维度取样的上下界$\{u_i,l_i\}_{1 \leq i \leq m}$(应满足$\frac{u_i+l_i}{2}=\bar{x}_i$).
@@ -559,16 +560,15 @@ $mean_i$, 标准值为$std_i$, 左截断点为$lb_i = mean_i - 1.96\times std_i$
   的点已被加入至稀疏网格中, 则不在$x_{start}$的该方向上取点, 并称该方向为$x_{start}$的\textit{未取样方向}. 在该步骤中, 会有被重复放入稀疏网格中的密网格上的点, 在稀疏网格中视作同一元素.
   
   \item 
-  当$p = 1$时, $\forall 1 \leq i \leq m$ , 将中心点$\bar{x}$在第$i$维度正负两个方向上与之距离为$(u_i - l_i)\times 2^{-(p+1)}$的两个点加入至起点集中$S$, 共有$2*m*2^{m\times (p-1)}$个新的起点被加入至起点集$S$中, 删去起点集中除了新起点外的起点.\\
+  当$p = 1$时, $\forall 1 \leq i \leq m$ , 将中心点$\bar{x}$在第$i$维度正负两个方向上与之距离为$(u_i - l_i)\times 2^{-(p+1)}$的两个点加入至起点集中$S$, 共有$2\times m\times 2^{m\times (p-1)}$个新的起点被加入至起点集$S$中, 删去起点集中除了新起点外的起点.\\
   当$p \geq 2$时, $\forall x_{start} \in \textit{起点集}S$, 从该点出发, 找到并记录稀疏网格在$x_{start}$除未取样方向的方向上与之距离为$(u_i - l_i)\times 2^{-p}$的点, 加入至\textit{分形中心点集}$M$.
   在此过程中, 会有被重复放入$M$的密网格上的点, 在$M$中视作同一元素. 接下来, $\forall x_{middle} \in \textit{分形中心点集}M$, 从该点出发, 找到并记录
   稀疏网格在$x_{middle}$在每个维度正负两个方向共$2\times m$ 个方向上与之距离为$(u_i - l_i)\times 2^{-(p+1)}$的点, 加入至起点集$S$中.
-  共有$2*m*2^{m\times (p-1)}$个新的起点被加入至起点集$S$中, 删去起点集中除了新起点外的起点. 
+  共有$2\times m\times 2^{m\times (p-1)}$个新的起点被加入至起点集$S$中, 删去起点集中除了新起点外的起点. 
 
   \item $p = p + 1$, 并跳转至步骤2.
   \end{enumerate}
 
-以二维空间$[0,1]\times[0,1]$内中心点为$(0.5,0.5)$的稀疏网格为例, 绘制复杂度$k=2,3,5$时的稀疏网格散点图如图\ref{稀疏网格}所示.
 \begin{figure}[H]
   \centering
   \begin{subfigure}{0.32\textwidth}
@@ -587,12 +587,158 @@ $mean_i$, 标准值为$std_i$, 左截断点为$lb_i = mean_i - 1.96\times std_i$
     \caption{$k=5$}
   \end{subfigure}
 
-  \caption{不同复杂度$k$下的稀疏网格}
+  \caption{不同复杂度$k$下的二维稀疏网格}
   \label{稀疏网格}
 \end{figure}
 
 该部分标签集的构造使用了复杂度$k=9$的三维稀疏网格法, 其中中心点为$(mean1,mean2,mean3)$, $u_1-l_1 = 14,\quad u_2-l_2 = 10,\quad u_3-l_3 = 9$, 这些数值的设定参考了截断正态分布取样法.
-通过稀疏网格法共得到了18943条皮肤三参数组数据. 两种方法得到的标签集合起来共44031条数据.
+通过稀疏网格法共得到了18943条皮肤三参数组数据. 两种方法得到的标签集拼接起来共44031条数据, 整个标签集的形状为$44031\times 3$.
+
+\subsection{特征集的构建}
+一条特征和一条标签互相唯一对应, 本章中的参数反演神经网络模型使用的特征集也有44031条.对于标签集矩阵的每一行的皮肤三参数组, 将其代入至PBPK模型的求解模型, 得到血浆中BPS的含量$A_{plasma}(t)$, 尿液中BPS和BPS-g的累计含量$A_{urinebps}(t)$, $A_{urinebpsg}(t)$关于时间变化的曲线.
+为了适配人体实验中的真实采样数据, 模拟真实采样情景, 需要对曲线做采样. 以下介绍了两种特征集的构造, 将分别用于训练两种不同的参数反演神经网络模型.
+
+\subsubsection*{血药含量采样28点\&尿药含量采样15点}
+此小节的采样时间点设置参考了前人人体实验的设定\cite{11,13}, 且结合了曲线的特性.
+如图\ref{曲线}所示,曲线的总时间轴是$0\thicksim 75h$, 相较于其他时间段, $A_{plasma}(t)$在$0\thicksim 10h$的变化十分强烈, 需要在该时间段内取样额外多的时间点, 以更好地捕捉到曲线的特征.
+
+
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \resizebox{1\textwidth}{!}{\input{./figs/pcode3_1.pgf}}
+    \caption{$A_{plasma}(t)$}
+    \label{曲线a}
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \resizebox{1\textwidth}{!}{\input{./figs/pcode3_2.pgf}}
+    \caption{$A_{urinebps}(t)$与$A_{urinebpsg}(t)$}
+    \label{曲线b}
+  \end{subfigure}
+
+
+  \caption{$\vec{\alpha}=(14,6.39,6)$时PBPK模型输出的部分曲线图像}
+  \label{曲线}
+\end{figure}
+
+\noindent 一条血药含量曲线上共采样28个时间点(单位: $h$):
+
+\hspace{0.8cm} $( 0.5 , 1 ,  1.5  ,   2,  2.5  ,3,   3.5 , 4,   4.5,  5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  18,  24,  30,  36,  42,  50,  60,  72 ).$
+
+\noindent 两条尿药含量曲线上分别采样相同的15个时间点(单位: $h$):
+
+\hspace{0.8cm} $( 1,  3,  5,  7,  9, 11, 13, 15, 24, 30, 36,42, 50, 60, 72).$
+
+图\ref{曲线与采样点}展示了三条含量曲线的采样点的位置. 一条标签对应的三条曲线在固定时间节点处共采样了58个化学品含量数据, 一条特征即为含有58个元素的一维数组, 对应的标签为PBPK模型的输入皮肤三参数组, 整个特征集为形状是$44031\times 58$的二维数组.
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \resizebox{1\textwidth}{!}{\input{./figs/pcode4_1.pgf}}
+    \caption{$A_{plasma}(t)$与采样点}
+    \label{曲线与采样点a}
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \resizebox{1\textwidth}{!}{\input{./figs/pcode4_2.pgf}}
+    \caption{$A_{urinebps}(t)$,$A_{urinebpsg}(t)$与采样点}
+    \label{曲线与采样点b}
+  \end{subfigure}
+
+
+  \caption{$\vec{\alpha}=(14,6.39,6)$时PBPK模型输出的部分曲线与采样点的图像A}
+  \label{曲线与采样点}
+\end{figure}
+
+\subsubsection*{血药含量采样5点\&尿药含量采样5点}
+
+该部分特征集的构建欲探究减少采样点的可行性. 如图\ref{曲线a}所示, $A_{plasma}(t)$的图像有两个极大值和一个极小值, 第一个极大值也是最大值$MAX_{plasma}$. 最大值点出现在曲线变化幅度大的时段, 三个极值点都处在非平缓的时间段. 
+对于标签集中每一条皮肤三参数对应的PBPK输出中的$A_{plasma}(t)$, 将其图像中的三个极值点设置为采样点, 记录这三个点的位置. 另外, 为了捕捉到更多曲线变化剧烈处的特征信息, 将满足$\underset{\scriptsize 0<t< \textit{极小值点}}{argmin}|A_{plasma}(t) - 0.5\cdot MAX_{plasma}| $
+的两个半衰期点也设置为采样点, 记录这两个点的位置. 将标签集对应的所有血药含量曲线的五个采样点都绘制在同一图像中, 如图\ref{血浆五点}所示:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.45]{./figs/p3_1.png}
+  \caption{所有$A_{plasma}(t)$曲线的五个采样点}
+  \label{血浆五点}
+\end{figure}
+
+\noindent 可以看到最大值点与两个半衰期点的位置几乎是固定的, 极小值点与第二极大值点几乎都在$30h$前出现. 对于五种采样点, 计算
+图\ref{血浆五点}中每种采样点位置的平均值, 将得到的五个平均值作为全局的固定采样点, 它们分别为$(0.49,2.165, 3.005 ,8.22,18.255)$.
+
+对于$A_{urinebps}(t)$与$A_{urinebpsg}(t)$, 由于它们是浓度累计曲线(如图\ref{曲线b}), 难以像血浆BPS含量曲线一样从曲线形状来确定较少的采样点. 由于$A_{urinebps}(t)$是
+数值求解的结果, 本质上是一个离散的数组, 故可以对其做一阶差分, 得到某个$A_{urinebps}(t)$的一阶差分曲线如图\ref{尿液差分}所示:
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.45]{./figs/p4_1.png}
+  \caption{$\vec{\alpha}=(14,6.39,6)$时$A_{urinebps}(t)$的一阶差分曲线}
+  \label{尿液差分}
+\end{figure}
+
+可以看到$A_{urinebps}(t)$的一阶差分曲线有类似于$A_{plasma}(t)$曲线的图像模式, 利用得到血浆曲线的五个全局固定采样点的方式可以得到
+两条尿液化学品累计含量曲线的五个全局固定采样点, 它们分别为$(0.505,2.165, 3.04 ,8.265,13.305)$. 图\ref{曲线与采样点5}展示了三条含量曲线的五个固定采样点的位置.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \resizebox{1\textwidth}{!}{\input{./figs/pcode4_1.pgf}}
+    \caption{$A_{plasma}(t)$与采样点}
+    \label{曲线与采样点5a}
+  \end{subfigure}
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \resizebox{1\textwidth}{!}{\input{./figs/pcode4_2.pgf}}
+    \caption{$A_{urinebps}(t)$,$A_{urinebpsg}(t)$与采样点}
+    \label{曲线与采样点5b}
+  \end{subfigure}
+
+
+  \caption{$\vec{\alpha}=(14,6.39,6)$时PBPK模型输出的部分曲线与采样点的图像B}
+  \label{曲线与采样点5}
+\end{figure}
+
+确定了血浆曲线与尿液曲线的全局固定采样时间点后, 便可以确定特征集. 
+一条标签对应的三条曲线在固定时间节点处共采样了15个化学品含量数据, 一条特征即为含有15个元素的一维数组, 对应的标签为PBPK模型的输入皮肤三参数组, 整个特征集为形状是$44031\times 15$的二维数组.
+
+
+\section{参数反演神经网络模型的架构}
+
+为了使网络模型在多全连接层的情况下的性能退化问题, 本文的神经网络模型使用了残差连接的方法, 具体实现手段为引入了一个\textit{残差网络模块}.
+该模块由六层构成, 第一层和第四层为全连接层, 第二层和第五层为标准化层, 第三层和第六层为激活函数层, 使用的激活函数为$Relu(\,)$. 图片\ref{残差网络模块}展示了该模块的架构, 其中每一层的输入和输出的
+二维数组的形状都是$batchsize \times hiddensize$, 其中$batchsize$是一个批次的数据条数, $hiddensize$是可自定义的隐藏层神经元数量. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.45]{./figs/p5_1.png}
+  \caption{残差网络模块的架构}
+  \label{残差网络模块}
+\end{figure}
+
+该模块的最终的输出结果是第六层的输出与第一层的输入的和, 相对于第六层输出的是期望输出和真实输出之间的残差, 这样的设定使得网络可以学习到残差映射, 同时保留了原始的输入并将其直接传输到了该模块的输出\cite{16,17}. 残差网络中的
+跳跃连接能够缓解深层网络下的性能退化与优化困难问题\cite{17}. 标准化层使用了层标准化手段(layer-normlization), 使得输入数据在输出该层时能够具有零均值与单位方差的性质, 同时该标准化手段并不依赖于$batchsize$的大小\cite{19}.
+层标准化有效解决了深度网络情况下梯度爆炸与梯度消失的问题. 激活层的$Relu(\,)$的作用是对输入该层的数据逐元素取其正部. 它能够提高计算速率, 使得前向与反向传播的速度更快, 且保留正部而不是压缩数值的激活方式能够缓解梯度消失的问题\cite{20}.
+
+整个神经网络的架构串联拼接了$hidden\_nums$个残差网络模块, 并在串联组前后都添加了一层全连接网络, 输入端还额外添加了一个激活函数$Relu(\,)$层. 图片\ref{残差网络模块}展示了该模块的架构
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -651,8 +797,9 @@ $A_{urinebpsg}(t)${\hfill  人体排出的尿液在$t$时刻累计的BPS-g含量
 \section*{其他变量}
 \noindent$\varphi(x,t)${\hfill   暴露皮肤组织的角质层深度x处在$t$时刻的BPS浓度$(nmol/cm^3)$,}\\
 $f_1(t)$ {\hfill  皮肤接触外源BPS的量$(nmol)$, 当$t> Time_{add}$时, $f_1(t)=0$}\\
-$ON(t)$ {\hfill  布尔值, 当$t\leq Time_{expose}$时, $ON(t)=1$, 皮肤处于BPS暴露状态;}\\ 
-.\hfill 当$t> Time_{expose}$时, $ON(t)=0$, 皮肤处于未暴露状态\\
+$ON(t)$ {\hfill  布尔值, 当$t\leq Time_{expose}$时, $ON(t)=1$, 皮肤处于BPS暴露状态;}
+
+\hfill 当$t> Time_{expose}$时, $ON(t)=0$, 皮肤处于未暴露状态\\
 $f_2(t)$ {\hfill  口服外源BPS的量$(nmol)$, 本文中不考虑口服情况, $f_2(t)=0$}\\
 
 \section*{待反演的参数}

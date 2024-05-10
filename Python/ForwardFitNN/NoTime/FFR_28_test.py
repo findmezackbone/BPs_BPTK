@@ -113,7 +113,9 @@ class CustomResNN(nn.Module):
         return self.linear_Res_final(inputs)
 
 #超参数合集
-hyperparas = {'input_dim':3,'hidden_dim':30,'hidden_nums':3,'output_dim':28,'block_layer_nums':3}
+#hyperparas = {'input_dim':3,'hidden_dim':30,'hidden_nums':3,'output_dim':28,'block_layer_nums':3}
+
+hyperparas = {'input_dim':3,'hidden_dim':64,'hidden_nums':10,'output_dim':28,'block_layer_nums':3}
 learning_rate = 0.001
 num_epochs = 300
 
@@ -123,10 +125,10 @@ criterion = nn.MSELoss()
 # 准备 DataLoader
 
 # 加载效果最好的模型
-best_model = CustomResNN(hyperparas).to(device)
+best_model = CustomResNN(hyperparas)
 best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_best.pth'))
 #best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_pause3.pth'))
-#best_model.load_state_dict(torch.load('Python\ForwardFitNN\Settled_Model\\threeTo28\\4\model2.pth'))
+#best_model.load_state_dict(torch.load('Python\ForwardFitNN\Settled_Model\\threeTo28\\model1.pth'))
 
 # 在测试集上评估模型
 test_dataset = TensorDataset(X_test, y_test)

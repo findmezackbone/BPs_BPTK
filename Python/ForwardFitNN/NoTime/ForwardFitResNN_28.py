@@ -126,7 +126,7 @@ class CustomResNN(nn.Module):
         return self.linear_Res_final(inputs)
 
 #超参数合集
-hyperparas = {'input_dim':3,'hidden_dim':30,'hidden_nums':3,'output_dim':28,'block_layer_nums':3}
+hyperparas = {'input_dim':3,'hidden_dim':64,'hidden_nums':10,'output_dim':28,'block_layer_nums':3}
 learning_rate = 0.001
 num_epochs = 300
 
@@ -312,7 +312,7 @@ with torch.no_grad():
             example_paras = test_inputs
             FromNN = test_outputs
         count = 1
-
+        test_loss_single = criterion(test_outputs, test_labels, mode =4)
         test_loss += criterion(test_outputs, test_labels, mode =4)
         test_relativeerror += torch.mean(torch.abs(test_outputs - test_labels)/torch.max(test_labels, torch.full_like(test_labels, 1E-9)))
     print(f'Test Loss: {test_loss / len(test_loader)}')

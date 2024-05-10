@@ -1,4 +1,4 @@
-\begin{thebibliography}{15}
+\begin{thebibliography}{20}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax\else
@@ -137,5 +137,44 @@ GARCKE~J.
 \newblock Sparse grids in a nutshell[C/OL]//\allowbreak
 2012.
 \newblock \url{https://api.semanticscholar.org/CorpusID:33937930}.
+\newblock DOI: \doi{10.1007/978-3-642-31703-3_3}.
+
+\bibitem[Bungartz(2004)]{18}
+BUNGARTZ~H~J.
+\newblock Sparse grids[J/OL].
+\newblock Acta Numerica, 2004, 13: 147 - 269.
+\newblock \url{https://api.semanticscholar.org/CorpusID:229170630}.
+
+\bibitem[Zaeemzadeh et~al.(2021)Zaeemzadeh, Rahnavard, and Shah]{16}
+ZAEEMZADEH~A, RAHNAVARD~N, SHAH~M.
+\newblock Norm-preservation: Why residual networks can become extremely
+  deep?[J/OL].
+\newblock IEEE Transactions on Pattern Analysis and Machine Intelligence, 2021,
+  43\allowbreak (11): 3980-3990.
+\newblock DOI: \doi{10.1109/TPAMI.2020.2990339}.
+
+\bibitem[Liu et~al.(2020)Liu, Ren, Zhang, Sun, and Zou]{17}
+LIU~F, REN~X, ZHANG~Z, et~al.
+\newblock Rethinking skip connection with layer
+  normalization[C/OL]//\allowbreak
+SCOTT~D, BEL~N, ZONG~C.
+\newblock Proceedings of the 28th International Conference on Computational
+  Linguistics.
+\newblock Barcelona, Spain (Online): International Committee on Computational
+  Linguistics, 2020: 3586-3598.
+\newblock \url{https://aclanthology.org/2020.coling-main.320}.
+\newblock DOI: \doi{10.18653/v1/2020.coling-main.320}.
+
+\bibitem[Ba et~al.(2016)Ba, Kiros, and Hinton]{19}
+BA~J, KIROS~J~R, HINTON~G~E.
+\newblock Layer normalization[J/OL].
+\newblock ArXiv, 2016, abs/1607.06450.
+\newblock \url{https://api.semanticscholar.org/CorpusID:8236317}.
+
+\bibitem[Liu et~al.(2023)Liu and Hui]{20}
+LIU~C, HUI~L.
+\newblock Relu soothes the ntk condition number and accelerates optimization
+  for wide neural networks[Z].
+\newblock [S.l.: s.n.], 2023.
 
 \end{thebibliography}

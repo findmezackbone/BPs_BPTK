@@ -130,7 +130,7 @@ class CustomResNN(nn.Module):
         return self.linear_Res_final(inputs)
 
 #超参数合集
-hyperparas = {'input_dim':4,'hidden_dim':60,'hidden_nums':6,'output_dim':2,'block_layer_nums':3}
+hyperparas = {'input_dim':4,'hidden_dim':64,'hidden_nums':10,'output_dim':2,'block_layer_nums':3}
 learning_rate = 0.001
 num_epochs = 300
 
@@ -233,8 +233,8 @@ for epoch in range(num_epochs):
     for inputs, labels in train_loader:
         optimizer.zero_grad()
         outputs = model(inputs)
-        loss,_,_ = criterion(outputs, labels, mode =4)
-        #loss = criterion(outputs, labels, mode =1)
+        #loss,_,_ = criterion(outputs, labels, mode =4)
+        loss = criterion(outputs, labels, mode =1)
         loss.backward()
         optimizer.step()
         train_loss += loss.item()
@@ -248,14 +248,14 @@ for epoch in range(num_epochs):
     with torch.no_grad():
         for val_inputs, val_labels in val_loader:
             val_outputs = model(val_inputs)
-            val_loss_single,loss1,loss2 = criterion(val_outputs, val_labels, mode =4)
-            #val_loss_single = criterion(val_outputs, val_labels, mode =1)
-            loss1 = loss1
-            loss2 = loss2
+            #val_loss_single,loss1,loss2 = criterion(val_outputs, val_labels, mode =4)
+            val_loss_single = criterion(val_outputs, val_labels, mode =1)
+            #loss1 = loss1
+            #loss2 = loss2
 
             val_loss += val_loss_single
-            loss1_total += loss1
-            loss2_total += loss2
+            #loss1_total += loss1
+            #loss2_total += loss2
 
     #if val_loss / len(val_loader) <0.002:
         #patience_on = 1
@@ -298,8 +298,8 @@ with torch.no_grad():
         
         test_outputs = best_model(test_inputs)
         
-        test_loss_single,_,_ = criterion(test_outputs, test_labels, mode =4)
-        #test_loss_single = criterion(test_outputs, test_labels, mode =1)
+        #test_loss_single,_,_ = criterion(test_outputs, test_labels, mode =4)
+        test_loss_single = criterion(test_outputs, test_labels, mode =1)
         test_loss += test_loss_single
         test_relativeerror += torch.mean(torch.abs(test_outputs - test_labels)/torch.max(test_labels, torch.full_like(test_labels, 1E-9)))
     print(f'Test Loss: {test_loss / len(test_loader)}')
