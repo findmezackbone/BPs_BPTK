@@ -638,13 +638,13 @@ $mean_i$, 标准值为$std_i$, 左截断点为$lb_i = mean_i - 1.96\times std_i$
   \begin{subfigure}{0.45\textwidth}
     \centering
     \resizebox{1\textwidth}{!}{\input{./figs/pcode4_1.pgf}}
-    \caption{$A_{plasma}(t)$与采样点}
+    \caption{$A_{plasma}(t)$与28点采样点}
     \label{曲线与采样点a}
   \end{subfigure}
   \begin{subfigure}{0.45\textwidth}
     \centering
     \resizebox{1\textwidth}{!}{\input{./figs/pcode4_2.pgf}}
-    \caption{$A_{urinebps}(t)$,$A_{urinebpsg}(t)$与采样点}
+    \caption{$A_{urinebps}(t)$,$A_{urinebpsg}(t)$与15点采样点}
     \label{曲线与采样点b}
   \end{subfigure}
 
@@ -685,14 +685,14 @@ $mean_i$, 标准值为$std_i$, 左截断点为$lb_i = mean_i - 1.96\times std_i$
   \centering
   \begin{subfigure}{0.45\textwidth}
     \centering
-    \resizebox{1\textwidth}{!}{\input{./figs/pcode4_1.pgf}}
-    \caption{$A_{plasma}(t)$与采样点}
+    \resizebox{1\textwidth}{!}{\input{./figs/pcode5_1.pgf}}
+    \caption{$A_{plasma}(t)$与5点采样点}
     \label{曲线与采样点5a}
   \end{subfigure}
   \begin{subfigure}{0.45\textwidth}
     \centering
-    \resizebox{1\textwidth}{!}{\input{./figs/pcode4_2.pgf}}
-    \caption{$A_{urinebps}(t)$,$A_{urinebpsg}(t)$与采样点}
+    \resizebox{1\textwidth}{!}{\input{./figs/pcode5_2.pgf}}
+    \caption{$A_{urinebps}(t)$,$A_{urinebpsg}(t)$与5点采样点}
     \label{曲线与采样点5b}
   \end{subfigure}
 
@@ -730,9 +730,54 @@ $mean_i$, 标准值为$std_i$, 左截断点为$lb_i = mean_i - 1.96\times std_i$
   \label{网络结构}
 \end{figure}
 
-\noindent 网络的输入数据形状为$batchsize \times inputsize$, 第一层全连接层的输出数据形状为
+\noindent 网络的输入数据形状为$batchsize \times inputsize$, 第一层全连接层的输出数据形状为$batchsize \times hiddensize$, 后续层的输入输出至倒数第一层的输入数据的形状都是$batchsize \times hiddensize$, 最后一层全连接层的输出数据形状为$batchsize \times outputsize$.
+
+对于该章的参数反演神经网络, 其网络模型架构的参数如下:
+
+$outputsize = 3, \quad hiddensize = 30, \quad hidden\_nums = 3$.
+
+\noindent 整个网络的输出即为反演后的皮肤三参数组, 中间隐藏层的神经元数量为30个, 残差网络模块的串联数量为3个. 同时, 根据特征集的不同, 本节共有两个参数反演神经网络, 两个网络模型的架构只在$inputsize$的取值上有差异. ``血药含量采样28点\&尿药含量采样15点''特征集对应的$inputsize=58$, ``血药含量采样5点\&尿药含量采样5点''特征集对应的$inputsize=15$.
+
+\section{参数反演神经网络模型的训练}
+\subsection{数据集的预处理,划分与训练流程}
+在训练开始前, 将特征集与标签集分别进行标准化处理, 使作为数据集的矩阵的每一列具有零均值, 单位标准差的性质. 数据集的标准化处理可以增强模型的稳定性, 保持梯度的一致性与稳健性, 减少梯度消失或爆炸的风险\cite{21}. 同时, 标准化处理可以减小数据条目之间的数值差距, 使不同尺度的数据具有类似的分布特性, 令网络训练更专注于反演模型拟合这一主要任务, 而不是专注于输入数据的数值本身. 因而, 在处理未见到的
+数据时, 网络也不会因为陌生的数值而给出不佳的表现, 故标准化处理还可以提升网络的泛化能力\cite{22}.
+
+数据集预处理后, 根据训练需求被随机划分为训练集, 验证集, 测试集三个部分, 三个部分的条目比例为$8:1:1$, 特征集与标签集被同步地划分, 划分后依然保持条目一一对应的关系. 
+在一轮训练中, 整个训练集被分为若干小批量数据, 在一轮训练内, 每个小批量数据都会前后被代入至未完善模型中,
+计算损失函数关于网络模型内各系数的梯度信息, 并根据梯度信息使用优化算法来更新网络模型中的系数. 
+利用所有小批量完成了一轮网络模型系数更新后, 将整个验证集分批次地代入至当前的网络模型中, 
+观测其对应的损失函数. 在验证的过程中, 引入早停技术(early stopping)
 
 
+
+
+
+
+
+\section{对偶学习与PBPK模型拟合神经网络模型}
+
+\subsection{对偶学习的引入背景}
+在神经网络的训练过程中, 需要设置损失函数, 并以减少损失函数的数值为目标来迭代网络模型中的系数. 对于参数反演的问题, 见公式(\ref{eq2.1}), 损失函数应设置为$\|f(\vec{\alpha})-f(\vec{\alpha^*}) \|^2 $, 即原本的皮肤三参数组代入至PBPK模型求解得到的含量曲线采样点与网络模型输出的反演皮肤三参数组代入至PBPK模型求解得到的含量曲线采样点之间的平均平方误差. 但由于计算资源问题, 较为庞大的PBPK模型的求解模型难以植入神经网络模型并在反向传播中正常运作. 故损失函数设置为 $\|\vec{\alpha}-\vec{\alpha^*} \|^2 $, 即原本的皮肤三参数组与网络模型输出的反演皮肤三参数组之间的平均平方误差.
+但这样的损失函数在训练过程中缺乏对神经网络模型的引导, 此处引入对偶学习, 训练一个能够拟合函数$f$的正向神经网络模型$\tilde{f}$, 与参数反演神经网络形成对偶关系. 同时, 将
+$\|\tilde{f}(\vec{\alpha})-\tilde{f}(\vec{\alpha^*}) \|^2 $作为损失函数内的一个正则化项, 与$\|\vec{\alpha}-\vec{\alpha^*} \|^2 $一项共同引导参数反演神经网络去学习$\vec{\alpha}$
+与$f(\vec{\alpha})$之间的映射关系.
+
+\subsection{正向拟合神经网络模型的数据集结构与构建}
+由于与参数反演神经网络是对偶关系, 本章中的正向拟合神经网络也使用固定时间采样节点来构建数据集, 同时也沿用参数反演神经网络数据集内的数据. 由于采样时间节点的不同, 本章共有两种参数反演神经网络, 相应地也有两类正向拟合神经网络.
+并且, 为了更好地拟合PBPK模型输出的三种含量曲线$(A_{plasma}(t), A_{urinebps}(t), A_{urinebpsg}(t))$, 对于每种时间采样点, 本节将分别训练三个正向拟合神经网络, 分别拟合血浆BPS含量曲线的采样点,
+尿液BPS累计含量曲线的采样点以及尿液BPS-g累计含量曲线的采样点. 故正向拟合神经网络的特征集为皮肤三参数组$\vec{\alpha}$的集合, 对应的标签集为$\vec{\alpha}$代入至PBPK模型求解得到的某种含量曲线的采样点 $(A(t_1),A(t_2),\dots,A(t_n))$的集合.
+
+对于任意一种时间采样点, 需要训练的三个正向拟合神经网络的特征集都与相同时间采样点情形下的参数反演神经网络的标签集相同, 其形状为$44031 \times 3$.
+三个正向拟合神经网络的标签集是相同时间采样点情形下的参数反演神经网络的特征集的切片. 例如, 在血药含量曲线采样28点的情况下, 用于拟合$A_{plasma}(t)$曲线的采样点的正向拟合神经网络的标签集是参数反演神经网络的特征集的前28列, 形状即为$44031 \times 28$.
+
+\subsection{正向拟合神经网络模型的网络结构与训练}
+
+本节共有六个正向拟合神经网络, 对应两种时间采样节点与三种含量曲线$(2\times 3 = 6)$. 对于每个正向拟合神经网络, 其架构与图\ref{网络结构}所呈现的相同, 架构中的参数相应地设置为:
+
+$inputsize = 3, \quad hiddensize = 30, \quad hidden\_nums = 3$.
+
+\noindent 整个网络的输入即为包含44031条皮肤三参数的特征集, 中间隐藏层的神经元数量为30个, 残差网络模块的串联数量为3个. 同时, 根据标签集的不同, 本小节内的六个网络模型的架构只在$outputsize$的取值上有差异. 例如, 用于拟合``血药含量采样28点''的正向拟合神经网络对应的$outputsize=28$.
 
 
 
