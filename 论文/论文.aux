@@ -2,10 +2,13 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
 \HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
 \global\let\oldnewlabel\newlabel
 \gdef\newlabel#1#2{\newlabelxx{#1}#2}
 \gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
 \AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
 \let\newlabel\oldnewlabel
 \fi}
 \fi}
@@ -97,6 +100,7 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3.1}参数反演的背景与网络模型的基本介绍}{10}{section.3.1}\protected@file@percent }
 \citation{11}
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}参数反演神经网络模型的数据集结构与构建}{11}{section.3.2}\protected@file@percent }
+\newlabel{3.2}{{3.2}{11}{参数反演神经网络模型的数据集结构与构建}{section.3.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}网络功能与数据集结构介绍}{11}{subsection.3.2.1}\protected@file@percent }
 \newlabel{eq2.1}{{3.1}{11}{网络功能与数据集结构介绍}{equation.3.2.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}标签集的构建}{11}{subsection.3.2.2}\protected@file@percent }
@@ -152,17 +156,25 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3.5}对偶学习与PBPK模型拟合神经网络模型}{18}{section.3.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}对偶学习的引入背景}{18}{subsection.3.5.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}正向拟合神经网络模型的数据集结构与构建}{18}{subsection.3.5.2}\protected@file@percent }
+\citation{26}
+\citation{26}
+\citation{27,28}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}正向拟合神经网络模型的网络结构与训练}{19}{subsection.3.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {附录 A\hspace  {.3em}}代码}{21}{appendix.A}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}参数反演神经网络模型的效果展示}{19}{section.3.6}\protected@file@percent }
+\newlabel{tab4.1}{{\caption@xref {tab4.1}{ on input line 874}}{20}{}{table.caption.18}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces 参数反演神经网络A在测试集上的评价指标\relax }}{20}{table.caption.18}\protected@file@percent }
+\newlabel{tab4.2}{{\caption@xref {tab4.2}{ on input line 890}}{21}{}{table.caption.19}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces 参数反演神经网络B在测试集上的评价指标\relax }}{21}{table.caption.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {附录 A\hspace  {.3em}}代码}{23}{appendix.A}\protected@file@percent }
 \@writefile{lof}{\addvspace {10.0pt}}
 \@writefile{lot}{\addvspace {10.0pt}}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {A.1}代码环境}{21}{section.A.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {附录 B\hspace  {.3em}}PBPK模型物理量名称-含义对照表}{22}{appendix.B}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}代码环境}{23}{section.A.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {附录 B\hspace  {.3em}}PBPK模型物理量名称-含义对照表}{24}{appendix.B}\protected@file@percent }
 \@writefile{lof}{\addvspace {10.0pt}}
 \@writefile{lot}{\addvspace {10.0pt}}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{app:B}{{B}{22}{}{appendix.B}{}}
+\newlabel{app:B}{{B}{24}{}{appendix.B}{}}
 \bibstyle{gbt7714-numerical}
 \bibdata{REF}
 \bibcite{3}{{1}{2007}{{Vandenberg et~al.}}{{Vandenberg, Hauser, Marcus, Olea, and Welshons}}}
@@ -190,6 +202,9 @@
 \bibcite{23}{{23}{1993}{{Peterson}}{{}}}
 \bibcite{24}{{24}{2014}{{Kingma et~al.}}{{Kingma and Ba}}}
 \bibcite{25}{{25}{2019}{{Bai et~al.}}{{Bai, Ren, and Zhang}}}
-\@writefile{toc}{\contentsline {chapter}{参考文献}{28}{appendix*.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{致谢}{30}{appendix*.17}\protected@file@percent }
-\gdef \@abspage@last{34}
+\bibcite{26}{{26}{2015}{{师义民秦超英~许勇}}{{}}}
+\bibcite{27}{{27}{2023}{{孙茜童\ 等}}{{孙茜童, 付芸, 韩春晓, 范宇华, and 王天枢}}}
+\bibcite{28}{{28}{2023}{{李爱民\ 等}}{{李爱民, 范猛, 秦光铎, 王海隆, and 许有成}}}
+\@writefile{toc}{\contentsline {chapter}{参考文献}{30}{appendix*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{致谢}{32}{appendix*.21}\protected@file@percent }
+\gdef \@abspage@last{36}

@@ -19,8 +19,9 @@
 \contentsline {subsection}{\numberline {3.5.1}对偶学习的引入背景}{18}{subsection.3.5.1}%
 \contentsline {subsection}{\numberline {3.5.2}正向拟合神经网络模型的数据集结构与构建}{18}{subsection.3.5.2}%
 \contentsline {subsection}{\numberline {3.5.3}正向拟合神经网络模型的网络结构与训练}{19}{subsection.3.5.3}%
-\contentsline {chapter}{\numberline {附录 A\hspace {.3em}}代码}{21}{appendix.A}%
-\contentsline {section}{\numberline {A.1}代码环境}{21}{section.A.1}%
-\contentsline {chapter}{\numberline {附录 B\hspace {.3em}}PBPK模型物理量名称-含义对照表}{22}{appendix.B}%
-\contentsline {chapter}{参考文献}{28}{appendix*.16}%
-\contentsline {chapter}{致谢}{30}{appendix*.17}%
+\contentsline {section}{\numberline {3.6}参数反演神经网络模型的效果展示}{19}{section.3.6}%
+\contentsline {chapter}{\numberline {附录 A\hspace {.3em}}代码}{23}{appendix.A}%
+\contentsline {section}{\numberline {A.1}代码环境}{23}{section.A.1}%
+\contentsline {chapter}{\numberline {附录 B\hspace {.3em}}PBPK模型物理量名称-含义对照表}{24}{appendix.B}%
+\contentsline {chapter}{参考文献}{30}{appendix*.20}%
+\contentsline {chapter}{致谢}{32}{appendix*.21}%
