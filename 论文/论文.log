@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.9.9)  10 MAY 2024 23:40
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.9.9)  11 MAY 2024 15:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1115,7 +1115,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [15]
 File: ./figs/p5_2.png Graphic file (type bmp)
 <./figs/p5_2.png>
- [16] [17] [18] [19
+ [16] [17] [18] [19] [20
 
 ]
 附录 A
@@ -1142,7 +1142,7 @@ Package fontspec Info: Font family 'FangSong(0)' created for font 'FangSong'
 (fontspec)             <->"FangSong/OT:script=hani;language=dflt;"
 (fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
 
-[20
+[21
 
 ]
 附录 B
@@ -1152,27 +1152,27 @@ Class ctexrep Warning: Command `\CTEXsetup' is deprecated.
 (ctexrep)              is set.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 852--854
+Underfull \hbox (badness 10000) in paragraph at lines 870--872
 
  []
 
 
 Underfull \vbox (badness 3815) has occurred while \output is active []
 
- [21
+ [22
 
-] [22]
-Underfull \hbox (badness 10000) in paragraph at lines 926--928
+] [23]
+Underfull \hbox (badness 10000) in paragraph at lines 944--946
 
  []
 
-[23] (./论文.bbl [24
+[24] (./论文.bbl [25
 
-] [25
+] [26
 
-] [26]) [27] [28
+] [27]) [28] [29
 
-] [29
+] [30
 
 ] (./论文.aux)
 
@@ -1182,22 +1182,16 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-Package rerunfilecheck Warning: File `论文.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `论文.out':
-(rerunfilecheck)             Before: B838CE38000718F54F008CCBF9DA928E;3365
-(rerunfilecheck)             After:  F9994ED96A54B5974B6AFF35B34D59B7;3402.
+Package rerunfilecheck Info: File `论文.out' has not changed.
+(rerunfilecheck)             Checksum: 62B6C5C7A76BF8685DC0B104BB0577ED;3439.
  ) 
 Here is how much of TeX's memory you used:
- 32798 strings out of 476683
- 683915 string characters out of 5807576
+ 32808 strings out of 476683
+ 684010 string characters out of 5807576
  1881012 words of memory out of 5000000
- 52396 multiletter control sequences out of 15000+600000
+ 52406 multiletter control sequences out of 15000+600000
  526518 words of font info for 145 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  89i,12n,97p,584b,1205s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 论文.pdf (33 pages).
+Output written on 论文.pdf (34 pages).

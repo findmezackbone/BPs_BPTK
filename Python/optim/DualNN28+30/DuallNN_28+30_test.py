@@ -16,6 +16,7 @@ from BPS_init_function import BPS_BPTK
 from BPS_init_function_MultiParas import BPS_BPTK_MultiParas
 import matplotlib.pyplot as plt
 import keyboard
+from sklearn.metrics import r2_score
 
 def label_transform_reverse_tensor(x): #翻转预处理
     x = (torch.exp(x)-1 ) /10000
@@ -147,8 +148,8 @@ num_epochs = 300
 
 
 # 初始化模型、损失函数和优化器
-model = ResNN_Reverse(hyperparas_reverse).to(device)
-model_forward = ResNN_Forward(hyperparas_forward).to(device)
+model = ResNN_Reverse(hyperparas_reverse)
+model_forward = ResNN_Forward(hyperparas_forward)
 model_forward.load_state_dict(torch.load('Python\ForwardFitNN\Settled_Model\\threeTo28\\4\model2.pth'))
 
 loss_function=nn.MSELoss()
@@ -166,9 +167,10 @@ def criterion(output,label,input,mode = 1):
 
 
 # 加载效果最好的模型
-best_model = ResNN_Reverse(hyperparas_reverse).to(device)
-best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_best.pth'))
-best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_pause3.pth'))
+best_model = ResNN_Reverse(hyperparas_reverse)
+#best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_best.pth'))
+#best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_pause3.pth'))
+best_model.load_state_dict(torch.load('Python\optim\Settled_Model\Dual28plus30\model1.pth'))
 
 # 在测试集上评估模型
 test_dataset = TensorDataset(X_test, y_test)
@@ -177,6 +179,7 @@ test_loader = DataLoader(test_dataset, batch_size=1,shuffle = None)
 test_loss = 0.0
 label_abs_err_total = 0.0
 label_rel_err_total = 0.0
+label_mse_err_total = 0.0
 with torch.no_grad():
     count = 0
     for test_inputs, test_labels in test_loader:
@@ -191,10 +194,11 @@ with torch.no_grad():
         test_loss += test_loss_single
 
         label_abs_err = torch.mean(torch.abs(test_labels-test_outputs))
+        label_mse_err = torch.mean((test_labels-test_outputs)**2)
         label_rel_err = torch.mean(torch.abs(test_labels-test_outputs)/test_outputs)
         label_abs_err_total += label_abs_err
         label_rel_err_total += label_rel_err 
-
+        label_mse_err_total += label_mse_err 
         if test_loss_single>0.5 and count == 1:
             example_True_3para = test_inputs
             example_FromNN_3para = test_outputs
@@ -203,6 +207,7 @@ with torch.no_grad():
         
     print(f'Test Loss: {test_loss / len(test_loader)}')
     print(f'三参数标签与输出的MAE: {label_abs_err_total  / len(test_loader)}')
+    print(f'三参数标签与输出的MSE: {label_mse_err_total  / len(test_loader)}')
     print(f'三参数标签与输出的MRE: {label_rel_err_total  / len(test_loader)}')
 
 #模型在测试集跑出来的三参数计算出来的浓度曲线和真实三参数计算出来的浓度曲线对比
@@ -255,9 +260,9 @@ outputs = best_model(X_test)
 X_test = inverse_transform(X_test, X_mean, X_std)
 X_test = X_test.detach().numpy()
 outputs = outputs.detach().numpy()
-
+print(outputs.shape)
 np.random.seed(0)
-selected_indices = np.random.choice(X_test.shape[0], size=150, replace=False)
+selected_indices = np.random.choice(X_test.shape[0], size=1800, replace=False)
 X_test = X_test[selected_indices,:]
 outputs = outputs[selected_indices,:]
 
@@ -283,7 +288,16 @@ FromNN = np.hstack((plasma,urine,urineg))
 
 
 mse = np.mean((X_test- FromNN ) ** 2)
+mae = np.mean(np.abs(X_test- FromNN ))
 mre = np.mean(np.abs(X_test- FromNN)/np.maximum(X_test, 1E-9))
+r2b = 0.0
+for i in tqdm(range(outputs.shape[0])):
+    r2b += r2_score(X_test[i,:],FromNN[i,:])
+r2b = r2b/outputs.shape[0]
+r2 = r2_score(X_test,FromNN)
 print(f'整个测试集的原始特征与输出三参数通过PBPK模型计算得到的对应采样点的MSE为  {mse}')
+print(f'整个测试集的原始特征与输出三参数通过PBPK模型计算得到的对应采样点的MAE为  {mae}')
 print(f'整个测试集的原始特征与输出三参数通过PBPK模型计算得到的对应采样点的MRE为  {mre}')
+print(f'R^2  {r2}')
+print(f'R^2  {r2b}')
 print(mre)
