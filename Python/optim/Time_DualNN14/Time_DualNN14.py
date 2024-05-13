@@ -46,10 +46,10 @@ def inverse_transform(x, mean, std):
 inputshape0 = 28
 # 准备数据
 
-X =  np.load("Python\optim\Time_DualNN14\database\input_add.npy")  
+X =  np.load("Python\optim\Time_DualNN14\database\input_add2.npy")  
 print(np.shape(X))
 
-y = np.load("Python\optim\Time_DualNN14\database\label_add.npy")  
+y = np.load("Python\optim\Time_DualNN14\database\label_add2.npy")  
 print(np.shape(y))
 # 数据预处理 标准化数据
 
@@ -214,7 +214,8 @@ def criterion(output,label,input,batchsize,mode = 1):
         output_forward_urine_inverse = inverse_transform(output_forward_urine,y_forward_mean,y_forward_std) #把正向模型输出变正常
         output_forward_urine_add = torch.sum(output_forward_urine_inverse, dim=1)
 
-        loss2 = loss_function(input_inverse[:,0:int(inputshape0/2)].t().reshape(int(inputshape0/2)*batchsize),output_forward_urine_add)
+        loss2 = loss_function(i.
+                              nput_inverse[:,0:int(inputshape0/2)].t().reshape(int(inputshape0/2)*batchsize),output_forward_urine_add)
         loss1 = loss_function(output,label)
 
         
@@ -252,10 +253,10 @@ def on_press(key):
         best_model = ResNN_Reverse(hyperparas_reverse).to(device)
         best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_best.pth'))
         best_optimizer = optim.Adam(best_model.parameters(), lr=0.001)
-        best_optimizer.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\optimizer_best.pth'))
+        best_optimizer.load_state_dict(torch.load('Python\optim\Temporary_Model\optimizer_best.pth'))
         # 保存效果最好的模型
         torch.save(best_model.state_dict(), 'Python\optim\Temporary_Model\model_best.pth')
-        torch.save(best_optimizer.state_dict(), 'Python\ForwardFitNN\Temporary_Model\optimizer_best.pth')
+        torch.save(best_optimizer.state_dict(), 'Python\optim\Temporary_Model\optimizer_best.pth')
         stop_training = 1
 
     if key.name == 'q': #中途储存当前最好模型，但并不终止训练
@@ -264,10 +265,10 @@ def on_press(key):
         best_model = ResNN_Reverse(hyperparas_reverse).to(device)
         best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_best.pth'))
         best_optimizer = optim.Adam(best_model.parameters(), lr=0.001)
-        best_optimizer.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\optimizer_best.pth'))
+        best_optimizer.load_state_dict(torch.load('Python\optim\Temporary_Model\optimizer_best.pth'))
         # 保存效果最好的模型
         torch.save(best_model.state_dict(), 'Python\optim\Temporary_Model\model_pause1.pth')
-        torch.save(best_optimizer.state_dict(), 'Python\ForwardFitNN\Temporary_Model\optimizer_pause1.pth')
+        torch.save(best_optimizer.state_dict(), 'Python\optim\Temporary_Model\optimizer_pause1.pth')
         
     if key.name == 'w': #中途储存当前最好模型，但并不终止训练
         print("Saving current best model to pause2...")
@@ -275,10 +276,10 @@ def on_press(key):
         best_model = ResNN_Reverse(hyperparas_reverse).to(device)
         best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_best.pth'))
         best_optimizer = optim.Adam(best_model.parameters(), lr=0.001)
-        best_optimizer.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\optimizer_best.pth'))
+        best_optimizer.load_state_dict(torch.load('Python\optim\Temporary_Model\optimizer_best.pth'))
         # 保存效果最好的模型
         torch.save(best_model.state_dict(), 'Python\optim\Temporary_Model\model_pause2.pth')
-        torch.save(best_optimizer.state_dict(), 'Python\ForwardFitNN\Temporary_Model\optimizer_pause2.pth')
+        torch.save(best_optimizer.state_dict(), 'Python\optim\Temporary_Model\optimizer_pause2.pth')
 
     if key.name == 'e': #中途储存当前最好模型，但并不终止训练
         print("Saving current best model to pause3...")
@@ -286,10 +287,10 @@ def on_press(key):
         best_model = ResNN_Reverse(hyperparas_reverse).to(device)
         best_model.load_state_dict(torch.load('Python\optim\Temporary_Model\model_best.pth'))
         best_optimizer = optim.Adam(best_model.parameters(), lr=0.001)
-        best_optimizer.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\optimizer_best.pth'))
+        best_optimizer.load_state_dict(torch.load('Python\optim\Temporary_Model\optimizer_best.pth'))
         # 保存效果最好的模型
         torch.save(best_model.state_dict(), 'Python\optim\Temporary_Model\model_pause3.pth')
-        torch.save(best_optimizer.state_dict(), 'Python\ForwardFitNN\Temporary_Model\optimizer_pause3.pth')
+        torch.save(best_optimizer.state_dict(), 'Python\optim\Temporary_Model\optimizer_pause3.pth')
 
     if key.name == 'o': #开启early stopping
         patience_on  = 1
@@ -342,7 +343,7 @@ for epoch in range(num_epochs):
         patience_counter = 0
         # 保存效果最好的模型
         torch.save(model.state_dict(), 'Python\optim\Temporary_Model\model_best.pth')
-        torch.save(optimizer.state_dict(), 'Python\ForwardFitNN\Temporary_Model\optimizer_best.pth')
+        torch.save(optimizer.state_dict(), 'Python\optim\Temporary_Model\optimizer_best.pth')
     else:
         if patience_on == 1:
             patience_counter += 1

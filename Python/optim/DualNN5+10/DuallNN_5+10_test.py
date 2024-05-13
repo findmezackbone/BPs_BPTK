@@ -15,6 +15,8 @@ sys.path.append("Python")
 from BPS_init_function import BPS_BPTK 
 from BPS_init_function_MultiParas import BPS_BPTK_MultiParas
 import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif']=['SimHei'] # 用来正常显示中文标签
+plt.rcParams['axes.unicode_minus']=False # 用来正常显示负号
 import keyboard
 from sklearn.metrics import r2_score
 
@@ -160,7 +162,7 @@ best_model.load_state_dict(torch.load('Python\optim\Settled_Model\Dual5plus10\mo
 # 在测试集上评估模型
 test_dataset = TensorDataset(X_test, y_test)
 test_loader = DataLoader(test_dataset, batch_size=1,shuffle = None)
-
+'''
 
 label_abs_err_total = 0.0
 label_rel_err_total = 0.0
@@ -188,14 +190,18 @@ with torch.no_grad():
     print(f'三参数标签与输出的MAE: {label_abs_err_total  / len(test_loader)}')
     print(f'三参数标签与输出的MSE: {label_mse_err_total  / len(test_loader)}')
     print(f'三参数标签与输出的MRE: {label_rel_err_total  / len(test_loader)}')
-
+'''
 #模型在测试集跑出来的三参数计算出来的浓度曲线和真实三参数计算出来的浓度曲线对比
-example_True_3para = (example_True_3para.cpu()).numpy()
+ind = 1355
+example_True_3para = y_test[ind, :]
+output = best_model(X_test[ind, :])
+example_True_3para = example_True_3para.detach().numpy()
+example_True_3para = np.reshape(example_True_3para, (1,-1))
 print(example_True_3para)
 
-example_FromNN_3para=example_FromNN_3para.cpu().numpy()
+example_FromNN_3para=output.detach().numpy()
+example_FromNN_3para = np.reshape(example_FromNN_3para, (1,-1))
 print(example_FromNN_3para)
-
 
 id = 0
 time = np.arange(0,75,0.005)
@@ -204,36 +210,33 @@ plasmaTrue,urineTrue,urinegTrue  =  BPS_BPTK_MultiParas(t = time,volunteer_ID =i
 plasmaFromNN,urineFromNN,urinegFromNN  =  BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = example_FromNN_3para ,mode = '63')
 
 
-plt.subplot(221)
-plt.plot(time,plasmaFromNN[0,:],label = 'FromNN_result')
-plt.plot(time,plasmaTrue[0,:],label = 'True_result')
-plt.xlabel('time(h)')
-plt.ylabel('concentration of BPS in plasma')
-plt.legend()
+sampling_time_index_plasma = np.array([98,433,601,1644,3651])
+sampling_time_range1 = sampling_time_index_plasma/200
+sampling_time_index_urine = np.array([101,433,608,1653,3661])
+sampling_time_range2 = sampling_time_index_urine/200
 
-plt.subplot(222)
-plt.plot(time,urineFromNN[0,:],label = 'FromNN_result')
-plt.plot(time,urineTrue[0,:],label = 'True_result')
-plt.xlabel('time(h)')
-plt.ylabel('concentration of BPS in plasma')
-plt.legend()
+plasma = plasmaFromNN[:,sampling_time_index_plasma]
+urine = urineFromNN[:,sampling_time_index_urine]
+urineg = urinegFromNN[:,sampling_time_index_urine]
 
-plt.subplot(223)
-plt.plot(time,urinegFromNN[0,:],label = 'FromNN_result')
-plt.plot(time,urinegTrue[0,:],label = 'True_result')
-plt.xlabel('time(h)')
-plt.ylabel('concentration of BPS in plasma')
-plt.legend()
 
-plt.subplot(224)
-plt.plot(time,plasmaFromNN[0,:],label = 'FromNN_result')
-plt.plot(time,plasmaTrue[0,:],label = 'True_result')
-plt.xlabel('time(h)')
-plt.ylabel('concentration of BPS in plasma')
+plt.scatter(sampling_time_range1,plasma,label = '网络输出结果的含量信息')
+plt.plot(time,plasmaTrue[0,:],label = '特征集含量信息对应的完整曲线')
+plt.xlabel('时间(h)')
+plt.ylabel('血浆内BPS含量(mmol)')
 plt.legend()
-
 plt.show()
 
+plt.scatter(sampling_time_range2,urine,label = '网络输出结果的BPS含量信息')
+plt.scatter(sampling_time_range2,urineg,label = '网络输出结果的BPS-g含量信息')
+plt.plot(time,urineTrue[0,:],label = '特征集BPS含量信息对应的完整曲线')
+plt.plot(time,urinegTrue[0,:],label = '特征集BPS-g含量信息对应的完整曲线')
+plt.xlabel('时间(h)')
+plt.ylabel('尿液内BPS的累计含量(mmol)')
+plt.legend()
+plt.show()
+
+'''
 outputs = best_model(X_test)
 X_test = inverse_transform(X_test, X_mean, X_std)
 X_test = X_test.detach().numpy()
@@ -274,3 +277,5 @@ print(f'整个测试集的原始特征与输出三参数通过PBPK模型计算�
 print(f'整个测试集的原始特征与输出三参数通过PBPK模型计算得到的对应采样点的MRE为  {mre}')
 print(f'R^2  {r2}')
 print(f'R^2  {r2b}')
+
+'''

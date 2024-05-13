@@ -15,6 +15,8 @@ sys.path.append("Python")
 from BPS_init_function import BPS_BPTK 
 from BPS_init_function_MultiParas import BPS_BPTK_MultiParas
 import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif']=['SimHei'] # 用来正常显示中文标签
+plt.rcParams['axes.unicode_minus']=False # 用来正常显示负号
 import keyboard
 from sklearn.metrics import r2_score
 
@@ -175,7 +177,7 @@ best_model.load_state_dict(torch.load('Python\optim\Settled_Model\Dual28plus30\m
 # 在测试集上评估模型
 test_dataset = TensorDataset(X_test, y_test)
 test_loader = DataLoader(test_dataset, batch_size=1,shuffle = None)
-
+'''
 test_loss = 0.0
 label_abs_err_total = 0.0
 label_rel_err_total = 0.0
@@ -185,6 +187,7 @@ with torch.no_grad():
     for test_inputs, test_labels in test_loader:
         
         test_outputs = best_model(test_inputs)
+        
         if count == 0:
             example_True_3para = test_labels
             example_FromNN_3para = test_outputs
@@ -199,25 +202,30 @@ with torch.no_grad():
         label_abs_err_total += label_abs_err
         label_rel_err_total += label_rel_err 
         label_mse_err_total += label_mse_err 
+       
         if test_loss_single>0.5 and count == 1:
             example_True_3para = test_inputs
             example_FromNN_3para = test_outputs
             count = 2 
             print(test_loss_single)    
+       
         
     print(f'Test Loss: {test_loss / len(test_loader)}')
     print(f'三参数标签与输出的MAE: {label_abs_err_total  / len(test_loader)}')
     print(f'三参数标签与输出的MSE: {label_mse_err_total  / len(test_loader)}')
     print(f'三参数标签与输出的MRE: {label_rel_err_total  / len(test_loader)}')
-
+'''
 #模型在测试集跑出来的三参数计算出来的浓度曲线和真实三参数计算出来的浓度曲线对比
-example_True_3para = (example_True_3para.cpu()).numpy()
+ind = 1355
+example_True_3para = y_test[ind, :]
+output = best_model(X_test[ind, :])
+example_True_3para = example_True_3para.detach().numpy()
+example_True_3para = np.reshape(example_True_3para, (1,-1))
 print(example_True_3para)
 
-example_FromNN_3para=example_FromNN_3para.cpu().numpy()
+example_FromNN_3para=output.detach().numpy()
+example_FromNN_3para = np.reshape(example_FromNN_3para, (1,-1))
 print(example_FromNN_3para)
-
-print(f'Test Loss: {test_loss / len(test_loader)}')
 
 id = 0
 time = np.arange(0,75,0.005)
@@ -225,7 +233,41 @@ time = np.arange(0,75,0.005)
 plasmaTrue,urineTrue,urinegTrue  =  BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = example_True_3para ,mode = '63')
 plasmaFromNN,urineFromNN,urinegFromNN  =  BPS_BPTK_MultiParas(t = time,volunteer_ID =id, paras = example_FromNN_3para ,mode = '63')
 
+a = np.arange(0.5,5.1,0.5)
+b = np.arange(6,15.1,1)
+c = np.arange(18,42.1,6)
+d = np.array([50,60,72])
+sampling_time_range1 = np.hstack((a,b,c,d)) #采样时间节点，在0至75小时内共选取了28个时间节点 
+sampling_time_index_plasma = (200*sampling_time_range1).astype(int) #采样时间节点在求解器结果中的索引值
+a = np.arange(1,15.1,2)
+b = np.arange(24,42.1,6)
+c = np.array([50,60,72])
+sampling_time_range2 = np.hstack((a,b,c)) #采样时间节点，在0至75小时内共选取了15个时间节点 
+sampling_time_index_urine = (200*sampling_time_range2).astype(int) #采样时间节点在求解器结果中的索引值
 
+plasma = plasmaFromNN[:,sampling_time_index_plasma]
+urine = urineFromNN[:,sampling_time_index_urine]
+urineg = urinegFromNN[:,sampling_time_index_urine]
+
+
+plt.scatter(sampling_time_range1,plasma,label = '网络输出结果的含量信息')
+plt.plot(time,plasmaTrue[0,:],label = '特征集含量信息对应的完整曲线')
+plt.xlabel('时间(h)')
+plt.ylabel('血浆内BPS含量(mmol)')
+plt.legend()
+plt.show()
+
+plt.scatter(sampling_time_range2,urine,label = '网络输出结果的BPS含量信息')
+plt.scatter(sampling_time_range2,urineg,label = '网络输出结果的BPS-g含量信息')
+plt.plot(time,urineTrue[0,:],label = '特征集BPS含量信息对应的完整曲线')
+plt.plot(time,urinegTrue[0,:],label = '特征集BPS-g含量信息对应的完整曲线')
+plt.xlabel('时间(h)')
+plt.ylabel('尿液内BPS的累计含量(mmol)')
+plt.legend()
+plt.show()
+
+
+'''
 plt.subplot(221)
 plt.plot(time,plasmaFromNN[0,:],label = 'FromNN_result')
 plt.plot(time,plasmaTrue[0,:],label = 'True_result')
@@ -301,3 +343,5 @@ print(f'整个测试集的原始特征与输出三参数通过PBPK模型计算�
 print(f'R^2  {r2}')
 print(f'R^2  {r2b}')
 print(mre)
+
+'''

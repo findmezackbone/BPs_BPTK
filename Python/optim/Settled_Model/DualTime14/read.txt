@@ -7,3 +7,6 @@ hyperparas_reverse = {'input_dim':28,'hidden_dim':40,'hidden_nums':4,'output_dim
 
 对偶模型来源：Python\ForwardFitNN\Settled_Model\TimeFourTo2\1\model1.pth
 hyperparas_forward_urine = {'input_dim':4,'hidden_dim':50,'hidden_nums':5,'output_dim':2,'block_layer_nums':3}
+
+model1用的数据集: add
+model2用的数据集: add2
