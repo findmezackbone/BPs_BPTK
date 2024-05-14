@@ -181,11 +181,28 @@
 \addcontentsline{toc}{chapter}{Abstract}
 \normalsize
 
+\iffalse
 This study aims to establish a neural network model for the inversion of key parameters within the physiologically based pharmacokinetic (PBPK) model for bisphenol S (BPS) in the human body, to calibrate the model more rapidly and accurately.
 
 Initially, this paper introduces the development of the PBPK model, including its experimental and physiological background, mathematical formulation, and solution methods. Subsequently, the paper elaborates on the neural network methods for PBPK model parameter inversion using both fixed and random time node data. The effectiveness of these methods is demonstrated through the construction of the dataset, the architecture of the network model, the training process, and the presentation of results. Additionally, this paper employs the trained neural network model to calibrate the PBPK model parameters based on real experimental data. Finally, the paper assesses the sensitivity and uncertainty of the model output  to the calibrated skin triplet parameters.
 
 Through numerical experiments, this paper demonstrates that the neural network model is capable of performing parameter inversion and calibration tasks within the framework of the PBPK model. It is suggested that, with the neural network model as a calibration tool, researchers can reduce the frequency of blood and urine collection from subjects in human experiments, thereby reducing costs.
+\fi
+
+This study is dedicated to developing a neural network model to perform inverse parameter estimation of Bisphenol S (BPS) within a 
+physiologically-based pharmacokinetic (PBPK) modeling framework, in the meantime,  to execute model calibration with enhanced speed and accuracy.
+
+Initially, this paper introduces the construction of the PBPK model, including its experimental and physiological background, 
+ mathematical formulation, and solving method. Subsequently, the paper elaborates on the approach of using neural networks for 
+ parameter inversion, employing both fixed and random time-point data, and illustrating the efficacy of this method through the dataset structure,
+  network model architecture, training process, and results exhibition. 
+  Additionally, the well-trained neural network model is applied to perform parameter calibration of the PBPK model using actual experimental data. 
+  Finally, the paper evaluates the sensitivity and uncertainty of the model output concerning the calibrated skin triplet parameters.
+  
+  Numerical experimentation confirms that the neural network model is apt for tasks of parameter inversion and calibration within the PBPK model 
+  framework. The study further suggests that using neural networks as a calibration tool can potentially reduce the frequency of blood and urine 
+  sampling in human trials, thereby decreasing costs.
+
 
 \noindent{\textbf{Keywords:}} Bisphenol S (BPS); Physiologically Based Pharmacokinetic (PBPK) Model; Deep Learning; Parameter Inversion\\
 \noindent{\textbf{CLC code:}} O24
