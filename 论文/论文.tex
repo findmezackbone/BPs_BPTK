@@ -165,15 +165,29 @@
 \addcontentsline{toc}{chapter}{摘要}
 \normalsize
 
-这是我的中文摘要.
+本研究旨在通过建立神经网络模型来实现对双酚S(BPS)在人体内的生理药代动力学模型(PBPK)内重要参数的反演, 以更快的速度与准确性完成模型的校准. 
+
+首先, 本文介绍了PBPK模型的建立, 包括模型的实验与生理背景, 数学形式和求解方法. 随后, 本文详细阐述了使用固定时间节点数据与使用随机时间节点数据的PBPK模型参数反演神经网络方法, 并通过数据集结构与构建、网络模型架构、训练流程和效果展示等环节，展示了该方法的有效性。此外, 本文使用训练好的神经网络模型基于真实实验数据完成了PBPK模型的参数校准。最后, 本文评估了模型输出对校准后的皮肤三参数组的敏感度和不确定性.
+
+本文通过数值实验证明了神经网络模型在PBPK模型框架下能够胜任参数反演与参数校准的任务, 并建议在使用神经网络模型作为校准工具的前提下, 研究者在人体实验中可以减少对受试者的采血采尿频次, 以降低成本. 
+
+
+
+\noindent{\textbf{关键词:}} 双酚S(BPS); 生理药代动力学模型(PBPK);  深度学习 ;参数反演\\
+\noindent{\textbf{CLC code:}} O24
+
 
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
 \normalsize
 
-This is my English abstract.
+This study aims to establish a neural network model for the inversion of key parameters within the physiologically based pharmacokinetic (PBPK) model for bisphenol S (BPS) in the human body, to calibrate the model more rapidly and accurately.
 
-\noindent{\textbf{Keywords:}} 1; 2; 3\\
+Initially, this paper introduces the development of the PBPK model, including its experimental and physiological background, mathematical formulation, and solution methods. Subsequently, the paper elaborates on the neural network methods for PBPK model parameter inversion using both fixed and random time node data. The effectiveness of these methods is demonstrated through the construction of the dataset, the architecture of the network model, the training process, and the presentation of results. Additionally, this paper employs the trained neural network model to calibrate the PBPK model parameters based on real experimental data. Finally, the paper assesses the sensitivity and uncertainty of the model output  to the calibrated skin triplet parameters.
+
+Through numerical experiments, this paper demonstrates that the neural network model is capable of performing parameter inversion and calibration tasks within the framework of the PBPK model. It is suggested that, with the neural network model as a calibration tool, researchers can reduce the frequency of blood and urine collection from subjects in human experiments, thereby reducing costs.
+
+\noindent{\textbf{Keywords:}} Bisphenol S (BPS); Physiologically Based Pharmacokinetic (PBPK) Model; Deep Learning; Parameter Inversion\\
 \noindent{\textbf{CLC code:}} O24
 
 \clearpage
@@ -201,17 +215,26 @@ This is my English abstract.
 
 \chapter{引言}
 
-
+\section{研究背景} 
 双酚类物质(Bisphenols,BPs)是一种工业用化学物质, 被大量用于生产聚碳酸酯及环氧树脂\cite{3}. 这两种可能会含有BPs的高分子物质又常被投入生产食品接触材料或其他日常使用材料, 例如塑料杯,奶瓶,纸币,金属涂层等\cite{4}.在日常生活中, BPs通过皮肤渗透与口服摄入两种主要途径进入人体内环境,参与后续的分布与代谢.双酚A(BPA),作为最早投入工业生产的BPs,已被证实对人体具有毒性\cite{2}.事实上,BPA会对人体的多个系统(如呼吸系统,神经系统,生殖系统)造成损害\cite{5}.
 BPA与双酚S(BPS)两种BPs经口服进入人体后, 经消化系统来到小肠,并在此分别葡萄糖醛酸化为BPA-g与BPS-g, 葡萄糖醛酸化后的双酚物质会进入血液循环并最终随尿液排出体外;未葡萄糖醛酸化的BPA或BPS将会进入肝脏并在此被部分磷酸化为BPA-s或BPS-s,部分BPs在肝脏仍会被葡萄糖醛酸化,这些衍生物与未发生反应的BPs都会直接进入血液循环并最终随尿液排出体外\cite{2,1}.同时,在小肠或肝脏处进入血液循环的BPs会随血液进入人体的各个器官,如脑,生殖腺等.若BPs经由皮肤渗透进入人体,将会直接进入血液循环并跟随血液到达各个器官,其中进入小肠或肝脏的部分BPs将会根据所处位置被葡萄糖醛酸化或是被磷酸化.
 为了找寻比BPA更安全的替代品, 研究BPS等双酚物质在人体中的代谢过程是有必要的\cite{6}.
 
 生理药代动力学模型(Physiology-Based Pharmacokinetic Model, PBPK)是药学中定量描述化学品在人体中吸收,分布,代谢,排泄过程的经典模型,常被用于化学品生态风险评价,人类健康风险评估以及药物开发\cite{7}.PBPK模型将包含血浆在内的对目标化学品特异性较强的靶点组织器官抽象为一个个”房室”,以质量守恒定律和相关生化反应为基础定量计算目标化学品在各房室之间的交换与各房室之内的代谢过程\cite{8}.当某些靶点组织器官的目标化学品含量难以实际测出时, PBTK模型的结果能够提供一个良好的预测 \cite{7}.只需要确定PBPK模型中重要参数的数值, 就能在脱离实际人体实验的情况下给出人体吸收目标化学品后靶点组织器官的化学品含量.
 
-Yang等人在2015年首次建立了使用人类参数的BPA在生物体内的PBPK模型,该模型基于口服摄入的吸收方式, 共设置了10个仓室,分别为血浆,肝脏,脂肪,性腺,血流丰富组织,血流缓慢组织,大脑和皮肤,剩下两个仓室分别是BPA-g和BPA-s的反应仓室\cite{10}. Karrer等人在2018年重新调整了此PBPK模型, 提供了BPA的其他双酚类替代品的模型参数, 并增加了通过皮肤渗透吸收BPs的情形\cite{9}.Hu等人在2023年对皮肤渗透模型进行了改进,在原本皮肤作为单独仓室的基础上将其分割成了五个小仓室,分别为表皮储仓,角质层,活性表皮,毛囊以及未参与渗透吸收的未暴露皮肤\cite{11}.
-该文章设置了志愿者实验, 利用BPS暴露后受试者尿液中BPS与BPS-g的含量来优化PBPK模型与皮肤仓室相关的三个参数, 并使用敏感性与不确定性分析评估了修改后的PBPK模型.
+\section{文献综述} 
+Yang等人\cite{10}在2015年首次建立了使用人类参数的BPA在生物体内的PBPK模型,该模型基于口服摄入的吸收方式, 共设置了10个仓室,分别为血浆,肝脏,脂肪,性腺,血流丰富组织,血流缓慢组织,大脑和皮肤,剩下两个仓室分别是BPA-g和BPA-s的反应仓室. 为了校准模型, Yang等人设立了成年人类口服BPA的人体实验并记录了受试者尿液中的BPA的含量信息, 借助真实数据, 研究者使用视觉拟合与传统优化算法对PBPK模型中与肝脏有关的参数进行了优化校准. 最后, Yang等人利用敏感性分析与不确定性分析评估了模型.
+Karrer等人\cite{9}在2018年重新调整了此PBPK模型, 提供了BPA的其他双酚类替代品的模型参数, 并增加了通过皮肤渗透吸收BPs的情形. Karrer等人利用人体BPS接触实验的血液与尿液数据完成了对模型结构的调整, 并同样使用了视觉拟合与传统优化算法对部分参数进行了调整, 最终也使用敏感性与不确定性分析评估了模型.
+Hu等人\cite{11}在2023年对皮肤渗透模型进行了改进, 在原本皮肤作为单独仓室的基础上将其分割成了五个小仓室, 分别为表皮储仓, 角质层, 活性表皮, 毛囊以及未参与渗透吸收的未暴露皮肤.
+该文章也设置了志愿者实验, 利用BPS暴露后受试者尿液中BPS与BPS-g的含量来优化PBPK模型与皮肤仓室相关的三个参数, 并使用敏感性与不确定性分析评估了修改后的PBPK模型.
 
-Hu等人文章的参数优化部分中使用了传统的优化算法, 在计算机上运行的时间较久. 本文将在其基础上利用神经网络模型对皮肤渗透吸收型PBPK模型内的三个目标参数做参数反演, 提升获取最优参数的速度的同时提高参数的准确性; 并利用数值实验来评估神经网络模型的效果.
+\section{研究目标与本文结构} 
+
+ Hu等人\cite{11}文章的参数优化部分中使用了传统的优化算法, 且不确定性分析中的蒙特卡洛模拟需要对模型进行上万次的计算, 在计算机上运行的时间较久, 有较大的优化空间. 
+ 本文欲根据Hu等人在论文中提供的PBPK模型的数学形式来重建PBPK模型的求解模型, 并使用深度学习的办法完成参数校准的工作, 最终在校准结果的基础上完成模型的敏感性分析与不确定性分析.
+
+ 本文包含三个主要结构, 分别为PBPK模型的求解, PBPK模型的参数校准与PBPK模型的统计学分析. 其中使用神经网络模型完成参数校准是本文的主题与重点, 本文将使用深度残差连接网络架构训练出两种神经网络模型.
+网络模型的输入为离散的BPS含量信息, 输出为反演得到的需校准的PBPK模型参数, 以达到参数校准的目的. 两种神经网络模型分别为不可输入时间信息的网络和可输入时间信息的网络, 输入时间信息意为网络在接收BPS含量信息的同时还能接收该含量信息所处的时间点的信息.
 
 
 \chapter{PBPK模型的建立}
@@ -1142,41 +1165,137 @@ $MSE_{C}$, $MRE_{C}$和$R^2$分别为特征集中前14个元素对应的尿液BP
   \caption{皮肤三参数组校准结果展示}
   \label{校准}
 \end{figure}
-\noindent 计算校准后的皮肤三参数组对应的14个时间点处的尿液BPS类含量信息与真实尿液BPS类含量信息之间的均方误差与平均相对误差, 得到的结果如表
-
+\noindent 计算校准后的皮肤三参数组对应的14个时间点处的尿液BPS类含量信息与真实尿液BPS类含量信息之间的均方误差与平均相对误差, 得到的结果与两种方式的校准时间如表\ref{tab8}所示.
+可以看到本文的校准方式在速度和精度上都超过了前人的传统优化方法.
 \begin{table}[htbp]
   \centering
   \begin{tabular}[t]{c*{3}{c}}
     \hline
-    \textit{校准手段} &$MSE$&$MRE$&\textit{校准时间}$(s)$\\
+    \textit{校准手段} &$MSE$&$MRE$&\textit{校准时间}\\
     \hline
-    \textit{参数反演神经网络} & $1.17\times 10^{-3}$  &   29.56\% &0.001   \\ 
-    \textit{前人研究} & $6.21\times 10^{-1}$  &  62.13\%    &0.001   \\ 
+    \textit{参数反演神经网络} & $1.17\times 10^{-3}$  &   29.56\% &0.001$s$  \\ 
+    \textit{前人研究} & $6.21\times 10^{-1}$  &  62.13\%    & >5$min$   \\ 
     \hline
   \end{tabular}
-  \caption{\label{tab8}} 
+  \caption{\label{tab8}两种校准手段的指标展示} 
 \end{table}  
 
+\chapter{PBPK模型的统计学分析}
 
+\section{敏感性分析}
 
+敏感性分析(Sensitivity Analysis, SA)是一种用于评估模型输出关于模型输入的变化的敏感度的分析手段\cite{29}.
+在Hu等人\cite{11}的研究中, 将模型输出设置为$A_{plasma}(t)$的曲线下面积$AUC$与最大值$C_{max}$. 将模型的某种输入参数提高至原来的1.1倍, 或减少至原来的0.9倍, 并观察模型输出的变化幅度, 
+即可得到模型输出关于该种参数的敏感度.
 
+在本文中, PBPK模型只有皮肤三参数组$\vec{\alpha}=(\alpha_1,\alpha_2,\alpha_3)$作为输入, 即$DSC$, $Pfo$与$u_1$. 三个参数的基准值设置为上一章中使用参数反演神经网络得到的校准值
+$\vec{\alpha}=(14.9377,  6.1184,  3.7767)$, 并对每个参数分别进行提高至1.1倍与减少至0.9倍的操作(即增减10\%), 记录$A_{plasma}(t)$的曲线下面积$AUC$与最大值$C_{max}$相应的变化幅度. 将皮肤三参数组的基准值
+与更改值分别代入至PBPK模型的求解模型, 得到结果如表格\ref{tab9}所示. 可以看出, $AUC$对$DSC$变化的敏感性最高, 甚至百分比变化接近$50\%$, 其次是$u_1$, 对$Pfo$的敏感性很低. 另外, $AUC$与$u_1$的相关性和与$DSC$或$Pfo$的相关性相反.
+校准后的$DSC$与$u_1$似乎能使$C_{max}$处在极小值附近, 因为无论增还是减$DSC$或$u_1$, $C_{max}$都会增加, 但增加的幅度不同. 相较于减小, 当$DSC$增加时, $C_{max}$增加的幅度更大, 对于$u_1$也是如此.
+$C_{max}$可能与$Pfo$是线性的关系, $Pfo$增加10\%时, $C_{max}$也随之增加10\%, 当$Pfo$减少10\%时, $C_{max}$也随之减少10\%. 总得来说, 两个模型输出对皮肤三参数组的敏感性都较强, 说明了对皮肤三参数组进行校准的必要性.
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}[t]{c*{2}{c}}
+    \hline
+    \textit{参数处理情况} &$C_{max}$\textit{百分比变化}  &$AUC$\textit{百分比变化}\\
+    \hline
+    $DSC\times1.1$ & $  20.76\%$ & $ 46.65 \%$  \\ 
+    $DSC\times0.9$ & $  0.41\%$ &$  -35.79 \%$   \\ 
+    $Pfo\times1.1$ & $  10.00\%$ &$   1.23 \%$   \\ 
+    $Pfo\times0.9$ & $  -10.00\%$ &$    -1.23\%$  \\ 
+    $u_1\times1.1$ & $  0.26\%$ &$   -26.99 \%$   \\ 
+    $u_1\times0.9$ & $  3.54\%$ &$   37.26 \%$  \\ 
+    \hline
+  \end{tabular}
+  \caption{\label{tab9}PBPK模型输出对皮肤三参数组的敏感度} 
+\end{table}  
 
+\section{不确定性分析}
 
+不确定性分析是医学模型中常用的一个手段, 它的做法是利用蒙特卡洛模拟的方法依照某种概率分布抽取若干组模型的输入参数, 得到若干组模型输出, 之后将模型输出按从小到大的顺序排列, 并提取其中的
+95分数(大于余下95\%的数据的值)与50分数(即中位数)\cite{30}. 模型的不确定值被定义为
+$uncertainty = \frac{P95}{P50}$. 该值越接近于1, 说明模型输出对所选输入参数的不确定性越小, 该值大于2时, 说明模型的不确定性较高\cite{30}.
 
+Hu等人\cite{11}在不确定性分析中使用了截断正态分布来依概率分布抽取模型的输入参数, 本节将对皮肤三参数组进行以概率分布的抽取, 并分别计算模型输出$A_{plasma}(t)$的曲线下面积$AUC$与最大值$C_{max}$对三个参数$DSC$, $Pfo$与$u_1$的不确定性.
+其中皮肤三参数组的截断正态分布的平均值使用本文的校准结果, 变异系数统一设置为$30\%$, 标准差为平均值与变异系数的乘积, 左截断点为$lb = mean - 1.96\times std$, 右截断点为$lb = mean + 1.96\times std$,
+三个参数的截断正态分布的参数如下所示:
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}[t]{|l*{3}{l}|}
 
+    $mean_1 = 14.9377$ &$std_1 = 4.48$ &$lb_1 = 6.16$ &$ub_1 =23.72$  \\ 
+  
+    $mean_2 = 6.1184$  &$std_2 = 1.84$ &$lb_2 = 2.512$ &$ ub_2 =9.7248$  \\ 
+  
+    $mean_3 = 3.7767$ &$std_3 = 1.13$  &$lb_3 = 1.56$ &$ub_3 =5.99$ \\ 
+    
+  \end{tabular}
+\end{table}  
 
+对每个参数分别以概率分布抽取10000次, 分别计算$AUC$与$C_{max}$关于三个参数的不确定性, 得到结果如表\ref{tab10}所示. 可以看到$C_{max}$关于$DSC$的不确定性最高, 超过了3.5, 关于$u_1$的不确定性也很高, 关于$Pfo$的不确定性较低, 小于1.5.  $AUC$关于$DSC$和$u_1$的不确定性都很高, 都超过了3.5, 关于$Pfo$的不确定性数值极低, 接近于1. 从不确定性分析可以看出, $DSC$与$u_1$相对来说对模型输出的贡献更大, 更值得关注.
 
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}[t]{c*{2}{c}}
+    \hline
+    \textit{参数} &$C_{max}$\textit{的不确定性}  &$AUC$\textit{的不确定性}\\
+    \hline
+    $DSC$ & $ 3.68$ & $3.81$  \\ 
+    
+    $Pfo$ & $  1.44$ &$  1.05$   \\ 
+   
+    $u_1$ & $  2.73$ &$  3.76$   \\ 
+    
+    \hline
+  \end{tabular}
+  \caption{\label{tab10}PBPK模型输出关于皮肤三参数组的不确定性} 
+\end{table}  
+
+\chapter{总结}
+
+\section*{研究回顾}
+本文基于Hu等人\cite{11}的研究, 从双酚S的人体平行分层皮肤的PBPK模型的模型求解, 模型参数校准到模型不确定性分析完成了对该模型的二次解读与构建.
+其中文章的主题与着重点在于利用神经网络模型来进行模型的参数校准.
+在模型求解部分, 本文总结了PBPK模型的数学形式并使用Python代码构建了模型的数值求解模型. 在参数校准部分, 本文分别构建了两类参数反演网络, 分别是不包含时间节点信息的网络模型包含时间节点信息的网络模型, 
+网络的架构都是深度残差神经网络, 并使用对偶学习的方法完成了网络的训练. 利用包含时间节点信息的参数反演网络模型与Hu等人\cite{11}提供的人体实验数据完成了PBPK模型的参数校准. 最后, 利用校准好的参数完成了模型输出关于需校准的三个参数的敏感性分析与不确定性分析.
+
+\section*{结论与讨论}
+\subsection*{模型求解}
+在模型求解部分, 本文利用Hu等人\cite{11}提供的PBPK模型的数学形式完成了求解代码的复现, 得到了与前人模型求解代码结果相同但速度超出其100倍的复现结果. 但
+Hu等人提供的模型在当某些皮肤三参数组作为模型输入的情况下, 会求解得到出现双峰图案的血药含量曲线, 这代表着BPS在血液内的含量快速下降后又出现了明显回升, 在大多数情况下, 双峰的图案是不正确的,
+也许是Hu等人提供的与皮肤相关的人体参数并不准确, 或者是带平行分层皮肤仓室的PBPK模型本身并不完善. 
+
+\subsection*{参数校准与神经网络模型}
+
+为了更加快速且精准地得到参数反演的结果, 本文建立了神经网络模型, 输入离散的血液中或尿液中BPS的含量信息, 网络模型会输出反演后的皮肤三参数组.
+本质上, 参数反演神经网络是对PBPK模型的正向求解模型的反模型的拟合. 在原始测试集和扩充测试集上, 根据评价指标的数值可得出结论:本文提出的神经网络模型显示出了很好的泛化能力.
+另外, 在使用固定时间点的神经网络模型背景下, 本文在数值实验的意义上得到减少采样时间点也能得到良好反演效果的结论, 意味着在真实人体实验中, 可以减少对受试者的采血采尿的频次, 以降低实验成本, 优化成本效益比.
+最后, 本文利用真实数据完成了参数校准, 校准后的参数与Hu等人\cite{11}的校准参数相比, 在真实数据拟合方面有着更优秀的表现, 且本文的参数校准方法速度更快.
+
+\subsection*{统计学分析}
+本文的最后一部分基于校准后的参数, 对模型的两种输出(血药含量曲线的曲线下面积与最大值)进行了关于皮肤三参数组的敏感性分析和不确定性分析. 分析结果表明, $DSC$与$u_1$是对模型输出贡献较大的两个参数, 模型输出对这两个参数的不确定性和敏感性都很高, 这意味着这两个参数需要得到更进一步的模型解释与范围界定, 也可能意味着Hu等人\cite{11}提出的平行分层皮肤仓室模型的预测结果并不稳定, 存在较大风险, 需要改变模型结构或给出更合理的皮肤相关参数的取值.
+
+\subsection*{结论}
+神经网络模型在PBPK模型框架下能够胜任参数反演或参数校准的任务. 若研究者做人体实验的目的为校准模型参数, 在使用神经网络模型作为校准工具的前提下, 可以考虑减少对受试者采集生物材料的频次, 以降低成本节约时间.
+
+\iffalse
 \clearpage
 \mbox{}
 \thispagestyle{empty}
+\fi
 
 \appendix
 % 附录部分
+
+\iffalse
 \chapter{代码}
 \section{代码环境}
 \begin{lstlisting}[language=PYTHON]
 
 \end{lstlisting}
+\fi
+
+
 \chapter{PBPK模型物理量名称-含义对照表}
 \CTEXsetup[format={\Large\bfseries}]{section}
 \section*{模型中待求解变量}
@@ -1284,9 +1403,12 @@ $ Vbodys$ {\hfill  参与BPS-s分布的组织体积$(L)$}
 \section*{实验设置的常量}
 \noindent$Time_{add}=\frac{1}{6}h$ {\hfill  手指皮肤触摸热敏纸(外源BPS)的时间$(h)$}\\
 $Time_{expose}=\frac{13}{6}h$ {\hfill  手指皮肤表皮储仓内BPS含量大于0的时间$(h)$}\\
+
+\iffalse
 \clearpage
 \mbox{}
 \thispagestyle{empty}
+\fi
 
 % 引用部分
 \bibliography{REF}
