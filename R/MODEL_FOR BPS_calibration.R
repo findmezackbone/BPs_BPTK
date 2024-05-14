@@ -1,7 +1,7 @@
 library(deSolve)
 library(ggplot2)
 
-
+start1 <- Sys.time()   #记录程序起始时间
 
 PBTKmod_bps_d1 <- function(t, y, parms)
 {
@@ -470,3 +470,6 @@ opt_res_bps4 = optim(par = theta_s1, fn=cost_fun_bps1, gr=NULL,
                      method="L-BFGS-B",t_data_s1,c_data_s1,f_data_s1,
                      lower=c(0,0,0), upper =  c(80,40,40))
 
+end1 <- Sys.time()   #记录结束时间
+deltatime = difftime(end1, start1, units = "sec")  #计算运行时间
+print(deltatime)#18.16208s

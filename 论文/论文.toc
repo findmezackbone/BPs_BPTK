@@ -30,5 +30,5 @@
 \contentsline {chapter}{\numberline {附录 A\hspace {.3em}}代码}{30}{appendix.A}%
 \contentsline {section}{\numberline {A.1}代码环境}{30}{section.A.1}%
 \contentsline {chapter}{\numberline {附录 B\hspace {.3em}}PBPK模型物理量名称-含义对照表}{31}{appendix.B}%
-\contentsline {chapter}{参考文献}{37}{appendix*.27}%
-\contentsline {chapter}{致谢}{39}{appendix*.28}%
+\contentsline {chapter}{参考文献}{37}{appendix*.28}%
+\contentsline {chapter}{致谢}{39}{appendix*.29}%

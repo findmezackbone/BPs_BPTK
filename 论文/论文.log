@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.9.9)  13 MAY 2024 23:59
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.9.9)  14 MAY 2024 15:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1179,6 +1179,8 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\new@ifnextchar' on input line 1135.
 
+File: ./figs/p8.png Graphic file (type bmp)
+<./figs/p8.png>
 [27] [28] [29
 
 ]
@@ -1216,7 +1218,7 @@ Class ctexrep Warning: Command `\CTEXsetup' is deprecated.
 (ctexrep)              is set.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1189--1191
+Underfull \hbox (badness 10000) in paragraph at lines 1198--1200
 
  []
 
@@ -1226,7 +1228,7 @@ Underfull \vbox (badness 3815) has occurred while \output is active []
  [31
 
 ] [32]
-Underfull \hbox (badness 10000) in paragraph at lines 1263--1265
+Underfull \hbox (badness 10000) in paragraph at lines 1272--1274
 
  []
 
@@ -1249,23 +1251,14 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `论文.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `论文.out':
-(rerunfilecheck)             Before: BE44E515D9247DF091C517A064B3636C;4931
-(rerunfilecheck)             After:  14C2C6157E0DCBF8AB9E428139D151B8;5100.
+Package rerunfilecheck Info: File `论文.out' has not changed.
+(rerunfilecheck)             Checksum: 069B45E92D862EA59BB17946AD4B0215;5100.
  ) 
 Here is how much of TeX's memory you used:
- 32907 strings out of 476683
- 685424 string characters out of 5807576
+ 32916 strings out of 476683
+ 685560 string characters out of 5807576
  1884012 words of memory out of 5000000
- 52490 multiletter control sequences out of 15000+600000
+ 52498 multiletter control sequences out of 15000+600000
  529773 words of font info for 158 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  89i,12n,97p,584b,1205s stack positions out of 10000i,1000n,20000p,200000b,200000s

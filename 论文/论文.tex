@@ -1134,8 +1134,28 @@ $MSE_{C}$, $MRE_{C}$和$R^2$分别为特征集中前14个元素对应的尿液BP
 
 \section{基于真实实验数据\cite{11}的参数校准}
 
-将
+将人体实验的真实数据, 14个时间点信息与14个尿液BPS类含量信息, 输入至本章的参数反演神经网络中, 网络输出反演后的皮肤三参数组$\vec{\alpha}=(14.9377,  6.1184,  3.7767)$, 作为校准后的皮肤三参数组.
+将网络输出的皮肤三参数组代入至PBPK求解模型中, 得到一条尿液内BPS类含量曲线, 与前人校准得到的皮肤三参数组$\vec{\alpha}=(17.28,  6.39,  5,7)$对应的尿液内BPS类含量曲线和真实BPS类含量数据绘制在一起, 如图\ref{校准}.
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.6]{./figs/p8.png}
+  \caption{皮肤三参数组校准结果展示}
+  \label{校准}
+\end{figure}
+\noindent 计算校准后的皮肤三参数组对应的14个时间点处的尿液BPS类含量信息与真实尿液BPS类含量信息之间的均方误差与平均相对误差, 得到的结果如表
 
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}[t]{c*{3}{c}}
+    \hline
+    \textit{校准手段} &$MSE$&$MRE$&\textit{校准时间}$(s)$\\
+    \hline
+    \textit{参数反演神经网络} & $1.17\times 10^{-3}$  &   29.56\% &0.001   \\ 
+    \textit{前人研究} & $6.21\times 10^{-1}$  &  62.13\%    &0.001   \\ 
+    \hline
+  \end{tabular}
+  \caption{\label{tab8}} 
+\end{table}  
 
 
 
