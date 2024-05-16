@@ -109,50 +109,50 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 % 制作封面, 适用于研究生毕业论文.
-%\begin{titlepage}
-%    {
-%        \hfill 
-%        \footnotesize
-%    \begin{tabular}{cc}
-%        \makebox[4em][s]{学校代码}:&\makebox[5em][l]{10246}\\
-%        \makebox[4em][s]{学号}:&\makebox[5em][l]{??300180???}\\
-%
-%    \end{tabular}
-%    }
-%    \vspace*{1.5cm}
-%
-%    \begin{center}
-%        \begin{figure}[H] %H为当前位置,!htb为忽略美学标准,htbp为浮动图形
-%            \centering %图片居中
-%            \includegraphics[width=0.46\textwidth]{figs/fudan-name.pdf} %插入图片,[]中设置图片大小,{}中是图片文件名
-%            %\caption{Main name 0} %最终文档中希望显示的图片标题
-%            \label{fudan-name} %用于文内引用的标签
-%        \end{figure}
-%        \vspace*{1.5cm}
-%
-%        \makebox[16em][s]{\LARGE{本科毕业论文}}
-%        %(学术学位)
-%        %若需要取消注释上一行,请相应改变下一行的行间距的取值
-%        \vspace*{3cm}
-%
-%        {\bfseries \Large 论文题目}
-%        \vspace*{1cm}
-%
-%        {\bfseries  English Title}
-%        \vspace*{3cm}
-%
-%        \fontsize{14pt}{\baselineskip}\selectfont
-%        \begin{tabular}{cc}
-%            \makebox[6em][s]{院系}:&\makebox[8em][c]{数学科学学院}\\[1ex]
-%            \makebox[6em][s]{专业}:&\makebox[8em][c]{数学与应用数学}\\[1ex]
-%            \makebox[6em][s]{姓名}:&\makebox[8em][c]{XXX}\\[1ex]
-%            %两个字姓名的同学可以将上一行改为
-%            %\makebox[6em][s]{姓名}:&\makebox[3em][c]{XX}\\[1ex]
-%            \makebox[6em][s]{指导老师}:&\makebox[8em][c]{XXX \ 教授}\\[1ex]
-%            \makebox[6em][s]{完成日期}:&\makebox[8em][c]{\today}\\[1ex]
-%        \end{tabular}     
-%    \end{center}
-%\end{titlepage}
+\begin{titlepage}
+    {
+        \hfill 
+        \footnotesize
+   \begin{tabular}{cc}
+        \makebox[4em][s]{学校代码}:&\makebox[5em][l]{10246}\\
+        \makebox[4em][s]{学号}:&\makebox[5em][l]{20300180059}\\
+
+    \end{tabular}
+    }
+    \vspace*{1.5cm}
+
+    \begin{center}
+        \begin{figure}[H] %H为当前位置,!htb为忽略美学标准,htbp为浮动图形
+            \centering %图片居中
+            \includegraphics[width=0.46\textwidth]{figs/fudan-name.pdf} %插入图片,[]中设置图片大小,{}中是图片文件名
+            %\caption{Main name 0} %最终文档中希望显示的图片标题
+            \label{fudan-name} %用于文内引用的标签
+        \end{figure}
+        \vspace*{1.5cm}
+
+        \makebox[16em][s]{\LARGE{本科毕业论文}}
+        %(学术学位)
+        %若需要取消注释上一行,请相应改变下一行的行间距的取值
+        \vspace*{3cm}
+
+        {\bfseries \Large PBPK模型的参数反演: 基于深度学习算法}
+        \vspace*{1cm}
+
+       {\bfseries Parameter Inversion of PBPK Model: Based on Deep Learning Algorithm}
+        \vspace*{3cm}
+
+        \fontsize{14pt}{\baselineskip}\selectfont
+        \begin{tabular}{cc}
+            \makebox[6em][s]{院系}:&\makebox[8em][c]{数学科学学院}\\[1ex]
+            \makebox[6em][s]{专业}:&\makebox[8em][c]{信息与计算科学}\\[1ex]
+            \makebox[6em][s]{姓名}:&\makebox[8em][c]{许敬然}\\[1ex]
+            %两个字姓名的同学可以将上一行改为
+            %\makebox[6em][s]{姓名}:&\makebox[3em][c]{XX}\\[1ex]
+            \makebox[6em][s]{指导老师}:&\makebox[8em][c]{陈文斌 \ 教授}\\[1ex]
+            \makebox[6em][s]{完成日期}:&\makebox[8em][c]{\today}\\[1ex]
+        \end{tabular}     
+    \end{center}
+\end{titlepage}
 
 \renewcommand{\thepage}{\roman{page}}
 
@@ -241,7 +241,9 @@ BPA与双酚S(BPS)两种BPs经口服进入人体后, 经消化系统来到小肠
 
 \section{文献综述} 
 Yang等人\cite{10}在2015年首次建立了使用人类参数的BPA在生物体内的PBPK模型,该模型基于口服摄入的吸收方式, 共设置了10个仓室,分别为血浆,肝脏,脂肪,性腺,血流丰富组织,血流缓慢组织,大脑和皮肤,剩下两个仓室分别是BPA-g和BPA-s的反应仓室. 为了校准模型, Yang等人设立了成年人类口服BPA的人体实验并记录了受试者尿液中的BPA的含量信息, 借助真实数据, 研究者使用视觉拟合与传统优化算法对PBPK模型中与肝脏有关的参数进行了优化校准. 最后, Yang等人利用敏感性分析与不确定性分析评估了模型.
+
 Karrer等人\cite{9}在2018年重新调整了此PBPK模型, 提供了BPA的其他双酚类替代品的模型参数, 并增加了通过皮肤渗透吸收BPs的情形. Karrer等人利用人体BPS接触实验的血液与尿液数据完成了对模型结构的调整, 并同样使用了视觉拟合与传统优化算法对部分参数进行了调整, 最终也使用敏感性与不确定性分析评估了模型.
+
 Hu等人\cite{11}在2023年对皮肤渗透模型进行了改进, 在原本皮肤作为单独仓室的基础上将其分割成了五个小仓室, 分别为表皮储仓, 角质层, 活性表皮, 毛囊以及未参与渗透吸收的未暴露皮肤.
 该文章也设置了志愿者实验, 利用BPS暴露后受试者尿液中BPS与BPS-g的含量来优化PBPK模型与皮肤仓室相关的三个参数, 并使用敏感性与不确定性分析评估了修改后的PBPK模型.
 
@@ -255,7 +257,7 @@ Hu等人\cite{11}在2023年对皮肤渗透模型进行了改进, 在原本皮肤
 
 
 \chapter{PBPK模型的建立}
-Hu等人\cite{11}在github中共享了论文中的数据以及部分代码\cite{12}. 共享中包含了PBPK模型和参数优化所使用的受试者真实数据等, 本章内容参照了这些工作.该模型对多种双酚类物质都适用, 本文后续只讨论
+Hu等人\cite{11}在github中共享了论文中的数据以及部分代码. 共享中包含了PBPK模型和参数优化所使用的受试者真实数据等, 本章内容参照了这些工作.该模型对多种双酚类物质都适用, 本文后续只讨论
 双酚S(BPS)的情形, 且只考虑皮肤暴露途径的外源BPS输入.
 \section{模型的实验与生理背景}
 Hu\cite{11}等人通过使用含有氘代BPS(BPS-d8)的热敏纸摩擦手指的方式令受试者暴露于BPS.受试者接触热敏纸共$\frac{1}{6}h$, 脱离热敏纸后再等待$2h$, $\frac{13}{6}h$时彻底清洗皮肤,清空表皮储仓内的BPS.
@@ -476,7 +478,7 @@ BPS-g与BPS-s引起肝脏内部分BPS发生肝肠循环的过程, 后两个加�
   \frac{dA_{urinebpsg}(t)}{dt}=\frac{Kurinebpsg}{Vbodyg+10^{-34} } A_{BPSg}(t).
 \end{equation}
 \section{PBPK模型的求解}
-确定模型的数学形式后, 将Hu等人\cite{12}提供的数据相对应地代入至方程的各个参数, 使用Python中的第三方库函数scipy.integrate.odeint()对
+确定模型的数学形式后, 将Hu等人\cite{11}提供的数据相对应地代入至方程的各个参数, 使用Python中的第三方库函数scipy.integrate.odeint()对
 微分方程组求解, 该函数默认使用LSODA数值格式. LSODA是一种高效的支持自适应步长的算法\cite{14}, 根据设置好的误差限度, 若按照原有的预设步长来进行下一节点的数值计算, 得到的误差大于限度, 则将此步预设步长拆分为更小的多个步长, 
 以此来减小误差至限度以内; 若按照预设步长计算时得到的误差远小于限度, 则适当增大步长以减小资源消耗. 同时, LSODA同时支持刚性与非刚性问题, 处理刚性问题时, 它使用后向微分公式(BDF),处理非刚性问题时, 它使用Runge-Kutta公式.
 
@@ -500,7 +502,7 @@ BPS-g与BPS-s引起肝脏内部分BPS发生肝肠循环的过程, 后两个加�
 \end{figure}
 
 
-图\ref{PBPK模型结果对比}展示了本文的模型数值求解结果与参考代码\cite{12}中结果中$A_{plasma}(t)$与$A_{urinebps}(t)$的相对误差, 可以看到
+图\ref{PBPK模型结果对比}展示了本文的模型数值求解结果与参考代码\cite{11}中结果中$A_{plasma}(t)$与$A_{urinebps}(t)$的相对误差, 可以看到
 两种绝对误差曲线的数值都来到了$10^{-7}$这一量级附近, 说明对Hu等人\cite{11}提出的模型的求解复现效果较好.
 分别运行100次前人模型求解代码与本文复现的模型求解代码, 取单次运行的平均, 得到本文的模型求解代码的单次平均运行时间为$0.1086s$, 前人的代码单次平均运行时间为$18.1621s$,
 本文复现代码的运行速度约为前人速度的$167$倍.
@@ -635,7 +637,7 @@ $mean_i$, 标准值为$std_i$, 左截断点为$lb_i = mean_i - 1.96\times std_i$
 通过稀疏网格法共得到了18943条皮肤三参数组数据. 两种方法得到的标签集拼接起来共47743条数据, 整个标签集的形状为$47743\times 3$.
 
 \subsection{特征集的构建}
-\ref{3.2.2}
+\label{3.2.2}
 一条特征和一条标签互相唯一对应, 本章中的参数反演神经网络模型使用的特征集也有47743条.对于标签集矩阵的每一行的皮肤三参数组, 将其代入至PBPK模型的求解模型, 得到血浆中BPS的含量$A_{plasma}(t)$, 尿液中BPS和BPS-g的累计含量$A_{urinebps}(t)$, $A_{urinebpsg}(t)$关于时间变化的曲线.
 为了适配人体实验中的真实采样数据, 模拟真实采样情景, 需要对曲线做采样. 以下介绍了两种特征集的构造, 将分别用于训练两种不同的参数反演神经网络模型.
 
