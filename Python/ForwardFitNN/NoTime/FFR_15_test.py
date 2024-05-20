@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif']=['SimHei'] # 用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False # 用来正常显示负号
 import keyboard
+from sklearn.metrics import r2_score
 
 
 # 准备数据
@@ -123,8 +124,8 @@ criterion = nn.MSELoss()
 # 准备 DataLoader
 
 # 加载效果最好的模型
-best_model = CustomResNN(hyperparas).to(device)
-best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_best.pth'))
+best_model = CustomResNN(hyperparas)
+#best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_best.pth'))
 #best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_pause3.pth'))
 best_model.load_state_dict(torch.load('Python\ForwardFitNN\Settled_Model\\threeTo15\\bps\\model1.pth'))
 
@@ -168,7 +169,7 @@ with torch.no_grad():
 FromNN_result = FromNN.cpu().numpy().flatten()
 FromNN_result = label_transform_reverse(FromNN_result)
 example_paras =  example_paras.cpu().numpy()
-
+print(example_paras)
 id = 0
 time = np.arange(0,75,0.005)
 _,result_True,_ = BPS_BPTK_MultiParas (t = time,volunteer_ID =id, paras= example_paras,mode = '63')
@@ -180,7 +181,7 @@ sampling_time_range = np.hstack((a,b,c)) #采样时间节点，在0至75小时�
 sampling_time_index = (200*sampling_time_range).astype(int) #采样时间节点在求解器结果中的索引值
 
 plt.plot(time,result_True[0,:],label = '真实曲线')
-plt.scatter(sampling_time_range,FromNN_result,label = '网络输出')
+plt.scatter(sampling_time_range,FromNN_result,label = '网络输出',c='red')
 plt.xlabel('time(h)')
 plt.ylabel('concentration of BPS in plasma')
 plt.legend()
@@ -193,6 +194,9 @@ y_test = label_transform_reverse(y_test)
 outputs = label_transform_reverse(outputs)
 mse = np.mean((y_test - outputs ) ** 2)
 mre = np.mean(np.abs(y_test - outputs )/np.maximum(y_test, 1E-9))
+R2 =  r2_score( y_test,outputs) #决定系数
+
 print(f'整个测试集的原始标签与输出的真实变换的MSE为  {mse}')
 print(f'整个测试集的原始标签与输出的真实变换的MRE为  {mre}')
+print(f'整个测试集的原始标签与输出的真实变换的决定系数为  {R2}')
 print(mre)

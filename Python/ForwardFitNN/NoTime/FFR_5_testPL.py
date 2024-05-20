@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif']=['SimHei'] # 用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False # 用来正常显示负号
 import keyboard
-
+from sklearn.metrics import r2_score
 
 # 准备数据
 y = np.load("Python\optim\DataFromBPTK\plasma5_add.npy")  #输入标签数据
@@ -122,10 +122,10 @@ criterion = nn.MSELoss()
 # 准备 DataLoader
 
 # 加载效果最好的模型
-best_model = CustomResNN(hyperparas).to(device)
-best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_best.pth'))
-best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_pause3.pth'))
-#best_model.load_state_dict(torch.load('Python\ForwardFitNN\Settled_Model\\threeTo28\\4\model2.pth'))
+best_model = CustomResNN(hyperparas)
+#best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_best.pth'))
+#best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_pause3.pth'))
+best_model.load_state_dict(torch.load('Python\ForwardFitNN\Settled_Model\\threeTo5\\plasma\model1.pth'))
 
 # 在测试集上评估模型
 test_dataset = TensorDataset(X_test, y_test)
@@ -190,6 +190,9 @@ y_test = label_transform_reverse(y_test)
 outputs = label_transform_reverse(outputs)
 mse = np.mean((y_test - outputs ) ** 2)
 mre = np.mean(np.abs(y_test - outputs )/np.maximum(y_test, 1E-9))
+R2 =  r2_score( y_test,outputs) #决定系数
+
 print(f'整个测试集的原始标签与输出的真实变换的MSE为  {mse}')
 print(f'整个测试集的原始标签与输出的真实变换的MRE为  {mre}')
+print(f'整个测试集的原始标签与输出的真实变换的决定系数为  {R2}')
 print(mre)

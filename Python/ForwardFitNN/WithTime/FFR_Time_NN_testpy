@@ -12,49 +12,60 @@ from tqdm import tqdm
 from sklearn.preprocessing import StandardScaler
 import sys
 sys.path.append("Python") 
-from BPS_init_function_MultiParas import BPS_BPTK_MultiParas 
+from BPS_init_function import BPS_BPTK 
 import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif']=['SimHei'] # 用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False # 用来正常显示负号
 import keyboard
 from sklearn.metrics import r2_score
+torch.backends.cudnn.enabled = True
+
+
 
 # 准备数据
-y = np.load("Python\optim\DataFromBPTK\\urinebpsg5_1_add.npy")  #输入标签数据
+y1 = np.load("Python\ForwardFitNN\WithTime\Database\ForwardLabel_zzc.npy")  #输入标签数据
+y2 = np.load("Python\ForwardFitNN\WithTime\Database\ForwardLabel_SG.npy")  #输入标签数据
+y = np.vstack((y1,y2))
 
-
-
-X1 = np.load("Python\optim\DataFromBPTK\labels_zzc.npy")
-X2 = np.load("Python\optim\DataFromBPTK\labels_SG.npy")
-
+X1 = np.load("Python\ForwardFitNN\WithTime\Database\ForwardInput_zzc.npy")
+X2 = np.load("Python\ForwardFitNN\WithTime\Database\ForwardInput_SG.npy")
 X =  np.vstack((X1,X2))
 
-
 # 数据预处理 标准化数据
-def label_transform(x): #预处理标签数据
-    x =  np.log(10000*x+1) #对数转换
-    return(x)
 
-def label_transform_reverse(x): #翻转预处理
-    x = (np.exp(x)-1 ) /10000
-    return(x)
+
+def standard_transform(x):
+    # 计算每个特征的均值
+    mean = x.mean(dim=0)
+    # 计算每个特征的标准差
+    std = x.std(dim=0, unbiased=False)  # unbiased=False 相当于 numpy 的 ddof=0
+    # 避免使用0的标准差
+    std[std == 0] = 1
+    # 进行标准化转换
+    x = (x - mean) / std
+    return x,mean,std
+
+def inverse_transform(x, mean, std):
+    # 将标准化后的张量乘以标准差，然后加上均值
+    x = x * std + mean
+    return x
 
 scaler = StandardScaler()
-#X = scaler.fit_transform(X)
 
-y = label_transform(y)  
 
 X = torch.tensor(X).float()
 y = torch.tensor(y).float()
 
+X,X_mean,X_std = standard_transform(X)
+y,y_mean,y_std = standard_transform(y)
+
 # 划分训练集、验证集和测试集
-X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.12, random_state=20)
+X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.16, random_state=20)
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=20)
 
 # 将数据转移到 GPU（如果可用
 
-# 检查GPU是否可用
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 
 class ResNetBlock(nn.Module):
     def __init__(self, hyperparas):
@@ -91,10 +102,10 @@ class ResNetBlock(nn.Module):
 class CustomResNN(nn.Module):
     def __init__(self,hyperparas):
         super().__init__()
-        self.input_dim = hyperparas['input_dim'] #3
+        self.input_dim = hyperparas['input_dim'] #4
         self.hidden_dim = hyperparas['hidden_dim'] #30
         self.hidden_nums = hyperparas['hidden_nums'] #3
-        self.output_dim = hyperparas['output_dim'] #5
+        self.output_dim = hyperparas['output_dim'] #2
         self.block_layer_nums = hyperparas['block_layer_nums'] #3
 
         self.layer_list = []
@@ -112,87 +123,54 @@ class CustomResNN(nn.Module):
         return self.linear_Res_final(inputs)
 
 #超参数合集
-hyperparas = {'input_dim':3,'hidden_dim':30,'hidden_nums':3,'output_dim':5,'block_layer_nums':3}
+hyperparas = {'input_dim':4,'hidden_dim':50,'hidden_nums':5,'output_dim':2,'block_layer_nums':3}
 learning_rate = 0.001
 num_epochs = 300
 
-# 初始化模型、损失函数和优化器
-criterion = nn.MSELoss()
 
-# 准备 DataLoader
+# 初始化模型、损失函数和优化器
+model = CustomResNN(hyperparas)
+
+loss_function=nn.MSELoss()
+
+def criterion(output,label,mode = 1):
+    if mode == 1:
+        return loss_function(output,label)
+    if mode == 2:
+        output_reverse = output
+        label_reverse = label
+        return torch.mean(torch.abs(output_reverse - label_reverse)/torch.max(label_reverse, torch.full_like(label_reverse, 1E-9)))
+    if mode == 3:
+        output_reverse = output
+        label_reverse = label
+        loss2 = torch.mean(torch.abs(output_reverse - label_reverse)/torch.max(label_reverse, torch.full_like(label_reverse, 1E-9)))
+        loss1 = loss_function(output,label)
+        loss = loss1 + 0.001*loss2
+        return loss
+    if mode == 4:
+       
+        loss2 = torch.mean(torch.abs(output - label)/torch.max(label, torch.full_like(label, 1E-9)))
+        loss1 = loss_function(output,label)
+        
+        loss1 = 7*1E7*loss1
+        loss2 = loss2
+       
+        loss = loss1 + loss2
+        return loss, loss1, loss2
 
 # 加载效果最好的模型
 best_model = CustomResNN(hyperparas)
-#best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_best.pth'))
-#best_model.load_state_dict(torch.load('Python\ForwardFitNN\Temporary_Model\model_pause1.pth'))
-#best_model.load_state_dict(torch.load('Python\ForwardFitNN\Settled_Model\\threeTo28\\4\model2.pth'))
-best_model.load_state_dict(torch.load('Python\ForwardFitNN\Settled_Model\\threeTo5\\urineg\model1.pth'))
+best_model.load_state_dict(torch.load('Python\\ForwardFitNN\\Settled_Model\\TimeFourTo2\\1\\model1.pth'))
 
 # 在测试集上评估模型
-test_dataset = TensorDataset(X_test, y_test)
-test_loader = DataLoader(test_dataset, batch_size=1,shuffle = None)
-
-test_loss = 0.0
-test_relativeerror = 0.0
-with torch.no_grad():
-    count = 0
-    for test_inputs, test_labels in test_loader:
-        
-        test_outputs = best_model(test_inputs)
-        if count == 0:
-            example_paras = test_inputs
-            FromNN = test_outputs
-            count = 1
-        
-        test_loss += criterion(test_outputs, test_labels)/len(test_inputs)
-        
-        RelErr = torch.mean(torch.abs(test_outputs - test_labels)/torch.max(test_labels, torch.full_like(test_labels, 1E-7)))
-        
-        if RelErr>300 and count == 1:
-            example_paras = test_inputs
-            FromNN = test_outputs
-            count = 2 
-
-            print(RelErr)
-            
-            
-            
-              
-
-        test_relativeerror += RelErr
-
-    print(f'Test Loss: {test_loss / len(test_loader)}')
-    print(f'测试集上标签与输出的MRE: {test_relativeerror / len(test_loader)}')
-
-#模型在测试集跑出来的三参数计算出来的浓度曲线和真实三参数计算出来的浓度曲线对比
-FromNN_result = FromNN.cpu().numpy().flatten()
-FromNN_result = label_transform_reverse(FromNN_result)
-example_paras =  example_paras.cpu().numpy()
-
-id = 0
-time = np.arange(0,75,0.005)
-_,_,result_True = BPS_BPTK_MultiParas (t = time,volunteer_ID =id, paras= example_paras,mode = '63')
-
-sampling_time_index = np.array([101,433,608,1653,3661])
-sampling_time_range = sampling_time_index/200 #采样时间节点，在0至75小时内共选取了5个时间节点 
-
-plt.plot(time,result_True[0,:],label = '真实曲线')
-plt.scatter(sampling_time_range,FromNN_result,label = '网络输出')
-plt.xlabel('time(h)')
-plt.ylabel('concentration of BPS in plasma')
-plt.legend()
-plt.show()
-
 outputs = best_model(X_test)
 y_test = y_test.detach().numpy()
 outputs = outputs.detach().numpy()
-y_test = label_transform_reverse(y_test)
-outputs = label_transform_reverse(outputs)
+
 mse = np.mean((y_test - outputs ) ** 2)
-mre = np.mean(np.abs(y_test - outputs )/np.maximum(y_test, 1E-9))
+mre = np.mean(np.abs(y_test - outputs )/np.maximum(y_test, 1E-6))
 R2 =  r2_score( y_test,outputs) #决定系数
 
 print(f'整个测试集的原始标签与输出的真实变换的MSE为  {mse}')
 print(f'整个测试集的原始标签与输出的真实变换的MRE为  {mre}')
 print(f'整个测试集的原始标签与输出的真实变换的决定系数为  {R2}')
-print(mre)

@@ -386,7 +386,8 @@ plt.ylabel('concentration of BPS in plasma')
 plt.legend()
 plt.show()
 
-
+np.savetxt('Python\\pythonresult.csv', result[:,26], delimiter=',', fmt='%s')
+np.savetxt('Python\\Rresult.csv', original_result[:,26], delimiter=',', fmt='%s')
 
 plt.plot(t[1:],np.log10(abs(result[1:,26]-original_result[1:,26])),label = 'Python_result')
 plt.xlabel('时间(h)')
@@ -400,7 +401,11 @@ def to_percent(y, position):
 
 plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(to_percent))
 '''
+np.savetxt('Python\\pythonresult2.csv', result[:,37], delimiter=',', fmt='%s')
+np.savetxt('Python\\Rresult2.csv', original_result[:,37], delimiter=',', fmt='%s')
+
 plt.plot(t[21:],np.log10(abs(result[21:,37]/original_result[21:,37]-1)),label = 'Python_result')
 plt.xlabel('时间(h)')
 plt.ylabel('与前人的数值求解结果的相对误差的十进对数')
 plt.show()
+print(t)
