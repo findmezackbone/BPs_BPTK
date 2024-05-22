@@ -182,8 +182,8 @@ sampling_time_index = (200*sampling_time_range).astype(int) #采样时间节点�
 
 plt.plot(time,result_True[0,:],label = '真实曲线')
 plt.scatter(sampling_time_range,FromNN_result,label = '网络输出',c='red')
-plt.xlabel('time(h)')
-plt.ylabel('concentration of BPS in plasma')
+plt.xlabel('时间(h)')
+plt.ylabel('尿液中BPS累计含量(mmol)')
 plt.legend()
 plt.show()
 

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  20 MAY 2024 19:02
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2022.1.24)  22 MAY 2024 16:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -814,6 +814,9 @@ LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count367
 )) (./论文.aux
 
+LaTeX Warning: Label `4.1' multiply defined.
+
+
 LaTeX Warning: Label `3.2.1' multiply defined.
 
 )
@@ -1067,17 +1070,17 @@ File: ./figs/p2.png Graphic file (type bmp)
 [3
 
 ]
-Overfull \hbox (2.73688pt too wide) in paragraph at lines 303--306
+Overfull \hbox (2.73688pt too wide) in paragraph at lines 308--311
 []\TU/FandolSong-Regular(0)/m/n/10.53937 如 \TU/lmr/m/n/10.53937 ([][]2.1[][]), \TU/FandolSong-Regular(0)/m/n/10.53937 其 中 的 偏 微 分 方 程 本 质 上 是 一 个 扩 散 对 流 方 程\TU/lmr/m/n/10.53937 , \TU/FandolSong-Regular(0)/m/n/10.53937 其 解 $\OML/cmm/m/it/10.53937 '$ \TU/FandolSong-Regular(0)/m/n/10.53937 代 表 角 质 层 \TU/lmr/m/n/10.53937 (Stratum Corneum)
  []
 
 [4] [5]
-Overfull \hbox (1.04727pt too wide) detected at line 368
+Overfull \hbox (1.04727pt too wide) detected at line 373
  []$[] [] \OML/cmm/m/it/10.53937 A[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 ) + []\OML/cmm/m/it/10.53937 A[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 )\OML/cmm/m/it/10.53937 :$ []  
  []
 
 
-Overfull \hbox (0.52023pt too wide) detected at line 380
+Overfull \hbox (0.52023pt too wide) detected at line 385
  []$[]  [] \OT1/cmr/m/n/10.53937 = []\OML/cmm/m/it/10.53937 A[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 ) + []\OML/cmm/m/it/10.53937 A[]\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 t\OT1/cmr/m/n/10.53937 )\OML/cmm/m/it/10.53937 :$ []  
  []
 
@@ -1096,17 +1099,17 @@ Package fontspec Warning: Font "FandolHei-Regular" does not contain requested
 (fontspec)                Script "CJK".
 
 ) (./figs/pcode2_2.pgf) (./figs/pcode2_3.pgf) [13]
-Overfull \hbox (25.89482pt too wide) in paragraph at lines 648--650
+Overfull \hbox (25.89482pt too wide) in paragraph at lines 654--656
 []\TU/FandolSong-Regular(0)/m/n/10.53937 该 部 分 标 签 集 的 构 造 使 用 了 复 杂 度 $\OML/cmm/m/it/10.53937 k \OT1/cmr/m/n/10.53937 = 9$ \TU/FandolSong-Regular(0)/m/n/10.53937 的 三 维 稀 疏 网 格 法\TU/lmr/m/n/10.53937 , \TU/FandolSong-Regular(0)/m/n/10.53937 其 中 中 心 点 为 $\OT1/cmr/m/n/10.53937 (\OML/cmm/m/it/10.53937 mean\OT1/cmr/m/n/10.53937 1\OML/cmm/m/it/10.53937 ; mean\OT1/cmr/m/n/10.53937 2\OML/cmm/m/it/10.53937 ; mean\OT1/cmr/m/n/10.53937 3)$\TU/lmr/m/n/10.53937 ,
  []
 
 (./figs/pcode3_1.pgf) (./figs/pcode3_2.pgf) [14] (./figs/pcode4_1.pgf) (./figs/pcode4_2.pgf)
 
-LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 714.
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 720.
 
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <6.52437> not available
-(Font)              size <7> substituted on input line 714.
+(Font)              size <7> substituted on input line 720.
 
 File: ./figs/p3_1.png Graphic file (type bmp)
 <./figs/p3_1.png>
@@ -1117,7 +1120,7 @@ File: ./figs/p4_1.png Graphic file (type bmp)
 File: ./figs/p5_1.png Graphic file (type bmp)
 <./figs/p5_1.png>
 
-Overfull \hbox (0.32028pt too wide) in paragraph at lines 765--773
+Overfull \hbox (0.32028pt too wide) in paragraph at lines 771--779
 \TU/FandolSong-Regular(0)/m/n/10.53937 片[][]\TU/lmr/m/n/10.53937 3.7[][]\TU/FandolSong-Regular(0)/m/n/10.53937 展 示 了 该 模 块 的 架 构\TU/lmr/m/n/10.53937 , \TU/FandolSong-Regular(0)/m/n/10.53937 其 中 每 一 层 的 输 入 和 输 出 的 二 维 数 组 的 形 状 都 是 $\OML/cmm/m/it/10.53937 batchsize \OMS/cmsy/m/n/10.53937 ^^B \OML/cmm/m/it/10.53937 hiddensize$\TU/lmr/m/n/10.53937 ,
  []
 
@@ -1127,29 +1130,21 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [16] [17]
 File: ./figs/p5_2.png Graphic file (type bmp)
 <./figs/p5_2.png>
- [18]
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [19] [20] (./figs/pcode7_1.pgf) (./figs/pcode7_2.pgf)
-Underfull \vbox (badness 4726) has occurred while \output is active []
-
- [21] [22] (./figs/pcode6_1.pgf) (./figs/pcode6_2.pgf)
+ [18] [19] [20] [21] (./figs/pcode7_1.pgf) (./figs/pcode7_2.pgf) [22] [23] (./figs/pcode6_1.pgf) (./figs/pcode6_2.pgf)
 Underfull \vbox (badness 1082) has occurred while \output is active []
 
- [23] (./figs/pcode6_3.pgf) (./figs/pcode6_4.pgf) [24]
+ [24] (./figs/pcode6_3.pgf) (./figs/pcode6_4.pgf) [25]
 第四章
-
-Overfull \hbox (2.97635pt too wide) in paragraph at lines 1066--1070
-\TU/FandolSong-Regular(0)/m/n/10.53937 液 累 计 含 量 的 具 体 定 义 详 情 见[][]\TU/lmr/m/n/10.53937 3.1[][]\TU/FandolSong-Regular(0)/m/n/10.53937 节\TU/lmr/m/n/10.53937 ). \TU/FandolSong-Regular(0)/m/n/10.53937 这 些 数 据 对 应 了 \TU/lmr/m/n/10.53937 14 \TU/FandolSong-Regular(0)/m/n/10.53937 组 的 $\OT1/cmr/m/n/10.53937 ([]\OML/cmm/m/it/10.53937 t[]; []A[]\OT1/cmr/m/n/10.53937 )$\TU/lmr/m/n/10.53937 .
- []
-
-[25
+[26
 
 ]
 File: ./figs/p6_1.png Graphic file (type bmp)
 <./figs/p6_1.png>
 
-Overfull \hbox (2.85776pt too wide) in paragraph at lines 1133--1134
+Overfull \hbox (2.85776pt too wide) in paragraph at lines 1187--1188
  [][] 
  []
 
@@ -1158,56 +1153,49 @@ File: ./figs/p6_2.png Graphic file (type bmp)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [26] [27]
+ [27] [28]
 File: ./figs/p10.png Graphic file (type bmp)
 <./figs/p10.png>
- [28]
+ [29]
 File: ./figs/p7.png Graphic file (type bmp)
 <./figs/p7.png>
- [29]
+ [30]
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <15.05624> not available
-(Font)              size <14.4> substituted on input line 1261.
+(Font)              size <14.4> substituted on input line 1315.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\begingroup' on input line 1261.
+(hyperref)                removing `\begingroup' on input line 1315.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 1261.
+(hyperref)                removing `\<let>-command' on input line 1315.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\NAT@ctype' on input line 1261.
+(hyperref)                removing `\NAT@ctype' on input line 1315.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 1261.
+(hyperref)                removing `\z@' on input line 1315.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 1261.
+(hyperref)                removing `\let' on input line 1315.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 1261.
+(hyperref)                removing `\let' on input line 1315.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\new@ifnextchar' on input line 1261.
+(hyperref)                removing `\new@ifnextchar' on input line 1315.
 
 File: ./figs/p8.png Graphic file (type bmp)
 <./figs/p8.png>
-[30] [31]
+[31] [32] [33]
 第五章
-
-Underfull \vbox (badness 2343) has occurred while \output is active []
-
- [32
-
-] [33]
-第六章
 [34
 
 ] [35]
@@ -1218,7 +1206,7 @@ Package ctex Warning: Command `\CTEXsetup' is deprecated.
 (ctex)                set.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1436--1438
+Underfull \hbox (badness 10000) in paragraph at lines 1498--1500
 
  []
 
@@ -1228,7 +1216,7 @@ Underfull \vbox (badness 3815) has occurred while \output is active []
  [36
 
 ] [37]
-Underfull \hbox (badness 10000) in paragraph at lines 1510--1512
+Underfull \hbox (badness 10000) in paragraph at lines 1572--1574
 
  []
 
@@ -1245,14 +1233,14 @@ LaTeX Font Warning: Size substitutions with differences
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `论文.out' has not changed.
-(rerunfilecheck)             Checksum: E8BF90B6F8F4D57C577E632A1197C507;5820.
+(rerunfilecheck)             Checksum: 0D72A728E9CABAA15238111A2AF2EBDE;5136.
  ) 
 Here is how much of TeX's memory you used:
- 31300 strings out of 476919
- 637378 string characters out of 5825424
- 1174381 words of memory out of 5000000
- 50625 multiletter control sequences out of 15000+600000
- 420965 words of font info for 154 fonts, out of 8000000 for 9000
+ 31306 strings out of 476919
+ 636098 string characters out of 5825424
+ 1173381 words of memory out of 5000000
+ 50618 multiletter control sequences out of 15000+600000
+ 423746 words of font info for 166 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  101i,12n,104p,769b,746s stack positions out of 5000i,500n,10000p,200000b,80000s
 

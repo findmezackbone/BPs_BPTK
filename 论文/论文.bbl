@@ -1,4 +1,4 @@
-\begin{thebibliography}{29}
+\begin{thebibliography}{30}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax\else
@@ -123,8 +123,10 @@ KHMIRI~I, CôTé~J, MANTHA~M, et~al.
 
 \bibitem[Hindmarsh(1983)]{14}
 HINDMARSH~A~C.
-\newblock Odepack: A systematized collection of ode solvers[J].
+\newblock Odepack: A systematized collection of ode solvers[J/OL].
 \newblock Scientific Computing, 1983, 1: 55-64.
+\newblock
+  \url{https://computing.llnl.gov/sites/default/files/ODEPACK_pub1_u88007.pdf}.
 
 \bibitem[Garcke(2012)]{15}
 GARCKE~J.
@@ -168,9 +170,10 @@ BA~J, KIROS~J~R, HINTON~G~E.
 
 \bibitem[Liu et~al.(2023)Liu and Hui]{20}
 LIU~C, HUI~L.
-\newblock Relu soothes the ntk condition number and accelerates optimization
-  for wide neural networks[Z].
-\newblock [S.l.: s.n.], 2023.
+\newblock Relu soothes the {NTK} condition number and accelerates optimization
+  for wide neural networks[J/OL].
+\newblock ArXiv, 2023, abs/2305.08813.
+\newblock \url{https://api.semanticscholar.org/CorpusID:258685463}.
 
 \bibitem[Shanker et~al.(1996)Shanker, Hu, and Hung]{21}
 SHANKER~M, HU~M, HUNG~M.
@@ -186,6 +189,17 @@ HAMANN~I~M, HERZFELD~U~C.
 \newblock The Journal of Geology, 1991, 99\allowbreak (4):
   621-631\allowbreak[2024-05-10].
 \newblock \url{http://www.jstor.org/stable/30065006}.
+
+\bibitem[Paszke et~al.(2019)Paszke, Gross, Massa, Lerer, Bradbury, Chanan,
+  Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison,
+  Tejani, Chilamkurthy, Steiner, Fang, Bai, and Chintala]{31}
+PASZKE~A, GROSS~S, MASSA~F, et~al.
+\newblock Pytorch: An imperative style, high-performance deep learning
+  library[M/OL]//\allowbreak
+Advances in Neural Information Processing Systems 32.
+\newblock Curran Associates, Inc., 2019: 8024-8035.
+\newblock
+  \url{http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf}.
 
 \bibitem[Peterson(1993)]{23}
 PETERSON~G~E.
