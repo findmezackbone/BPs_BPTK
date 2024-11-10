@@ -104,11 +104,13 @@
 % 需要使用其它格式时请将该行注释, 并在参考文献部分将指定语句取消注释.
 \usepackage{tikz}
 \usepackage{pgf}
-
+\usepackage{pdfpages}
 %导言区设置完毕
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 % 制作封面, 适用于研究生毕业论文.
+
+\iffalse
 \begin{titlepage}
     {
         \hfill 
@@ -154,6 +156,8 @@
     \end{center}
 \end{titlepage}
 
+\fi
+%\includepdf{封一.pdf} 
 \renewcommand{\thepage}{\roman{page}}
 
 % 改写目录标题的格式
@@ -165,12 +169,16 @@
 \addcontentsline{toc}{chapter}{摘要}
 \normalsize
 
-本研究旨在通过建立神经网络模型来实现对双酚S(BPS)在人体内的生理药代动力学模型(PBPK)内重要参数的反演, 以更快的速度与准确性完成模型的校准. 
+生理药代动力学模型(PBPK)是能够定量描述化学物质在人体各组分内含量的经典模型. 为了建立双酚S的有效PBPK模型, 前人研究者首先需要建立模型的数学形式并求解, 接下来基于实验数据使用传统优化算法
+进行部分参数的校准, 最后对校准后的模型进行敏感性与不确定性分析.
 
-首先, 本文介绍了PBPK模型的建立, 包括模型的实验与生理背景, 数学形式和求解方法. 随后, 本文详细阐述了使用固定时间节点数据与使用随机时间节点数据的PBPK模型参数反演神经网络方法, 并通过数据集结构与构建,
-网络模型架构,训练流程和效果展示等环节, 展示了该方法的有效性. 此外, 本文使用训练好的神经网络模型基于真实实验数据完成了PBPK模型的参数校准. 最后, 本文评估了校准后的模型关于皮肤相关部分参数的敏感性和不确定性.
+本论文旨在通过建立神经网络模型来实现对双酚S在人体内的PBPK模型内重要参数的反演, 并以更快的速度与准确性完成模型参数的校准. 
 
-本文为PBPK模型的参数校准提供了一个新的方法, 并通过数值实验证明了该方法的有效性: 神经网络模型在PBPK模型框架下能够胜任参数反演与参数校准的任务, 并建议在使用神经网络模型作为校准工具的前提下, 研究者在人体实验中可以减少对受试者的采血采尿频次, 以减轻受试者压力. 
+首先, 本文介绍了PBPK模型的生理背景, 数学形式和求解方法. 随后, 本文详细阐述了使用固定时间节点数据与使用随机时间节点数据的两种用于参数反演的神经网络模型, 并展示了网络模型的有效性. 
+接下来, 本文使用训练好的神经网络模型基于真实实验数据完成了PBPK模型的参数校准. 最后, 本文评估了校准后的模型关于皮肤相关部分参数的敏感性和不确定性.
+
+基于神经网络模型, 本文为PBPK模型的参数校准提供了一个新的方法, 
+并通过数值实验证明了该方法的有效性与更具优势的速度. 本文还建议, 在使用神经网络模型作为PBPK模型的校准工具的前提下, 研究者在人体实验中可以减少对受试者的采血采尿频次, 以减轻受试者压力. 
 
 
 
@@ -189,7 +197,7 @@ Initially, this paper introduces the development of the PBPK model, including it
 
 Through numerical experiments, this paper demonstrates that the neural network model is capable of performing parameter inversion and calibration tasks within the framework of the PBPK model. It is suggested that, with the neural network model as a calibration tool, researchers can reduce the frequency of blood and urine collection from subjects in human experiments, thereby reducing costs.
 \fi
-
+\iffalse
 This study is dedicated to developing a neural network model to perform inverse parameter estimation of Bisphenol S (BPS) within a 
 physiologically-based pharmacokinetic (PBPK) modeling framework, in the meantime,  to execute model calibration with enhanced speed and accuracy.
 
@@ -203,16 +211,24 @@ Initially, this paper introduces the construction of the PBPK model, including i
   Numerical experimentation confirms that the neural network model is apt for tasks of parameter inversion and calibration within the PBPK model 
   framework. The study further suggests that using neural networks as a calibration tool can potentially reduce the frequency of blood and urine 
   sampling in human trials, thereby decreasing costs.
+  \fi
+  Physiologically Based Pharmacokinetic (PBPK) models are classic models that can quantitatively describe the content of chemical substances in various human compartments. To establish an effective PBPK model for Bisphenol S (BPS), previous researchers first needed to establish the mathematical form of the model and solve it, then calibrate some parameters based on experimental data using traditional optimization algorithms, and finally perform sensitivity and uncertainty analysis on the calibrated model.
 
-
+  This paper aims to achieve inversion of important parameters within the PBPK model for BPS in the human body through the establishment of a neural network model, and to complete the calibration of the model with faster speed and extra accuracy.
+  
+  Firstly, this paper introduces the physiological background, mathematical form, and solution method of the PBPK model. Subsequently, this paper elaborates in detail on two neural network models for parameter inversion, one of which uses fixed time node data and the other uses random time node data. Then the effectiveness of the network models  is demonstrated. Next, this paper uses the trained neural network model to complete the parameter calibration of the PBPK model based on real experimental data. Finally, this paper evaluates the sensitivity and uncertainty of the calibrated model regarding skin-related parameters.
+  
+  Based on the neural network model, this paper provides a new method for the parameter calibration of the PBPK model and proves the effectiveness and superior speed of the method through numerical experiments. This paper also suggests that, on the premise of using the neural network model as a calibration tool for the PBPK model, researchers can reduce the frequency of blood and urine collection from volunteers in human experiments, thereby reducing the pressure on volunteers.
+  
 \noindent{\textbf{Keywords:}} Bisphenol S (BPS); Physiologically Based Pharmacokinetic (PBPK) Model; Deep Learning; Parameter Inversion\\
 \noindent{\textbf{CLC code:}} O241
 
+\iffalse
 \clearpage
 \mbox{}
 \thispagestyle{empty}
 % 为了保证第一章在奇书页.
-
+\fi
 
 
 
@@ -234,11 +250,11 @@ Initially, this paper introduces the construction of the PBPK model, including i
 \chapter{引言}
 
 \section{研究背景} 
-双酚类物质(Bisphenols,BPs)是一种工业用化学物质, 被大量用于生产聚碳酸酯及环氧树脂\cite{3}. 这两种可能会含有BPs的高分子物质又常被投入生产食品接触材料或其他日常使用材料, 例如塑料杯,奶瓶,纸币,金属涂层等\cite{4}.在日常生活中, BPs通过皮肤渗透与口服摄入两种主要途径进入人体内环境,参与后续的分布与代谢.双酚A(BPA),作为最早投入工业生产的BPs,已被证实对人体具有毒性\cite{2}.事实上,BPA会对人体的多个系统(如呼吸系统,神经系统,生殖系统)造成损害\cite{5}.
-BPA与双酚S(BPS)两种BPs经口服进入人体后, 经消化系统来到小肠,并在此分别葡萄糖醛酸化为BPA-g与BPS-g, 葡萄糖醛酸化后的双酚物质会进入血液循环并最终随尿液排出体外;未葡萄糖醛酸化的BPA或BPS将会进入肝脏并在此被部分磷酸化为BPA-s或BPS-s,部分BPs在肝脏仍会被葡萄糖醛酸化,这些衍生物与未发生反应的BPs都会直接进入血液循环并最终随尿液排出体外\cite{2,1}.同时,在小肠或肝脏处进入血液循环的BPs会随血液进入人体的各个器官,如脑,生殖腺等.若BPs经由皮肤渗透进入人体,将会直接进入血液循环并跟随血液到达各个器官,其中进入小肠或肝脏的部分BPs将会根据所处位置被葡萄糖醛酸化或是被磷酸化.
+双酚类物质(Bisphenols,BPs)是一种工业用化学物质, 在环氧树脂及聚碳酸酯的制造中被大量使用\cite{3}. 这两种可能会含有BPs的高分子物质又常被投入生产食品接触材料或其他日常使用材料, 例如塑料杯,奶瓶,纸币,金属涂层等\cite{4}.在日常生活中, BPs通过皮肤渗透与口服摄入两种主要途径进入人体内环境,参与后续的分布与代谢.双酚A(BPA),作为最早投入工业生产的BPs,已被证实对人体具有毒性\cite{2}.事实上,BPA会对人体的多个系统(如呼吸系统,神经系统,生殖系统)造成损害\cite{5}.
+BPA与双酚S(BPS)两种BPs经口服进入人体后, 经消化系统来到小肠,并在此分别葡萄糖醛酸化为BPA-g与BPS-g, 葡萄糖醛酸化后的双酚物质最终会随尿液排出体外;未葡萄糖醛酸化的BPA或BPS将会进入肝脏并在此被部分磷酸化为BPA-s或BPS-s,部分BPs在肝脏仍会被葡萄糖醛酸化,这些衍生物与未发生反应的BPs最终都会随尿液排出体外\cite{2,1}.同时,在小肠或肝脏处进入血液循环的BPs会随血液进入人体的各个器官,如脑,生殖腺等.若BPs经由皮肤渗透进入人体,将会直接进入血液循环并跟随血液到达各个器官,其中进入小肠或肝脏的部分BPs将会根据所处位置被葡萄糖醛酸化或是被磷酸化.
 为了找寻比BPA更安全的替代品, 研究BPS等双酚物质在人体中的代谢过程是有必要的\cite{6}.
 
-生理药代动力学模型(Physiology-Based Pharmacokinetic Model, PBPK)是药学中定量描述化学品在人体中吸收,分布,代谢,排泄过程的经典模型,
+生理药代动力学模型(PBPK)是药学中定量描述化学品在人体中吸收,分布,代谢,排泄过程的经典模型,
 常被用于化学品生态风险评价,人类健康风险评估以及药物开发\cite{7}.PBPK模型将包含血浆在内的对目标化学品特异性较强的靶点组织器官抽象为一个个``房室'',以质量守恒定律和相关生化反应为基础定量计算目标化学品在各房室之间的交换与各房室之内的代谢过程\cite{8}.当某些靶点组织器官的目标化学品含量难以实际测出时, PBTK模型的结果能够提供一个良好的预测 \cite{7}.只需要确定PBPK模型中重要参数的数值, 就能在脱离实际人体实验的情况下给出人体吸收目标化学品后靶点组织器官的化学品含量.
 
 \section{文献综述} 
@@ -249,26 +265,34 @@ Karrer等人\cite{9}在2018年重新调整了此PBPK模型, 提供了BPA的其�
 Hu等人\cite{11}在2023年对皮肤渗透模型进行了改进, 在原本皮肤作为单独仓室的基础上将其分割成了五个小仓室, 分别为表皮储仓, 角质层, 活性表皮, 毛囊以及未参与渗透吸收的未暴露皮肤.
 该文章也设置了志愿者实验, 利用BPS暴露后受试者尿液中BPS与BPS-g的含量来校准PBPK模型中与皮肤仓室相关的三个参数, 并使用敏感性分析与不确定性分析评估了校准后的PBPK模型.
 
-在前人关于BPS的人体PBPK模型的研究中, 普遍使用传统优化算法完成模型的校准与调参. 校准后, 使用敏感性分析与不确定性分析两种手段分析模型的稳定性.
+在前人关于BPS的人体PBPK模型的研究中, 普遍使用传统优化算法完成模型的校准与调参. 调参的过程为, 对于需要重新调整的参数, 首先给定一个初值$\alpha_0$, 将$\alpha_0$作为PBPK模型的输入得到模型输出, 
+计算模型输出与人体实验得到的真实数据之间的平均平方误差$MSE$, 之后使用迭代的优化方法逐步改变参数$\alpha$的取值, 使$MSE$有递减的趋势, 当$MSE$低于某个阈值时, 停止调整参数, 并保留最终的$\alpha$作为参数调整的结果.
+校准参数后, 再使用敏感性分析与不确定性分析两种手段分析模型的稳健性, 以评价模型校准的优劣并对未来研究作出指导.
 \section{研究目标与文章结构} 
 
 Hu等人\cite{11}文章的参数优化部分中使用的算法需要较长的迭代进程, 且不确定性分析中的蒙特卡洛模拟需要对模型进行上万次的计算, 在计算机上运行的时间较久, 有较大的优化空间. 
-鉴于此, 本研究旨在开发一种基于深度学习算法的神经网络模型, 以实现对PBPK模型中关键参数的快速准确反演. 本研究的主要目标包括：
+鉴于此, 本文旨在开发一种基于深度学习算法的神经网络模型, 以快速且准确地实现对PBPK模型中关键参数的反演. 本研究的主要目标包括：
 
 1.基于Python代码完成PBPK模型的求解, 在Hu等人的基础上得到了更快的运行速度; 
 
 2.构建深度学习框架下的神经网络模型, 实现对PBPK模型参数的反演;
 
-3.利用真实实验数据, 使用训练好的神经网络完成PBPK模型参数的校准, 提供了一个新的PBPK模型校准的可行方法;
+3.利用真实实验数据, 使用训练好的神经网络完成PBPK模型参数的校准;
 
 4.评估校准后模型的敏感性和不确定性, 为风险评估和后续研究方向提供参考.
 
 本文按照PBPK模型的求解, 参数校准与统计学分析的顺序展开, 文章的结构安排如下: 第二章介绍PBPK模型的背景, 建立和求解;
 第三章和第四章分别讲述了使用固定或随机时间节点数据的参数反演神经网络, 在第四章末尾完成模型的参数校准, 并对校准后的模型进行统计学分析 ; 
-最后一章为总结.
+最后一章为总结. 图\ref{逻辑图}展示了本文所包含的各部分内容之间的逻辑关系.
 
-本文的创新点在于: 建立了对PBPK模型的正向求解模型的反模型进行拟合的神经网络, 该网络的输入为双酚S在血液或尿液中的含量信息, 可输出PBPK模型中的部分参数的反演结果.
-利用该神经网络, 可以完成PBPK模型的参数反演或参数校准, 从而为PBPK模型的参数校准工作提供了一个全新的框架.
+本文的创新点在于: 建立了对PBPK模型的正向求解模型的反模型进行拟合的神经网络, 该网络的输入为双酚S在血液或尿液中的离散含量信息, 可输出PBPK模型中的部分参数的反演结果.
+利用训练好的神经网络, 可以快速且准确地完成PBPK模型的参数反演或参数校准, 从而为PBPK模型的参数校准工作提供了一个全新的框架.
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.59]{./figs/p13.png}
+  \caption{本文的逻辑框图}
+  \label{逻辑图}
+\end{figure}
 
 \chapter{PBPK模型的建立}
 Hu等人\cite{11}在github中共享了论文中的数据以及部分代码. 共享中包含了PBPK模型和参数优化所使用的受试者真实数据等, 本章内容参照了这些工作.该模型对多种双酚类物质都适用, 本文后续只讨论
@@ -311,18 +335,18 @@ $C_{well}(t)$代表皮肤表皮储仓在$t$时刻的BPS浓度$(nmol/cm^3)$, $HSC
 
 \begin{equation}\label{eq0}
   \left\{\begin{aligned}
-    \frac{\partial \varphi(x,t) }{\partial t^2} &= DSC \frac{\partial^2 \varphi(x,t)}{\partial x^2} + u_1 \frac{\partial \varphi(x,t)}{\partial x}, && 0\leq x \leq T_{SC}, \quad t\geq 0,\\
-    \varphi(0,t) &= HSC_{well} \times C_{well}(t), &&t\geq 0,\\
-    \varphi(T_{SC},t) &= HSC_{VE} \times C_{VE}(t), &&t\geq 0,\\
-    \varphi(x,0) &= 0, &&0\leq x \leq T_{SC}.\\
+    \frac{\partial \varphi(x,t) }{\partial t^2} &= DSC \frac{\partial^2 \varphi(x,t)}{\partial x^2} + u_1 \frac{\partial \varphi(x,t)}{\partial x}, && 0\leq x \leq T_{SC}, \quad t\geq 0 ,\\
+    \varphi(0,t) &= HSC_{well} \times C_{well}(t), &&t\geq 0 ,\\
+    \varphi(T_{SC},t) &= HSC_{VE} \times C_{VE}(t), &&t\geq 0 ,\\
+    \varphi(x,0) &= 0, &&0\leq x \leq T_{SC} .\\
   \end{aligned}\right.
   \end{equation}
 \noindent 使用空间离散化的办法, 将角质层视作一个长度为$T_{SC}$的线段, 将该线段等距分为$10$段, 共$11$个节点$\{x_i\}_{0\leq i\leq 10}$. 其中第一个节点$x_0$视作皮肤表皮储仓, 最后一个节点$x_{10}$视作活性表皮.
 $x_1$至$x_9$九个节点处BPS浓度的一阶与二阶空间导数值通过中心差分法近似表示: 
 \begin{equation}\label{eq1.1}
   \left\{\begin{aligned}
-    \frac{\partial^2}{\partial x^2}\varphi(x_j, t) &\approx \frac{\varphi_{j+1}(t) - 2\varphi_j(t) + \varphi_{j-1}(t)}{(\Delta x)^2},\\
-    \frac{\partial}{\partial x}\varphi(x_j, t) &\approx \frac{\varphi_{j+1}(t) - \varphi_{j-1}(t)}{2\Delta x}.\\
+    \frac{\partial^2}{\partial x^2}\varphi(x_j, t) &\approx \frac{\varphi_{j+1}(t) - 2\varphi_j(t) + \varphi_{j-1}(t)}{(\Delta x)^2} ,\\
+    \frac{\partial}{\partial x}\varphi(x_j, t) &\approx \frac{\varphi_{j+1}(t) - \varphi_{j-1}(t)}{2\Delta x} .\\
   \end{aligned}\right.
   \end{equation}
   \noindent 整理后得到这九个节点处BPS浓度关于时间的一阶导数值如(\ref{eq1}), $i=2,3,\dots,8$与(\ref{eq2}),(\ref{eq3}).其中$SCDX = \frac{T_{SC}}{10}$, 
@@ -796,11 +820,11 @@ $$
 增加了数据数值的灵活性, 使其与后续的处理更加匹配, 同时增加了数值稳定性, 进一步规避了梯度消失或梯度爆炸的情况.
 
 
-该模块的最终的输出结果是第六层的输出与第一层的输入的和, 相对于第六层输出的是期望输出和真实输出之间的残差, 这样的设定使得网络可以学习到残差映射, 同时保留了原始的输入并将其直接传输到了该模块的输出\cite{16,17}. 残差网络中的
+该模块的最终的输出结果是第六层的输出与第一层的输入相加得到的和, 其中第六层输出的是期望输出和真实输出之间的残差。 这样的设定使得网络可以学习到残差映射, 同时保留了原始的输入并将其直接传输到了该模块的输出层\cite{16,17}. 残差网络中的
 跳跃连接能够缓解深层网络下的性能退化与优化困难问题\cite{17}. 标准化层使用了层标准化手段(layer-normlization), 使得输入数据在输出该层时能够具有零均值与单位方差的性质, 同时该标准化手段并不依赖于$batchsize$的大小\cite{19}.
-层标准化有效解决了深度网络情况下梯度爆炸与梯度消失的问题. 激活层的$Relu(\,)$的作用是对输入该层的数据逐元素取其正部. 它能够提高计算速率, 使得前向与反向传播的速度更快, 且保留正部而不是压缩数值的激活方式能够缓解梯度消失的问题\cite{20}.
+层标准化有效解决了深度网络情况下梯度爆炸与梯度消失的问题. 激活层的$Relu(\,)$的作用是对取输入该层的数据的每个元素的正部. 它能够提高计算速率, 使得前向与反向传播的速度更快, 且保留正部而不是压缩数值的激活方式能够缓解梯度消失的问题\cite{20}.
 
-整个神经网络的架构串联拼接了$hidden\_nums$个残差网络模块, 并在串联组前后都添加了一层全连接网络, 输入端还额外添加了一个激活函数$Relu(\,)$层. 图片\ref{网络结构}展示了该模块的架构.
+整个神经网络的架构串联拼接了$blocknumber$个残差网络模块, 并在串联组前后都添加了一层全连接网络, 输入端还额外添加了一个激活函数$Relu(\,)$层. 图片\ref{网络结构}展示了该模块的架构.
 
 \begin{figure}[H]
   \centering
@@ -813,7 +837,7 @@ $$
 
 对于该章的参数反演神经网络, 其网络模型架构的参数如下:
 $$
-outputsize = 3, \quad hiddensize = 30, \quad hidden\_nums = 3.
+outputsize = 3, \quad hiddensize = 30, \quad blocknumber = 3.
 $$
 \noindent 整个网络的输出即为反演后的皮肤三参数组, 中间隐藏层的神经元数量为30个, 残差网络模块的串联数量为3个. 同时, 根据特征集的不同, 本节共有两个参数反演神经网络, 两个网络模型的架构只在$inputsize$的取值上有差异. ``血药含量采样28点\&尿药含量采样15点''特征集对应的$inputsize=58$, ``血药含量采样5点\&尿药含量采样5点''特征集对应的$inputsize=15$.
 
@@ -831,7 +855,7 @@ $$
 其中$\epsilon$是用于维持数值稳定的数量级较小的数字. 数据集的标准化处理可以增强模型的稳定性, 保持梯度的一致性与稳健性, 减少梯度消失或爆炸的风险\cite{21}. 同时, 标准化处理可以减小数据条目之间的数值差距, 使不同尺度的数据具有类似的分布特性, 令网络训练更专注于反演模型拟合这一主要任务, 而不是专注于输入数据的数值本身. 因而, 在处理未见到的
 数据时, 网络也不会因为陌生的数值而给出不佳的表现, 故标准化处理还可以提升网络的泛化能力\cite{22}.
 
-数据集预处理后, 根据训练需求被随机划分为训练集, 验证集, 测试集三个部分, 三个部分的条目数的比例为$8:1:1$. 特征集与标签集被同步地划分为训练特征集与训练标签集等, 划分后的特征与标签依然保持条目一一对应的关系. 
+数据集预处理后, 完整的数据集需要被随机划分为三个部分,  每个部分分别承担了不同的作用: 训练, 验证, 测试. 三个部分的条目数的比例为$8:1:1$. 特征集与标签集被同步地划分为训练特征集与训练标签集等, 划分后的特征与标签依然保持条目一一对应的关系. 
 
 \subsubsection*{网络训练流程}
 在训练开始前, 首先要初始化网络模型, 为网络模型中的每个系数(全连接层中的权重$W$与偏置量$b$, 层标准化中的仿射变换系数$g$与$h$)赋予一个初值. 在Python第三方库Pytorch框架下, 网络模型初始化是
@@ -891,8 +915,8 @@ $$
 $$
 \Delta \theta   = -\epsilon \frac{\hat{s}}{\sqrt{\hat{r}} +\delta } ,
 $$
-其中$\hat{s}$为修正后的一阶矩估计, $\hat{t}$为修正后的二阶矩估计, $\delta$为用于数值稳定的小常数\cite{24}. 
-Adam算法是一种高效的自适应学习率优化算法, 它可以利用迭代内的历史梯度信息来调整网络模型内每个系数的学习率, 使得模型系数的更新
+其中$\hat{s}$和$\hat{r}$分别为修正后的$s$和$r$, $\delta$为用于数值稳定的小常数\cite{24}. 
+Adam算法是一种高效的可自主调整学习率的优化算法, 它可以利用迭代内的历史梯度信息来调整网络模型内每个系数的学习率, 使得模型系数的更新
 过程更加灵活与快速\cite{24}. 同时该算法不易陷入局部最优解, 可以很好地处理非凸问题\cite{25}.
 
 
@@ -921,14 +945,14 @@ $\|f(\vec{\alpha})-\tilde{f}(\vec{\alpha^*}) \|^2 $作为损失函数内的一�
 
 本节共有六个正向拟合神经网络, 对应两种时间采样节点与三种含量曲线$(2\times 3 = 6)$. 对于每个正向拟合神经网络, 其架构与图\ref{网络结构}所呈现的相同, 架构中的参数相应地设置为:
 $$
-inputsize = 3, \quad hiddensize = 30, \quad hidden\_nums = 3.
+inputsize = 3, \quad hiddensize = 30, \quad blocknumber = 3.
 $$
 \noindent 整个网络的输入即为包含47743条皮肤三参数的特征集, 中间隐藏层的神经元数量为30个, 残差网络模块的串联数量为3个. 同时, 根据标签集的不同, 本小节内的六个网络模型的架构只在$outputsize$的取值上有差异. 例如, 用于拟合``血药含量采样28点''的正向拟合神经网络对应的$outputsize=28$.
 
 正向拟合神经网络模型训练时的损失函数为网络输出与对应标签之间的均方误差$MSE$, 余下的训练方法与流程与\ref{3.4}节中参数反演神经网络模型的训练完全相同, 不再介绍.
 
 \subsection*{正向拟合神经网络模型的效果展示}
-本小节将展示正向拟合神经网络模型在测试集上的泛化效果, 评价指标为标签与输出之间的平均平方误差$MSE$, 平均相对误差$MRE$与决定系数$R^2$ $\,$($R^2 \in (0,1]$, 决定系数越靠近1, 说明模型的拟合效果越好, 评价指标将在\ref{3.6}节中详细说明).
+本小节将展示正向拟合神经网络模型在测试集上的泛化效果, 评价指标为标签与输出之间的平均平方误差$MSE$, 平均相对误差$MRE$与决定系数$R^2$ $\,$($R^2 \in (0,1]$, 决定系数在此范围内越大, 说明模型的拟合能力越强, 评价指标将在\ref{3.6}节中详细说明).
 表格\ref{tab4.0}展示了本节六个正向拟合神经网络模型在测试集上得到的三种评价指标. 可以看出, 六个神经网络模型的泛化效果都很好, 每个网络对应的决定系数都在99\%以上, 后五个网络对应的$MRE$都在1\%以内, 其中第一个网络的
 $MRE$偏大的原因是, 其标签集内数据的数量级十分小, 故与对应输出的相对误差较大.
 \begin{table}[htbp]
@@ -984,9 +1008,9 @@ R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (\hat{y}_i - 
 $$
 其中$n$是一条化学品含量信息的元素数, $y_i$是一条特征集化学品含量信息的第$i$个元素, $\bar{y}$是一条特征集化学品含量信息的平均值, $\hat{y}_i$是一条网络输出的化学品含量信息的第$i$个元素.
 $R^2$原本被用于度量线性回归模型的预测数据与真实数据之间的差距\cite{26}, 但也可应用于神经网络模型的预测数据与真实数据的差距衡量, 孙茜童等人和李爱民等人\cite{27,28}在评价参数反演功能的神经网络时都使用了$R^2$
-作为主要评价指标. $R^2 \in (0,1]$, 决定系数越靠近1, 说明模型的拟合效果越好.
+作为主要评价指标. $R^2 \in (0,1]$, 决定系数在此范围内越大, 说明模型的拟合能力越强.
 
-本节共使用五种评价指标: $MSE_{\vec{\alpha}}$, $MRE_{\vec{\alpha}}$, $MSE_{C}$, $MRE_{C}$, $R^2$.
+本节共使用五种评价指标: $MSE_{\vec{\alpha}}$, $MRE_{\vec{\alpha}}$, $MSE_{C}$, $MRE_{C}$, $R^2$ .
 
 \subsection*{扩充测试集}
 由于测试集和神经网络训练时所使用的数据集是同源的, 欲考察神经网络在测试集之外的表现情况, 设定\textit{扩充测试集}并将其应用于参数反演神经网络模型. 
@@ -997,11 +1021,11 @@ $R^2$原本被用于度量线性回归模型的预测数据与真实数据之间
   \centering
   \begin{tabular}[t]{|l*{3}{l}}
 
-    $mean_1 = 17.28$, &$std_1 = 5.184$ ,&$lb_1 = 7.12$, &$ub_1 =27.44$,  \\ 
+    $mean_1 = 17.28$, &$std_1 = 5.184$ ,&$lb_1 = 7.12$, &$ub_1 =27.44$ ,  \\ 
   
     $mean_2 = 6.39$ , &$std_2 = 1.917$, &$lb_2 = 2.63$, &$ ub_2 =10.1$ , \\ 
   
-    $mean_3 = 5.7$, &$std_3 = 1.71$ , &$lb_3 = 2.35$ ,&$ub_3 =9.05$. \\ 
+    $mean_3 = 5.7$, &$std_3 = 1.71$ , &$lb_3 = 2.35$ ,&$ub_3 =9.05$ . \\ 
 
   \end{tabular}
 \end{table}  
@@ -1016,7 +1040,7 @@ $R^2$原本被用于度量线性回归模型的预测数据与真实数据之间
   
     $mean_2 = 6.39$,  &$std_2 = 5$ ,&$lb_2 = 1.39$ ,&$ ub_2 =12.89$ , \\ 
   
-    $mean_3 = 5.7$ ,&$std_3 = 5$ , &$lb_3 = 0.7$ ,&$ub_3 =11.7$. \\ 
+    $mean_3 = 5.7$ ,&$std_3 = 5$ , &$lb_3 = 0.7$ ,&$ub_3 =11.7$ . \\ 
 
   \end{tabular}
 \end{table}  
@@ -1105,6 +1129,10 @@ $3.50\%$.
 
 同时通过数值实验测试也验证了: 减少时间采样点的数量也能得到有效的参数反演结果. 这一结果可在深度学习数值测试意义上给药代动力学的实验提供了一种可能的理论基础: 在对模型进行参数校准时,
 减少或精简对受试者采血或采尿的频次也可以得到与较多采样频次的情况相差并不大的参数校准结果. 如此便可以控制实验成本, 优化成本效益比, 获得更高的实验性价比.
+
+\clearpage
+\mbox{}
+\thispagestyle{empty}
 
 
 \chapter{PBPK模型参数反演的神经网络方法: 使用随机时间节点数据}
@@ -1203,7 +1231,7 @@ g:(\mathbb{R}^3)^{+}\times (0,75) \to \mathbb{R}^{+},\quad (\alpha_1,\alpha_2,\a
 隐藏层神经元的数量与残差网络模块的数量, 以加深网络, 进一步提高网络提取特征信息的能力.
 架构中的参数相应地设置为:
 $$
-inputsize = 28,\quad outputsize = 3,\quad hiddensize = 50, \quad hidden\_nums = 5.
+inputsize = 28,\quad outputsize = 3,\quad hiddensize = 50, \quad blocknumber = 5.
 $$
 \noindent 网络的输入为含有14个时间点信息与对应的尿液BPS类含量信息, 每条输入共28个元素, 网络的输出为反演得到的皮肤三参数组, 每台输出共3个元素, 
 中间隐藏层的神经元数量为50个, 残差网络模块的串联数量为5个.
@@ -1256,12 +1284,12 @@ $\tilde{g}$为拟合了$g$的神经网络模型, 该网络模型的输入为一�
 本节中的正向拟合神经网络模型的架构和图\ref{网络结构}中相同, 其隐藏层神经元数量为50个, 串联残差网络模块有5个, 输入数据有4个元素, 输出元素有1个元素,
 架构中的参数相应地设置为:
 $$
-inputsize = 4,\quad outputsize = 1,\quad hiddensize = 50, \quad hidden\_nums = 5.
+inputsize = 4,\quad outputsize = 1,\quad hiddensize = 50, \quad blocknumber = 5.
 $$
 本节的正向拟合神经网络除损失函数外的训练流程与训练参数与\ref{3.4}节中网络模型的训练相同, 单条数据的损失函数为标签数据与输出数据之间的平方误差.
 
 \subsection*{正向拟合神经网络模型的效果展示}
-本小节将展示正向拟合神经网络模型在测试集上的泛化效果, 评价指标为标签与输出之间的决定系数$R^2$ $\,$($R^2 \in (0,1]$, 决定系数越靠近1, 说明模型的拟合效果越好).
+本小节将展示正向拟合神经网络模型在测试集上的泛化效果, 评价指标为标签与输出之间的决定系数$R^2$ .
 本节的正向拟合神经网络在测试集上得到的决定系数$R^2 = 99.99\%$, 说明拟合效果很好. 图\ref{正向效果2}展示了本节正向拟合神经网络的拟合效果, 曲线部分为数据集之外某皮肤
 三参数组代入至PBPK模型求解得到的尿液中 BPS 和BPS-g的含量曲线, 散点部分为正向拟合神经网络输出的在随机抽取的20个时间点处的BPS含量信息. 通过可视化可发现正向拟合神经网络对 PBPK 正向模型的拟合效果较好.
 \begin{figure}[H]
@@ -1374,10 +1402,10 @@ $C_{max}$可能与$Pfo$是线性的关系, $Pfo$增加10\%时, $C_{max}$也随�
 
 不确定性分析是医学模型中常用的一个手段, 它的做法是利用蒙特卡洛模拟的方法依照某种概率分布抽取若干组模型的输入参数, 得到若干组模型输出, 之后将模型输出按从小到大的顺序排列, 并提取其中的
 95分数(大于余下95\%的数据的值)与50分数(即中位数)\cite{30}. 模型的不确定值被定义为
-$uncertainty = \frac{P95}{P50}$. 该值越接近于1, 说明模型输出对所选输入参数的不确定性越小, 该值大于2时, 说明模型的不确定性较高\cite{30}.
+$uncertainty = \frac{P95}{P50}$. $uncertainty \geq 1$, 该值越接近于1, 说明模型输出对所选输入参数的不确定性越小, 该值大于2时, 说明模型的不确定性较高\cite{30}.
 
-Hu等人\cite{11}在不确定性分析中使用了截断正态分布来依概率分布抽取模型的输入参数, 本节将对皮肤三参数组进行以概率分布的抽取, 并分别计算模型输出$A_{plasma}(t)$的曲线下面积$AUC$与最大值$C_{max}$对三个参数$DSC$, $Pfo$与$u_1$的不确定性.
-其中皮肤三参数组的截断正态分布的平均值使用本文的校准结果, 变异系数统一设置为$30\%$, 标准差为平均值与变异系数的乘积, 左截断点为$lb = mean - 1.96\times std$, 右截断点为$lb = mean + 1.96\times std$,
+Hu等人\cite{11}在不确定性分析中使用了截断正态分布来依概率分布抽取模型的输入参数, 本节将对皮肤三参数组进行依概率分布的抽取, 并分别计算模型输出$A_{plasma}(t)$的曲线下面积$AUC$与最大值$C_{max}$对三个参数$DSC$, $Pfo$与$u_1$的不确定性.
+其中皮肤三参数组的截断正态分布的平均值使用本文的校准结果, 变异系数统一设置为$30\%$, 标准差是平均值和变异系数的乘积, 左截断点为$lb = mean - 1.96\times std$, 右截断点为$lb = mean + 1.96\times std$,
 三个参数的截断正态分布的参数如下所示:
 \begin{table}[htbp]
   \centering
@@ -1445,8 +1473,23 @@ Hu等人\cite{11}在不确定性分析中使用了截断正态分布来依概率
 
 \subsection*{结论}
 神经网络模型在PBPK模型框架下能够胜任参数反演或参数校准的任务. 若研究者做人体实验的目的为校准模型参数, 在使用神经网络模型作为校准工具的前提下, 可以考虑减少对受试者采集生物材料的频次, 以降低成本节约时间.
-
 \iffalse
+\begin{equation}
+  h:(\mathbb{R}^3)^{+} \to (\mathbb{R}^n)^{+},\quad \vec{\alpha}\mapsto\vec{A}_{BPS} \,.
+  \end{equation}  
+
+\begin{equation}
+  k:(\mathbb{R}^3)^{+}\times (0,75) \to \mathbb{R}^{+},\quad (\alpha_1,\alpha_2,\alpha_3, t)\mapsto A_{BPS}\,.
+\end{equation}
+
+$$
+  \|\vec{\alpha}-\vec{\alpha^*} \|^2+ c \cdot \|h(\vec{\alpha})-\tilde{h}(\vec{\alpha^*}) \|^2.
+$$
+
+$$
+   \|\vec{\alpha}-\vec{\alpha^*} \|^2+ c \cdot \sum_{i = 1}^{14}  [k(\vec{\alpha}, t_i)-\tilde{k}(\vec{\alpha^*}, t_i) ]^2.
+$$
+
 \clearpage
 \mbox{}
 \thispagestyle{empty}
@@ -1572,11 +1615,10 @@ $ Vbodys$ {\hfill  参与BPS-s分布的组织体积$(L)$}
 \noindent$Time_{add}=\frac{1}{6}h$ {\hfill  手指皮肤触摸热敏纸(外源BPS)的时间$(h)$}\\
 $Time_{expose}=\frac{13}{6}h$ {\hfill  手指皮肤表皮储仓内BPS含量大于0的时间$(h)$}\\
 
-\iffalse
 \clearpage
 \mbox{}
 \thispagestyle{empty}
-\fi
+
 
 % 引用部分
 \bibliography{REF}
@@ -1589,11 +1631,10 @@ $Time_{expose}=\frac{13}{6}h$ {\hfill  手指皮肤表皮储仓内BPS含量大�
 \addcontentsline{toc}{chapter}{参考文献}
 % 将参考文献加入目录
 
-\iffalse
 \clearpage
 \mbox{}
 \thispagestyle{empty}
-\fi
+
 \chapter*{致\quad 谢}
 \addcontentsline{toc}{chapter}{致谢}
 % 将致谢加入目录

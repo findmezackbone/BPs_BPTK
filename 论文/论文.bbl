@@ -13,9 +13,9 @@
 
 \bibitem[Hu et~al.(2023)Hu, Zhang, Zhang, Zhan, Qu, He, and Zhou]{11}
 HU~M, ZHANG~Z, ZHANG~Y, et~al.
-\newblock Development of human dermal pbpk models for the bisphenols bpa, bps,
-  bpf, and bpaf with parallel-layered skin compartment: Basing on dermal
-  administration studies in humans[J/OL].
+\newblock Development of human dermal {PBPK} models for the bisphenols {BPA},
+  {BPS}, {BPF}, and {BPAF} with parallel-layered skin compartment: Basing on
+  dermal administration studies in humans[J/OL].
 \newblock Science of The Total Environment, 2023, 868: 161639.
 \newblock
   \url{https://www.sciencedirect.com/science/article/pii/S0048969723002541}.
@@ -24,7 +24,7 @@ HU~M, ZHANG~Z, ZHANG~Y, et~al.
 \bibitem[Vandenberg et~al.(2007)Vandenberg, Hauser, Marcus, Olea, and
   Welshons]{3}
 VANDENBERG~L~N, HAUSER~R, MARCUS~M, et~al.
-\newblock Human exposure to bisphenol a (bpa)[J/OL].
+\newblock Human exposure to bisphenol {A} ({BPA})[J/OL].
 \newblock Reproductive Toxicology, 2007, 24\allowbreak (2): 139-177.
 \newblock
   \url{https://www.sciencedirect.com/science/article/pii/S0890623807002377}.
@@ -32,7 +32,7 @@ VANDENBERG~L~N, HAUSER~R, MARCUS~M, et~al.
 
 \bibitem[Rubin(2011)]{4}
 RUBIN~B~S.
-\newblock Bisphenol a: An endocrine disruptor with widespread exposure and
+\newblock Bisphenol {A}: An endocrine disruptor with widespread exposure and
   multiple effects[J/OL].
 \newblock The Journal of Steroid Biochemistry and Molecular Biology, 2011,
   127\allowbreak (1): 27-34.
@@ -48,7 +48,7 @@ RUBIN~B~S.
 \bibitem[Corbel et~al.(2014)Corbel, Gayrard, Puel, Lacroix, Berrebi, Gil,
   Viguié, Toutain, and Picard-Hagen]{5}
 CORBEL~T, GAYRARD~V, PUEL~S, et~al.
-\newblock Bidirectional placental transfer of bisphenol a and its main
+\newblock Bidirectional placental transfer of bisphenol {A} and its main
   metabolite, bisphenol a-glucuronide, in the isolated perfused human
   placenta[J/OL].
 \newblock Reproductive Toxicology, 2014, 47: 51-58.
@@ -68,8 +68,8 @@ CORBEL~T, GAYRARD~V, PUEL~S, et~al.
   Holmgren, Hsieh, Svoboda, Auerbach, Parham, Masten, Walker, Rooney, and
   Thayer]{6}
 PELCH~K, WIGNALL~J~A, GOLDSTONE~A~E, et~al.
-\newblock A scoping review of the health and toxicological activity of
-  bisphenol a (bpa) structural analogues and functional alternatives[J/OL].
+\newblock {A} scoping review of the health and toxicological activity of
+  bisphenol {A} ({BPA}) structural analogues and functional alternatives[J/OL].
 \newblock Toxicology, 2019, 424: 152235.
 \newblock
   \url{https://www.sciencedirect.com/science/article/pii/S0300483X18306668}.
@@ -93,7 +93,7 @@ SHUYING~ZHANG~J~C, ZhongYu~WANG.
 \bibitem[Yang et~al.(2015)Yang, Doerge, Teeguarden, and Fisher]{10}
 YANG~X, DOERGE~D~R, TEEGUARDEN~J~G, et~al.
 \newblock Development of a physiologically based pharmacokinetic model for
-  assessment of human exposure to bisphenol a[J/OL].
+  assessment of human exposure to bisphenol {A}[J/OL].
 \newblock Toxicology and Applied Pharmacology, 2015, 289\allowbreak (3):
   442-456.
 \newblock
@@ -103,9 +103,9 @@ YANG~X, DOERGE~D~R, TEEGUARDEN~J~G, et~al.
 \bibitem[Karrer et~al.(2018)Karrer, Roiss, von Goetz, Skledar, Mašič, and
   Hungerbühler]{9}
 KARRER~C, ROISS~T, VON GOETZ~N, et~al.
-\newblock Physiologically based pharmacokinetic (pbpk) modeling of the
-  bisphenols bpa, bps, bpf, and bpaf with new experimental metabolic
-  parameters: Comparing the pharmacokinetic behavior of bpa with its
+\newblock Physiologically based pharmacokinetic ({PBPK}) modeling of the
+  bisphenols {BPA}, {BPS}, {BPF}, and {BPAF} with new experimental metabolic
+  parameters: Comparing the pharmacokinetic behavior of {BPA} with its
   substitutes[J/OL].
 \newblock Environmental Health Perspectives, 2018, 126\allowbreak (7): 077002.
 \newblock \url{https://ehp.niehs.nih.gov/doi/abs/10.1289/EHP2739}.
@@ -113,9 +113,9 @@ KARRER~C, ROISS~T, VON GOETZ~N, et~al.
 \bibitem[Khmiri et~al.(2020)Khmiri, Côté, Mantha, Khemiri, Lacroix, Gely,
   Toutain, Picard-Hagen, Gayrard, and Bouchard]{13}
 KHMIRI~I, CôTé~J, MANTHA~M, et~al.
-\newblock Toxicokinetics of bisphenol-s and its glucuronide in plasma and urine
-  following oral and dermal exposure in volunteers for the interpretation of
-  biomonitoring data[J/OL].
+\newblock Toxicokinetics of {bisphenol-S} and its glucuronide in plasma and
+  urine following oral and dermal exposure in volunteers for the interpretation
+  of biomonitoring data[J/OL].
 \newblock Environment International, 2020, 138: 105644.
 \newblock
   \url{https://www.sciencedirect.com/science/article/pii/S0160412019349967}.
@@ -123,7 +123,7 @@ KHMIRI~I, CôTé~J, MANTHA~M, et~al.
 
 \bibitem[Hindmarsh(1983)]{14}
 HINDMARSH~A~C.
-\newblock Odepack: A systematized collection of ode solvers[J/OL].
+\newblock Odepack: {A} systematized collection of {ODE} solvers[J/OL].
 \newblock Scientific Computing, 1983, 1: 55-64.
 \newblock
   \url{https://computing.llnl.gov/sites/default/files/ODEPACK_pub1_u88007.pdf}.
@@ -145,7 +145,7 @@ BUNGARTZ~H~J.
 \bibitem[Zaeemzadeh et~al.(2021)Zaeemzadeh, Rahnavard, and Shah]{16}
 ZAEEMZADEH~A, RAHNAVARD~N, SHAH~M.
 \newblock Norm-preservation: Why residual networks can become extremely
-  deep?[J/OL].
+  deep[J/OL].
 \newblock IEEE Transactions on Pattern Analysis and Machine Intelligence, 2021,
   43\allowbreak (11): 3980-3990.
 \newblock DOI: \doi{10.1109/TPAMI.2020.2990339}.
@@ -185,7 +185,7 @@ SHANKER~M, HU~M, HUNG~M.
 
 \bibitem[Hamann et~al.(1991)Hamann and Herzfeld]{22}
 HAMANN~I~M, HERZFELD~U~C.
-\newblock On the effects of preanalysis standardization[J/OL].
+\newblock {On the Effects of Preanalysis Standardization}[J/OL].
 \newblock The Journal of Geology, 1991, 99\allowbreak (4):
   621-631\allowbreak[2024-05-10].
 \newblock \url{http://www.jstor.org/stable/30065006}.
@@ -194,8 +194,8 @@ HAMANN~I~M, HERZFELD~U~C.
   Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison,
   Tejani, Chilamkurthy, Steiner, Fang, Bai, and Chintala]{31}
 PASZKE~A, GROSS~S, MASSA~F, et~al.
-\newblock Pytorch: An imperative style, high-performance deep learning
-  library[M/OL]//\allowbreak
+\newblock {PyTorch: An Imperative Style, High-Performance Deep Learning
+  Library}[M/OL]//\allowbreak
 Advances in Neural Information Processing Systems 32.
 \newblock Curran Associates, Inc., 2019: 8024-8035.
 \newblock
@@ -212,14 +212,14 @@ RUCK~D~W.
 
 \bibitem[Kingma et~al.(2014)Kingma and Ba]{24}
 KINGMA~D~P, BA~J.
-\newblock Adam: A method for stochastic optimization[J/OL].
+\newblock {Adam: A Method for Stochastic Optimization}[J/OL].
 \newblock CoRR, 2014, abs/1412.6980.
 \newblock \url{https://api.semanticscholar.org/CorpusID:6628106}.
 
 \bibitem[Bai et~al.(2019)Bai, Ren, and Zhang]{25}
 BAI~J, REN~Y, ZHANG~J.
-\newblock Bgadam: Boosting based genetic-evolutionary adam for neural network
-  optimization[J/OL].
+\newblock {BGADAM: Boosting based Genetic-Evolutionary ADAM for Neural Network
+  Optimization}[J/OL].
 \newblock 2021 International Joint Conference on Neural Networks (IJCNN), 2019:
   1-8.
 \newblock \url{https://api.semanticscholar.org/CorpusID:233738868}.
@@ -240,18 +240,18 @@ BAI~J, REN~Y, ZHANG~J.
 \bibitem[李爱民\ 等(2023)李爱民, 范猛, 秦光铎, 王海隆, and
   许有成]{28}
 李爱民, 范猛, 秦光铎, 等.
-\newblock 卷积神经网络模型的遥感反演水质参数COD[J].
+\newblock {卷积神经网络模型的遥感反演水质参数COD}[J].
 \newblock 光谱学与光谱分析, 2023, 43\allowbreak (2): 651-656.
 
 \bibitem[Frey et~al.(2002)Frey and Patil]{29}
 FREY~H~C, PATIL~S~R.
-\newblock Identification and review of sensitivity analysis methods[J].
+\newblock {Identification and Review of Sensitivity Analysis Methods}[J].
 \newblock Risk Analysis, 2002, 22\allowbreak (3): 553-578.
 
 \bibitem[McGrattan et~al.(2011)McGrattan and Toman]{30}
 MCGRATTAN~K, TOMAN~B.
-\newblock Quantifying the predictive uncertainty of complex numerical
-  models[J/OL].
+\newblock {Quantifying the predictive uncertainty of complex numerical
+  models}[J/OL].
 \newblock Metrologia, 2011, 48\allowbreak (3): 173.
 \newblock \url{https://dx.doi.org/10.1088/0026-1394/48/3/011}.
 
